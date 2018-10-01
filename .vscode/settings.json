@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.lex": "lex",
+        "*.y": "lex",
+        "linked_list.h": "c",
+        "time.h": "c"
+    }
+}
