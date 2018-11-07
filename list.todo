@@ -1,0 +1,40 @@
+name = "list"
+
+[[contents]]
+ticked_off = false
+title = "Just do some more sweeps for bugs"
+contents = []
+
+[[contents]]
+ticked_off = false
+title = "Provide more avenues for using ptr visuals (and make them nicer)"
+
+[[contents.contents]]
+ticked_off = false
+title = "Such as attaching a ptr visual to a ptr to a node (that is Node * which is really a double ptr)"
+contents = []
+
+[[contents.contents]]
+ticked_off = false
+title = "Important to make it easy"
+contents = []
+
+[[contents]]
+ticked_off = false
+title = "Support stacks/queues"
+contents = []
+
+[[contents]]
+ticked_off = false
+title = "Support trees"
+contents = []
+
+[[contents]]
+ticked_off = false
+title = "Fix up some of the code that needs a lil loving"
+contents = []
+
+[[contents]]
+ticked_off = false
+title = "Comment functions and provide a nicer interface"
+contents = []

@@ -51,5 +51,15 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+# Cmake stuff
+Makefile
+*.cmake
+CMakeCache.txt
+CMakeFiles/
+
 # configuration files
 .vscode/
+
+# go away nintendo
+# (really just a mac thing)
+.DS_Store
