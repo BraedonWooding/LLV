@@ -3,6 +3,7 @@
 #include "../src/helper.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define TEST(x) \
     _Generic((x), int: "INT", float: "FLT")
@@ -19,15 +20,17 @@ void reverse_standard(void) {
     // not in place though, by using another list
     // memory wise the same.
     // new_LL pushes it to a global LL for update to work on.
-    LL to_reverse = LL_new("to_reverse", INTEGER);
+    LL to_reverse = LL_new("to_reverse");
     for (int i = 0; i < 10; i++) {
         // while you could do LL_new_node((Data){i}, INTEGER)
         // you can also just use this great macro, which is honestly beautiful
-        LL_insert_after(to_reverse, NEW_NODE(LL, i), to_reverse->tail);
+        LL_insert_after(to_reverse, NEW_NODE(LL, i * 1000), to_reverse->tail);
     }
 
-    LL reversed = LL_new("reversed", INTEGER);
-    SET_PTR(to_reverse->head, "cur");
+    LL reversed = LL_new("reversed");
+    // i've included the longer way as well for your 'enjoyment'
+    // SET_PTR(to_reverse->head, "cur");
+    attach_ptr(&to_reverse->head, "cur");
 
     // tons of helper functions such as remove_node, insert_node and so on
     while (!LL_is_empty(to_reverse)) {
@@ -35,14 +38,17 @@ void reverse_standard(void) {
         LL_Node n = to_reverse->head;
         fmt_update("%l %l %s %n", to_reverse, reversed, "\nRemoving the following\n", n);
         to_reverse->head = n->next;
-        UNSET_PTR(n);
-        SET_PTR(to_reverse->head, "cur");
+        // UNSET_PTR(n);
+        // SET_PTR(to_reverse->head, "cur");
         LL_push(reversed, n);
         // a simpler update looks like;
         // `update(2, to_reverse, reversed);`
         // a more complex one is like
         fmt_update("%s %l %l", "Resulting in;", to_reverse, reversed);
     }
+
+    // if you care about freeing
+    deattach_ptr(&to_reverse->head, "cur");
     LL_free(to_reverse);
     LL_free(reversed);
 }

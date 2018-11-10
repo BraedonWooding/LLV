@@ -8,7 +8,7 @@
 #include "types/collection_skeleton.h"
 
 /* This is the main header to import, by importing this you get everything
-   you need to build an example/demonstration of LLV.
+   you need to build an example/demonstration of LLV except for the collections.
 */
 
 #define GET_DATA(data)              \
@@ -38,6 +38,9 @@ void update(int number, ...);
 void update_wait(void);
 void fmt_update(char *fmt, ...);
 void clear_screen(void);
+
+void attach_ptr(void *node, char *ptr);
+bool deattach_ptr(void *node, char *ptr);
 
 void print_out_single_box(void *node, print_node printer, sizeof_node sizeof_n, int height);
 void print_out_single_box_using_defaults(void *node, Collection c);

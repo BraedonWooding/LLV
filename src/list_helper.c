@@ -1,4 +1,4 @@
-#include "collection_helper.h"
+#include "list_helper.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -7,48 +7,24 @@
 #include <assert.h>
 
 #include "helper.h"
+#include "general_collection_helper.h"
 
-void print_bounding_box(char **buf, size_t offset, size_t len, int width);
+void print_bounding_box(char **buf, size_t offset, size_t len, size_t width);
+int print_out_nodes(Collection list, FakeNode begin, FakeNode end, char **buf, size_t *node_sizes,
+                         size_t *offset, char *after_node, int starting_size);
 
-size_t sizeof_uint(unsigned long long int n) {
-    if (n == 0) return 1;
-
-    return log10(n) + 1;
-}
-
-size_t sizeof_int(long long int n) {
-    if (n < 0) {
-        return sizeof_uint(n * -1) + 1;
-    } else {
-        return sizeof_uint(n);
-    }
-}
-
-size_t general_sizeof_list(void *n) {
+size_t list_sizeof(void *n) {
     FakeNode node = (FakeNode)n;
-    size_t node_size;
-    switch (node->data_tag) {
-        case FLOAT: {
-            // todo
-            node_size = 42;
-        } break;
-        case STRING: {
-            node_size = strlen(node->data.str_data);
-        } break;
-        case INTEGER: {
-            node_size = sizeof_int(node->data.int_data);
-        } break;
-        case ANY: {
-            node_size = sizeof_uint((size_t)node->data.any_data);
-        } break;
-    }
-    // whitespace on either side and "|"
-    return node_size + 4;
+    return sizeof_data(node->data, node->data_tag) + EXTRA_WIDTH;
 }
 
 void print_ptr(char **buf, size_t len, size_t count, char *ptr_name, size_t ptr_len, size_t offset) {
+    // @REFACTORING
+    // this is just a very early version
+    // I'm going to update this once I figure out visual ptrs a bit more
+    // a lot of this is hand waivey and magic variables
     int i = 0;
-    while (i < DEFAULT_PTR_HEIGHT && buf[len + i][offset + 1] == '^') i++;
+    while (i < DEFAULT_PTR_HEIGHT && buf[len + i][offset] == '^') i++;
 
     if (i == DEFAULT_PTR_HEIGHT) {
         // we can fit two if we are clever
@@ -77,13 +53,14 @@ void print_ptr(char **buf, size_t len, size_t count, char *ptr_name, size_t ptr_
     }
 }
 
-void general_print_node_list(void *n, char **buf, size_t size, size_t len, size_t offset) {
+void list_print_node(void *n, char **buf, size_t size, size_t len, size_t offset) {
     FakeNode node = (FakeNode)n;
     print_bounding_box(buf, offset, len, size);
     char *text_to_print;
     switch (node->data_tag) {
         case FLOAT: {
-            // todo
+            text_to_print = malloc_with_oom(size - 3, "Text to print");
+            snprintf(text_to_print, size - 2, "%g", node->data.flt_data);
         } break;
         case STRING: {
             text_to_print = node->data.str_data;
@@ -103,21 +80,15 @@ void general_print_node_list(void *n, char **buf, size_t size, size_t len, size_
 
     // our sizes are always buffered by '4'
     // a sprintf or similar is just going to give us nasty '\0'
-    memcpy(buf[len / 2] + 2 + offset, text_to_print, size - 4);
+    memcpy(buf[len / 2] + EXTRA_WIDTH/2 + offset, text_to_print, size - EXTRA_WIDTH);
     if (node->data_tag != STRING) free(text_to_print);
 }
 
-void print_bounding_box(char **buf, size_t offset, size_t len, int width) {
+void print_bounding_box(char **buf, size_t offset, size_t len, size_t width) {
     write_str_repeat_char_vert(buf, offset, '|', len, 0);
     write_str_repeat_char_vert(buf, offset, '|', len, width - 1);
     write_str_repeat_char(buf[0], offset, '=', width);
     write_str_repeat_char(buf[len - 1], offset, '=', width);
-}
-
-void write_str_center_incr(char **buf, size_t *offset, size_t len,
-                           char *str, size_t str_len) {
-    write_str_center_of_buf(buf, *offset, len, str, str_len);
-    *offset += str_len;
 }
 
 int print_out_nodes(Collection list, FakeNode begin, FakeNode end, char **buf, size_t *node_sizes,
@@ -125,7 +96,7 @@ int print_out_nodes(Collection list, FakeNode begin, FakeNode end, char **buf, s
     int i = starting_size;
     FakeNode n;
     for (n = begin; n != end; n = n->next, i++) {
-        general_print_node_list(n, buf, node_sizes[i], list->vert_len, *offset);
+        list_print_node(n, buf, node_sizes[i], list->vert_len, *offset);
         *offset += node_sizes[i];
         if (n->next != end) {
             write_str_center_incr(buf, offset, list->vert_len, after_node, strlen(after_node));
@@ -134,7 +105,7 @@ int print_out_nodes(Collection list, FakeNode begin, FakeNode end, char **buf, s
     return i;
 }
 
-void general_print_list(Collection list, size_t len, size_t count, FakeNode forwards,
+void list_print_general(Collection list, size_t len, size_t count, FakeNode forwards,
                 FakeNode backwards, int stop, size_t *node_sizes, char *after_node,
                 char *start_of_list, char *end_of_list, char *ellipses, FakeNode head) {
     terminalSize size = get_terminal_size();
@@ -148,6 +119,8 @@ void general_print_list(Collection list, size_t len, size_t count, FakeNode forw
         buf[i][count] = '\0';
     }
 
+    printf("COUNT IS: %zu\n", count);
+
     size_t offset = 0;
     FakeNode forward_stop = forwards;
     // if everything in the list fits on page
@@ -160,8 +133,9 @@ void general_print_list(Collection list, size_t len, size_t count, FakeNode forw
         int size = print_out_nodes(list, head, forward_stop, buf, node_sizes, &offset, after_node, 0);
 
         if (!everything_fits) {
+            write_str_center_incr(buf, &offset, list->vert_len, after_node, strlen(after_node));
             write_str_center_incr(buf, &offset, list->vert_len, ellipses, strlen(ellipses));
-            size = print_out_nodes(list, backwards->next, NULL, buf, node_sizes, &offset, after_node, len - stop);
+            size = print_out_nodes(list, backwards->next, NULL, buf, node_sizes, &offset, after_node, len - 1 - stop);
         }
 
         // print end character
@@ -184,7 +158,7 @@ void general_print_list(Collection list, size_t len, size_t count, FakeNode forw
         if (found_non_space) printf("%s\n", buf[i]);
         free(buf[i]);
     }
-    if (offset > count) {printf("OFFSET > COUNT: %zu > %zu; This is a bug!\n", offset, count);}
+    if (offset != count) {printf("OFFSET != COUNT: %zu != %zu; This is a bug!\n", offset, count);}
     printf("\n");
 
     free(buf);

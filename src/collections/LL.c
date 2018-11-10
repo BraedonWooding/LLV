@@ -7,7 +7,7 @@
 
 #include "LL.h"
 #include "../helper.h"
-#include "../collection_helper.h"
+#include "../list_helper.h"
 
 #define AFTER_NODE (" -> ")
 #define AFTER_NODE_LEN (strlen(AFTER_NODE))
@@ -20,14 +20,13 @@
 
 void LL_print_list(Collection list);
 
-LL LL_new(char *name, TypeTag default_tag) {
+LL LL_new(char *name) {
     LL ll = malloc_with_oom(sizeof(struct _singly_linked_list_t), "LL");
     ll->name = name;
     ll->head = ll->tail = NULL;
-    ll->default_tag = default_tag;
     ll->list_printer = LL_print_list;
-    ll->get_sizeof = general_sizeof_list;
-    ll->node_printer = general_print_node_list;
+    ll->get_sizeof = list_sizeof;
+    ll->node_printer = list_print_node;
     ll->vert_len = DEFAULT_PRINT_HEIGHT;
     return ll;
 }
@@ -144,6 +143,12 @@ size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
     size_t *node_sizes = malloc_with_oom(sizeof(size_t) * len, "node_sizes");
     memset(node_sizes, 0, sizeof(size_t) * len);
 
+    if (LL_is_empty(list)) {
+        *out_stop = 0;
+        *out_count = 1;
+        return node_sizes;
+    }
+
     // We don't need as much buffer as DLL but we are still reserving a lil more then we need
     // we just need 5 for ellipses and 1 for the end `x`
     // in this case we actually just need one `x` since we trying to fit whole list in one
@@ -161,12 +166,15 @@ size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
 
     // now we want to first look through node sizes both forwards and backwards
     // to find indexes
-    *out_count = 10;
+    *out_count = 12;
     *out_stop = 0;
     *out_forwards = list->head;
+
     // how far backwards we can go
     int backwards_index = 0;
-    for (; *out_stop < len / 2; (*out_stop)++) {
+    int middle_index = len % 2 == 0 ? len / 2 : len / 2 + 1;
+
+    for (; *out_stop < middle_index; (*out_stop)++) {
         size_t forward_size = node_sizes[*out_stop] + AFTER_NODE_LEN;
         if (forward_size + *out_count >= size.width) break;
         *out_forwards = (*out_forwards)->next;
@@ -177,21 +185,19 @@ size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
         backwards_index++;
     }
 
-    if (*out_stop == len / 2) {
+    if (*out_stop == middle_index) {
         return node_sizes;
     }
 
     // we need to actually traverse the list
     // find middle
     LL_Node middle = list->head;
-    for (int i = 0; i < len / 2; i++) middle = middle->next;
+    for (int i = 0; i < middle_index; i++) middle = middle->next;
     *out_backwards = middle;
 
     // now go forwards from backwards (len / 2) - backwards_index times
-    if (len / 2 > backwards_index) {
-        for (int i = 0; i < (len / 2) - backwards_index; i++) {
-            *out_backwards = (*out_backwards)->next;
-        }
+    for (int i = 1; i < (middle_index) - backwards_index; i++) {
+        *out_backwards = (*out_backwards)->next;
     }
 
     return node_sizes;
@@ -213,6 +219,6 @@ void LL_print_list(Collection list) {
     terminalSize size = get_terminal_size();
 
     size_t *node_sizes = attempt_fit(ll, len, size, &count, &forwards, &backwards, &stop);
-    general_print_list(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes,
+    list_print_general(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes,
                        AFTER_NODE, START_OF_LIST, END_OF_LIST, ELLIPSES, (FakeNode)ll->head);
 }

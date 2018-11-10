@@ -9,10 +9,10 @@
 typedef struct _dll_node_t *DLL_Node;
 
 struct _dll_node_t {
+    char *ptr; // pointer linked
     Data data; // the data type
     TypeTag data_tag; // the corresponding tag;
     DLL_Node next;
-    char *ptr; // pointer linked
     DLL_Node prev;
 };
 
@@ -20,13 +20,12 @@ typedef struct _doubly_linked_list_t {
     COLLECTION_CHILD;
     DLL_Node head;
     DLL_Node tail;
-    TypeTag default_tag; // the default tag ANY isn't going to override anything
 } *DLL;
 
 /*
     Create a new list with a given name and a default type.
 */
-DLL DLL_new(char *name, TypeTag default_tag);
+DLL DLL_new(char *name);
 
 /*
     Clears and frees list.

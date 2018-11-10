@@ -9,23 +9,22 @@
 typedef struct _LL_node_t *LL_Node;
 
 struct _LL_node_t {
+    char *ptr; // pointer linked
     Data data; // the data type
     TypeTag data_tag; // the corresponding tag;
     LL_Node next;
-    char *ptr; // pointer linked
 };
 
 typedef struct _singly_linked_list_t {
     COLLECTION_CHILD;
     LL_Node head;
     LL_Node tail;
-    TypeTag default_tag;
 } *LL;
 
 /*
     Create a new list with a given name and a default type.
 */
-LL LL_new(char *name, TypeTag default_tag);
+LL LL_new(char *name);
 
 /*
     Clears and frees list.

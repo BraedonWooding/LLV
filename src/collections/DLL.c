@@ -7,7 +7,7 @@
 
 #include "DLL.h"
 #include "../helper.h"
-#include "../collection_helper.h"
+#include "../list_helper.h"
 
 #define AFTER_NODE (" <-> ")
 #define AFTER_NODE_LEN (strlen(AFTER_NODE))
@@ -20,14 +20,13 @@
 
 void DLL_print_list(Collection collection);
 
-DLL DLL_new(char *name, TypeTag default_tag) {
+DLL DLL_new(char *name) {
     DLL dll = malloc_with_oom(sizeof(struct _doubly_linked_list_t), "DLL");
     dll->name = name;
     dll->head = dll->tail = NULL;
-    dll->default_tag = default_tag;
     dll->list_printer = DLL_print_list;
-    dll->get_sizeof = general_sizeof_list;
-    dll->node_printer = general_print_node_list;
+    dll->get_sizeof = list_sizeof;
+    dll->node_printer = list_print_node;
     dll->vert_len = DEFAULT_PRINT_HEIGHT;
     return dll;
 }
@@ -173,6 +172,6 @@ void DLL_print_list(Collection list) {
     DLL_Node backwards = dll->tail;
     terminalSize size = get_terminal_size();
     size_t *node_sizes = attempt_fit(dll, len, size, &count, &forwards, &backwards, &stop);
-    general_print_list(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes, AFTER_NODE,
+    list_print_general(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes, AFTER_NODE,
                START_OF_LIST, END_OF_LIST, ELLIPSES, (FakeNode)dll->head);
 }
