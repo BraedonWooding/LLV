@@ -15,7 +15,7 @@
 #define START_OF_LIST_LEN (strlen(START_OF_LIST))
 #define END_OF_LIST (" -> " NULL_NODE)
 #define END_OF_LIST_LEN (strlen(END_OF_LIST))
-#define ELLIPSES (" ... -> ")
+#define ELLIPSES ("... -> ")
 #define ELLIPSES_LEN (strlen(ELLIPSES))
 
 void LL_print_list(Collection list);
@@ -166,12 +166,13 @@ size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
 
     // now we want to first look through node sizes both forwards and backwards
     // to find indexes
-    *out_count = 12;
+    *out_count = 9;
     *out_stop = 0;
     *out_forwards = list->head;
 
     // how far backwards we can go
     int backwards_index = 0;
+    // Account for odd lists if need be, rounding on 0.5
     int middle_index = len % 2 == 0 ? len / 2 : len / 2 + 1;
 
     for (; *out_stop < middle_index; (*out_stop)++) {
@@ -179,7 +180,11 @@ size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
         if (forward_size + *out_count >= size.width) break;
         *out_forwards = (*out_forwards)->next;
         *out_count += forward_size + AFTER_NODE_LEN;
-        size_t backward_size = node_sizes[len - 1 - *out_stop] + AFTER_NODE_LEN;
+        // if odd
+        if (*out_stop == middle_index - 1 && len % 2 != 0) break;
+
+        size_t backward_size = node_sizes[len - 1 - *out_stop];
+        if (*out_stop != 0) backward_size += AFTER_NODE_LEN;
         if (backward_size + *out_count >= size.width) break;
         *out_count += backward_size;
         backwards_index++;
@@ -192,11 +197,11 @@ size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
     // we need to actually traverse the list
     // find middle
     LL_Node middle = list->head;
-    for (int i = 0; i < middle_index; i++) middle = middle->next;
+    for (int i = 0; i < len / 2; i++) middle = middle->next;
     *out_backwards = middle;
 
     // now go forwards from backwards (len / 2) - backwards_index times
-    for (int i = 1; i < (middle_index) - backwards_index; i++) {
+    for (int i = len / 2; i < len - 1 - backwards_index; i++) {
         *out_backwards = (*out_backwards)->next;
     }
 

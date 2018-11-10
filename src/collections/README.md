@@ -1,3 +1,11 @@
 # Collection Implementations
 
-Each collection implemenation has to be a black box to each other collection, so there will be a bit of 'copy + paste' debt between implementations due to this :(.
+Currently we support;
+
+- Singularly Linked Lists
+- Doubly Linked Lists
+
+Soon we will support;
+
+- Stacks, the only reason we don't currently support them is that the printing code will be vertical
+- Queues, just will piggy back off a doubly linked list most likely

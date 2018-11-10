@@ -9,17 +9,17 @@
 typedef struct _dll_node_t *DLL_Node;
 
 struct _dll_node_t {
-    char *ptr; // pointer linked
-    Data data; // the data type
-    TypeTag data_tag; // the corresponding tag;
-    DLL_Node next;
-    DLL_Node prev;
+    char *ptr;          // for display
+    Data data;          // the data type
+    TypeTag data_tag;   // the corresponding tag for the data ^^;
+    DLL_Node next;      // the next item in the LL
+    DLL_Node prev;      // the previous item
 };
 
 typedef struct _doubly_linked_list_t {
-    COLLECTION_CHILD;
-    DLL_Node head;
-    DLL_Node tail;
+    COLLECTION_CHILD;   // all the inherited members
+    DLL_Node head;      // the head of the list
+    DLL_Node tail;      // the tail of the list
 } *DLL;
 
 /*

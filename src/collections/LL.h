@@ -9,16 +9,16 @@
 typedef struct _LL_node_t *LL_Node;
 
 struct _LL_node_t {
-    char *ptr; // pointer linked
-    Data data; // the data type
-    TypeTag data_tag; // the corresponding tag;
-    LL_Node next;
+    char *ptr;          // for display
+    Data data;          // the data of this node
+    TypeTag data_tag;   // the corresponding tag for the data ^^
+    LL_Node next;       // the next one in the list
 };
 
 typedef struct _singly_linked_list_t {
-    COLLECTION_CHILD;
-    LL_Node head;
-    LL_Node tail;
+    COLLECTION_CHILD;   // inherited members
+    LL_Node head;       // the front of the list
+    LL_Node tail;       // the back of the list
 } *LL;
 
 /*

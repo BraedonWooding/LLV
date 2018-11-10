@@ -70,6 +70,8 @@ Furthermore if it is similar to one of the current collections there is a pretty
 
 ## Quick contributors guide
 
+- We use [todo](LINK_NEEDED) for our current list of items to well 'todo'
+  - You don't need to use it you can just update the TOML (which is soon changing to md)
 - Small changes over big
   - Big changes are sometimes necessary, I've re-written the core once already
     since I wasn't happy with the lack of extensibility for other things than

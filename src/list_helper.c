@@ -10,7 +10,7 @@
 #include "general_collection_helper.h"
 
 void print_bounding_box(char **buf, size_t offset, size_t len, size_t width);
-int print_out_nodes(Collection list, FakeNode begin, FakeNode end, char **buf, size_t *node_sizes,
+void print_out_nodes(Collection list, FakeNode begin, FakeNode end, char **buf, size_t *node_sizes,
                          size_t *offset, char *after_node, int starting_size);
 
 size_t list_sizeof(void *n) {
@@ -91,7 +91,7 @@ void print_bounding_box(char **buf, size_t offset, size_t len, size_t width) {
     write_str_repeat_char(buf[len - 1], offset, '=', width);
 }
 
-int print_out_nodes(Collection list, FakeNode begin, FakeNode end, char **buf, size_t *node_sizes,
+void print_out_nodes(Collection list, FakeNode begin, FakeNode end, char **buf, size_t *node_sizes,
                          size_t *offset, char *after_node, int starting_size) {
     int i = starting_size;
     FakeNode n;
@@ -102,7 +102,6 @@ int print_out_nodes(Collection list, FakeNode begin, FakeNode end, char **buf, s
             write_str_center_incr(buf, offset, list->vert_len, after_node, strlen(after_node));
         }
     }
-    return i;
 }
 
 void list_print_general(Collection list, size_t len, size_t count, FakeNode forwards,
@@ -119,23 +118,24 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
         buf[i][count] = '\0';
     }
 
-    printf("COUNT IS: %zu\n", count);
-
     size_t offset = 0;
     FakeNode forward_stop = forwards;
     // if everything in the list fits on page
-    bool everything_fits = stop >= len / 2;
+    bool everything_fits = forward_stop == NULL;
 
     if (head == NULL) {
         write_str_center_incr(buf, &offset, list->vert_len, NULL_NODE, strlen(NULL_NODE));
     } else {
         write_str_center_incr(buf, &offset, list->vert_len, start_of_list, strlen(start_of_list));
-        int size = print_out_nodes(list, head, forward_stop, buf, node_sizes, &offset, after_node, 0);
+        print_out_nodes(list, head, forward_stop, buf, node_sizes, &offset, after_node, 0);
 
         if (!everything_fits) {
             write_str_center_incr(buf, &offset, list->vert_len, after_node, strlen(after_node));
             write_str_center_incr(buf, &offset, list->vert_len, ellipses, strlen(ellipses));
-            size = print_out_nodes(list, backwards->next, NULL, buf, node_sizes, &offset, after_node, len - 1 - stop);
+            backwards = backwards->next;
+            size_t backwards_start = len;
+            for (FakeNode n = backwards; n != NULL; n = n->next) backwards_start--;
+            print_out_nodes(list, backwards, NULL, buf, node_sizes, &offset, after_node, backwards_start);
         }
 
         // print end character
@@ -158,7 +158,11 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
         if (found_non_space) printf("%s\n", buf[i]);
         free(buf[i]);
     }
-    if (offset != count) {printf("OFFSET != COUNT: %zu != %zu; This is a bug!\n", offset, count);}
+    assert(offset == count);
+
+    // @Debugging
+    // useful for debugging ^^ change the top to an if
+    // {printf("OFFSET != COUNT: %zu != %zu; This is a bug!\n", offset, count);}
     printf("\n");
 
     free(buf);
