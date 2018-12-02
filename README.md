@@ -124,8 +124,8 @@ int foo_boo_wow(int bar) {
     return magic_number;
 }
 
-// Scoped since is effectively a 'class'
-int Stack_pop(Stack s) {
+// Scoped methods to class
+int stack_pop(Stack s) {
     // ...
 }
 

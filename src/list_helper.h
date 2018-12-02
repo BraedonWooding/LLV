@@ -8,6 +8,7 @@
 #include "types/shared_types.h"
 
 #define NULL_NODE "X"
+#define NULL_NODE_LEN strlen(NULL_NODE)
 #define SPACES_ON_SIDE (2)
 #define EXTRA_WIDTH (4)
 

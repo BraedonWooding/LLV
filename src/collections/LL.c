@@ -11,7 +11,12 @@
 
 #define AFTER_NODE (" -> ")
 #define AFTER_NODE_LEN (strlen(AFTER_NODE))
-#define START_OF_LIST (NULL_NODE " <- ")
+
+// This used to be `NULL_NODE " <- "` but I've made it empty (but still a definition)
+// Since I felt that wasn't really what a linked list should look like as there is no
+// previous pointer on the first member.  However the code will still work if reverted
+// just incase it turns out we want this to look like it used to or some other way.
+#define START_OF_LIST ("")
 #define START_OF_LIST_LEN (strlen(START_OF_LIST))
 #define END_OF_LIST (" -> " NULL_NODE)
 #define END_OF_LIST_LEN (strlen(END_OF_LIST))
@@ -149,10 +154,7 @@ size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
         return node_sizes;
     }
 
-    // We don't need as much buffer as DLL but we are still reserving a lil more then we need
-    // we just need 5 for ellipses and 1 for the end `x`
-    // in this case we actually just need one `x` since we trying to fit whole list in one
-    *out_count = 6;
+    *out_count = START_OF_LIST_LEN + NULL_NODE_LEN;
     *out_stop = 0;
     for (; *out_forwards != NULL; *out_forwards = (*out_forwards)->next, (*out_stop)++) {
         node_sizes[*out_stop] = list->get_sizeof(*out_forwards);
@@ -160,38 +162,34 @@ size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
     }
 
     // if we fit on screen then exit, we won't use out_backwards!
-    if (*out_count < size.width) {
+    if (*out_count <= size.width) {
         return node_sizes;
     }
 
-    // now we want to first look through node sizes both forwards and backwards
-    // to find indexes
-    *out_count = 9;
+    *out_count = NULL_NODE_LEN + ELLIPSES_LEN + START_OF_LIST_LEN;
     *out_stop = 0;
     *out_forwards = list->head;
 
     // how far backwards we can go
     int backwards_index = 0;
     // Account for odd lists if need be, rounding on 0.5
-    int middle_index = len % 2 == 0 ? len / 2 : len / 2 + 1;
+    int middle_index = (len + 1) / 2;
 
     for (; *out_stop < middle_index; (*out_stop)++) {
         size_t forward_size = node_sizes[*out_stop] + AFTER_NODE_LEN;
-        if (forward_size + *out_count >= size.width) break;
+        if (forward_size + *out_count > size.width) break;
         *out_forwards = (*out_forwards)->next;
-        *out_count += forward_size + AFTER_NODE_LEN;
-        // if odd
-        if (*out_stop == middle_index - 1 && len % 2 != 0) break;
+        *out_count += forward_size;
 
-        size_t backward_size = node_sizes[len - 1 - *out_stop];
-        if (*out_stop != 0) backward_size += AFTER_NODE_LEN;
-        if (backward_size + *out_count >= size.width) break;
+        // @TODO: confirm that this is correct with a few tests
+        // I'm like 110% sure this should work this way (otherwise it will double up on nodes)
+        // but it is always good to make sure with a few tests that show this is needed.
+        if (*out_stop == len / 2) break;
+
+        size_t backward_size = node_sizes[len - 1 - *out_stop] + AFTER_NODE_LEN;
+        if (backward_size + *out_count > size.width) break;
         *out_count += backward_size;
         backwards_index++;
-    }
-
-    if (*out_stop == middle_index) {
-        return node_sizes;
     }
 
     // we need to actually traverse the list
@@ -217,11 +215,12 @@ size_t LL_length(LL list) {
 void LL_print_list(Collection list) {
     LL ll = (LL)list;
     size_t len = LL_length(ll);
-    size_t count;
-    int stop;
+    size_t count = 0;
+    int stop = 0;
     LL_Node forwards = ll->head;
     LL_Node backwards = ll->tail;
     terminalSize size = get_terminal_size();
+    printf("%d\n", size.width);
 
     size_t *node_sizes = attempt_fit(ll, len, size, &count, &forwards, &backwards, &stop);
     list_print_general(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes,

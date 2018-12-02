@@ -4,10 +4,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <assert.h>
 
 #include "helper.h"
 #include "general_collection_helper.h"
+#include "obsidian.h"
 
 void print_bounding_box(char **buf, size_t offset, size_t len, size_t width);
 void print_out_nodes(Collection list, FakeNode begin, FakeNode end, char **buf, size_t *node_sizes,
@@ -108,6 +108,7 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
                 FakeNode backwards, int stop, size_t *node_sizes, char *after_node,
                 char *start_of_list, char *end_of_list, char *ellipses, FakeNode head) {
     terminalSize size = get_terminal_size();
+    obs_assert((size_t)size.width, >=, count);
 
     // now we have sizes we can allocate buffer and prepare to print list
     // probably going to be a few characters bigger than we need but no harm no foul
@@ -132,8 +133,8 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
         if (!everything_fits) {
             write_str_center_incr(buf, &offset, list->vert_len, after_node, strlen(after_node));
             write_str_center_incr(buf, &offset, list->vert_len, ellipses, strlen(ellipses));
-            backwards = backwards->next;
             size_t backwards_start = len;
+            backwards = backwards->next;
             for (FakeNode n = backwards; n != NULL; n = n->next) backwards_start--;
             print_out_nodes(list, backwards, NULL, buf, node_sizes, &offset, after_node, backwards_start);
         }
@@ -158,11 +159,8 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
         if (found_non_space) printf("%s\n", buf[i]);
         free(buf[i]);
     }
-    assert(offset == count);
 
-    // @Debugging
-    // useful for debugging ^^ change the top to an if
-    // {printf("OFFSET != COUNT: %zu != %zu; This is a bug!\n", offset, count);}
+    obs_assert(offset, ==, count);
     printf("\n");
 
     free(buf);

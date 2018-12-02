@@ -21,10 +21,10 @@ void reverse_standard(void) {
     // memory wise the same.
     // new_LL pushes it to a global LL for update to work on.
     LL to_reverse = LL_new("to_reverse");
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 1000; i += 10) {
         // while you could do LL_new_node((Data){i}, INTEGER)
         // you can also just use this great macro, which is honestly beautiful
-        LL_insert_after(to_reverse, NEW_NODE(LL, i * 1000), to_reverse->tail);
+        LL_insert_after(to_reverse, NEW_NODE(LL, i * 100), to_reverse->tail);
     }
 
     LL reversed = LL_new("reversed");
