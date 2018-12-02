@@ -2,6 +2,7 @@
 
 #include <string.h>
 #include <math.h>
+#include <stdio.h>
 
 #include "helper.h"
 
@@ -20,17 +21,8 @@ size_t sizeof_int(long long int n) {
 }
 
 size_t sizeof_flt(double flt) {
-    // this is very estimate driven!!!!!
-    // @refactor: figure out the values they are somewhere I'm sure
-    // we are going to use 'g' format with a precision of MAX_PRECISION_FLOAT_PRINT
-    size_t result = MAX_PRECISION_FLOAT_PRINT;
-    // if are negative
-    if (flt < 0) result += 1;
-    // if we are going to have a decimal
-    if (fabs(flt - trunc(flt)) < __DBL_EPSILON__) result += 1;
-    // if we are really small or really big
-    if (flt <= nexttoward(0.00009, 0.0001) || flt > 9999999) result += 2;
-    return result;
+    char buf[MAX_SIZE_FLT];
+    return snprintf(buf, MAX_SIZE_FLT, "%." MAX_PRECISION_FLT_PRINT_STR "g", flt);
 }
 
 size_t sizeof_data(Data data, TypeTag tag) {

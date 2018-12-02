@@ -2,12 +2,11 @@
 
 > A linked list (and more!) visualisation tool
 
-> Made originally for teaching purposes for UNSW CSE
+> Made for teaching purposes for UNSW CSE
 
-> Made originally by Braedon Wooding
+> Made by Braedon Wooding
 
-Originally this project just supported linked lists, now it supports (hypothetically)
-any collection at all!  Currently we just support;
+Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we just support;
 
 - Singularly Linked Lists
 - Doubly Linked Lists
@@ -17,11 +16,11 @@ In the future we are planning to support
 
 - Various types of trees (BST/Tries)
 - Various types of graphs
-- Hashtables...
+- Hashtables/Hashsets
 
 Also note that the below image has the tick time quite low this is just to make it look nice as a gif, so you'll probably want to up that to make it so you can follow it, if set to 0 then it'll use manual stepping (enter to make each update pass)
 
-![2018-10-01 13 37 58](https://user-images.githubusercontent.com/22880786/46268789-0084f780-c580-11e8-9278-ca123f8ba489.gif)
+![Demonstration](https://user-images.githubusercontent.com/22880786/46268789-0084f780-c580-11e8-9278-ca123f8ba489.gif)
 
 ## How to install
 
@@ -29,9 +28,12 @@ Also note that the below image has the tick time quite low this is just to make 
   - These are more stable and are much easier to use
   - They come in just a single fromat `libLLV.a` which is just a static library
     - Note: these libraries are actually (pseudo) compiled so they have architecture make sure you get the right one
-- If you want to compile from source all you need is cmake, then just say `cmake ./` in the home directory
+- If you want to compile from source all you need is cmake, then just say `cmake -DCMAKE_BUILD_TYPE=Release .` in the LLV directory
   - Then you will have a ton of make files and stuff pop up (we don't commit these auto generated files)
   - To compile the library now all you have to say is `make`
+  - `=Release` is just to avoid the asserts, often if there is a bug it is an extremely minor visual glitch (such as one of the boxes being too large)
+    - Please do report them if you find them!  But you wouldn't want the asserts to crash the application on these glitches when showing the animation
+    - So I would suggest this as to turn them off as to avoid disruptions.
 - To use the library you just use it like any other C library i.e. `gcc myFile.c libLLV.a -o outFile`
 
 ## Small things to consider
@@ -43,6 +45,8 @@ Also note that the below image has the tick time quite low this is just to make 
     - They do carry a forwards pointer always and a pointer to a string for display
       - However I am investigating other ways we can have visual ptrs that aren't
         as ugly as the ones in the past were (that is not visually but programatically).
+- Keep in mind that we all work on modern computers with GBs of memory so I doubt you'll ever run into memory issues...
+  - This is more such that if you decide making a thousand lists each with thousands of members then maybe you'll run into OOM (possibly).
 
 ## How does this work
 
@@ -76,7 +80,7 @@ Furthermore if it is similar to one of the current collections there is a pretty
   - Big changes are sometimes necessary, I've re-written the core once already
     since I wasn't happy with the lack of extensibility for other things than
     just a linked list.
-- Currently the code base is quite trivally small (~1k lines not including examples)
+- Currently the code base is quite trivally small (~1.5k lines not including examples)
   - I would prefer for it to remain trivally small, I don't mind if there are tons
     of collections, but having the codebase be anything over 3k lines can become
     more tedious to manage and maintain, especially since testing with this kind
@@ -100,6 +104,8 @@ Furthermore if it is similar to one of the current collections there is a pretty
   or `[Bug Fix]` (for PR) just so I have an idea at a glance what you are doing.
   - No 'requirements' on what they are called, but something like `[Collection]` for
     new collections would be nice!
+- To compile you just do `cmake .` then `make` then you can `gcc` with the examples or your own code.
+  - This is only if you need to test your changes to the LLV source code else you should use the stable releases.
 
 ## Quick Style Guide
 
@@ -109,7 +115,8 @@ struct _struct_name_t {
     int x; // member names are all lower case
 };
 // note: no common names, this is to prevent bugs where you do something like
-// MyObj my_obj = malloc(sizeof(my_obj));
+// also use malloc_with_oom, just so we are clear when we oom.
+// MyObj my_obj = malloc_with_oom(sizeof(my_obj), "MyObj");
 // where my_obj is the common name of MyObj (non ptr name)
 // which seems fine until you realise it just mallocs a pointer since it proritises
 // the variable over the 'common' name!

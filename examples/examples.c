@@ -5,9 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TEST(x) \
-    _Generic((x), int: "INT", float: "FLT")
-
 void usage_exit(void) {
     printf("Use like; ./program <X> where X is a number and from the following list\n"
            "0: Reverse standard\n"
@@ -24,7 +21,7 @@ void reverse_standard(void) {
     for (int i = 0; i < 1000; i += 10) {
         // while you could do LL_new_node((Data){i}, INTEGER)
         // you can also just use this great macro, which is honestly beautiful
-        LL_insert_after(to_reverse, NEW_NODE(LL, i * 100), to_reverse->tail);
+        LL_insert_after(to_reverse, NEW_NODE(LL, (double)i * 10000000.0 + 0.5), to_reverse->tail);
     }
 
     LL reversed = LL_new("reversed");

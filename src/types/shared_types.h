@@ -3,6 +3,16 @@
 
 #include <stdlib.h>
 
+#if defined(__STDC__)
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)  /* C11 */
+#define MODERN_C
+#endif
+#endif
+
+#ifndef MODERN_C
+#warning "Not Modern C, behaviour is not guaranteed"
+#endif
+
 // This is used everywhere
 
 // all the possible data types

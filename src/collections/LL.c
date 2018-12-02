@@ -220,8 +220,6 @@ void LL_print_list(Collection list) {
     LL_Node forwards = ll->head;
     LL_Node backwards = ll->tail;
     terminalSize size = get_terminal_size();
-    printf("%d\n", size.width);
-
     size_t *node_sizes = attempt_fit(ll, len, size, &count, &forwards, &backwards, &stop);
     list_print_general(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes,
                        AFTER_NODE, START_OF_LIST, END_OF_LIST, ELLIPSES, (FakeNode)ll->head);

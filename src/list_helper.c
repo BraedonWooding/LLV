@@ -59,8 +59,8 @@ void list_print_node(void *n, char **buf, size_t size, size_t len, size_t offset
     char *text_to_print;
     switch (node->data_tag) {
         case FLOAT: {
-            text_to_print = malloc_with_oom(size - 3, "Text to print");
-            snprintf(text_to_print, size - 2, "%g", node->data.flt_data);
+            text_to_print = malloc_with_oom(size - EXTRA_WIDTH / 2 + 1, "Text to print");
+            snprintf(text_to_print, size - EXTRA_WIDTH / 2, "%g", node->data.flt_data);
         } break;
         case STRING: {
             text_to_print = node->data.str_data;
@@ -68,12 +68,12 @@ void list_print_node(void *n, char **buf, size_t size, size_t len, size_t offset
         case INTEGER: {
             // note: we are including the '\0' room just to make nothing weird happen
             // with snprintf, but we will completely ignore it below in memcpy.
-            text_to_print = malloc_with_oom(size - 3, "Text to print");
-            snprintf(text_to_print, size - 2, "%lld", node->data.int_data);
+            text_to_print = malloc_with_oom(size - EXTRA_WIDTH / 2 + 1, "Text to print");
+            snprintf(text_to_print, size - EXTRA_WIDTH / 2, "%lld", node->data.int_data);
         } break;
         case ANY: {
-            text_to_print = malloc_with_oom(size - 3, "Text to print");
-            snprintf(text_to_print, size - 3, "%zu", (size_t)node->data.any_data);
+            text_to_print = malloc_with_oom(size - EXTRA_WIDTH / 2 + 1, "Text to print");
+            snprintf(text_to_print, size - EXTRA_WIDTH / 2, "%zu", (size_t)node->data.any_data);
         } break;
     }
     if (node->ptr != NULL) print_ptr(buf, len, size, node->ptr, strlen(node->ptr), offset);
@@ -112,9 +112,9 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
 
     // now we have sizes we can allocate buffer and prepare to print list
     // probably going to be a few characters bigger than we need but no harm no foul
-    char **buf = malloc(sizeof(char*) * (list->vert_len + DEFAULT_PTR_HEIGHT));
+    char **buf = malloc_with_oom(sizeof(char*) * (list->vert_len + DEFAULT_PTR_HEIGHT), "Buffer");
     for (int i = 0; i < list->vert_len + DEFAULT_PTR_HEIGHT; i++) {
-        buf[i] = malloc((count + 1) * sizeof(char));
+        buf[i] = malloc_with_oom((count + 1) * sizeof(char), "Buffer");
         for (int j = 0; j < count; j++) buf[i][j] = ' ';
         buf[i][count] = '\0';
     }

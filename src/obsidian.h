@@ -131,7 +131,7 @@
     } \
     }
 
-#if !RELEASE || DEBUG
+#ifndef NDEBUG
 #define obs_assert(val, op, cond) \
     { \
         if (!((val) op (cond))) { \
@@ -139,8 +139,16 @@
             abort(); \
         } \
     }
+#define obs_assert_strcmp(a, b) \
+    { \
+        if (strcmp(a, b)) { \
+            fprintf(stderr, __FILE__ ":%d failed because " #a " => %s != %s <= " #b, __LINE__, val, a, b); \
+            abort(); \
+        } \
+    }
 #else
 #define obs_assert(val, op, cond) 
+#define obs_assert_strcmp(a, b) 
 #endif
 
 #define obs_assert_eql(val, cond) obs_assert(val, ==, cond)

@@ -44,13 +44,14 @@ terminalSize get_terminal_size(void) {
     #endif
 
     // if the above methods fail just choose a semi reasonable guess
+    // this is more for GDB/LLDB such that they don't just fail on us since for
+    // whatever reason you can't grab a col/row size.
     if (cols == 0) {
         cols = 80;
         rows = 80;
     }
 
-    terminalSize size = { cols, rows };
-    return size;
+    return (terminalSize){.width = cols, .height = rows};
 }
 
 void sleep_ms(size_t ms) {

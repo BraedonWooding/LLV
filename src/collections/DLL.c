@@ -130,6 +130,8 @@ size_t DLL_length(DLL list) {
     return count;
 }
 
+// @TODO: this is very wrong I'm sure!
+// Should be based of LL but doesn't need to generate the entire list every time
 size_t *attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_count,
                     DLL_Node *out_forwards, DLL_Node *out_backwards, int *out_stop) {
     size_t *node_sizes = malloc_with_oom(sizeof(size_t) * len, "node_sizes");

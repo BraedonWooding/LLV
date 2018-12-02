@@ -11,6 +11,7 @@
    you need to build an example/demonstration of LLV except for the collections.
 */
 
+#ifdef MODERN_C
 #define GET_DATA(data)              \
     _Generic((data),                \
                   int: data_int,    \
@@ -28,6 +29,7 @@
     )
 
 #define NEW_NODE(type, data) type##_new_node(GET_DATA(data), GET_DATA_TYPE(data))
+#endif
 
 #define SET_PTR(node, value) if (node != NULL) node->ptr = value;
 #define UNSET_PTR(node) SET_PTR(node, NULL)
