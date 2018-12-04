@@ -5,8 +5,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "DLL.h"
-#include "../helper.h"
+#include "../../include/collections/DLL.h"
+#include "../../include/helper.h"
 #include "../list_helper.h"
 
 #define AFTER_NODE (" <-> ")

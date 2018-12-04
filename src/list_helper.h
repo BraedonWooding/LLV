@@ -4,8 +4,8 @@
 #include <string.h>
 #include <math.h>
 
-#include "types/collection_skeleton.h"
-#include "types/shared_types.h"
+#include "../include/types/collection_skeleton.h"
+#include "../include/types/shared_types.h"
 
 #define NULL_NODE "X"
 #define NULL_NODE_LEN strlen(NULL_NODE)

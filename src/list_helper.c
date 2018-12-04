@@ -5,9 +5,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "helper.h"
+#include "../include/helper.h"
 #include "general_collection_helper.h"
-#include "obsidian.h"
+#include "../lib/obsidian.h"
 
 void print_bounding_box(char **buf, size_t offset, size_t len, size_t width);
 void print_out_nodes(Collection list, FakeNode begin, FakeNode end, char **buf, size_t *node_sizes,

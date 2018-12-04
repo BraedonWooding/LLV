@@ -1,8 +1,8 @@
 #ifndef LLV_GENERAL_COLLECTION_HELPER
 #define LLV_GENERAL_COLLECTION_HELPER
 
-#include "types/collection_skeleton.h"
-#include "types/shared_types.h"
+#include "../include/types/collection_skeleton.h"
+#include "../include/types/shared_types.h"
 
 #define MAX_SIZE_FLT                    (8)
 #define MAX_PRECISION_FLT_PRINT         (6)

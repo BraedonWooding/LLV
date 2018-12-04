@@ -1,6 +1,6 @@
-#include "../src/collections/LL.h"
-#include "../src/llv.h"
-#include "../src/helper.h"
+#include "../include/collections/LL.h"
+#include "../include/llv.h"
+#include "../include/helper.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,8 +59,7 @@ int main(int argc, char *argv[]) {
     switch (atoi(argv[1])) {
         case 0: {
             reverse_standard();
-            break;
-        }
+        } break;
         default: usage_exit();
     }
 }

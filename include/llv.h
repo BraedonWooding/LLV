@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "helper.h"
 #include "types/shared_types.h"
 #include "types/collection_skeleton.h"
 
@@ -14,18 +15,40 @@
 #ifdef MODERN_C
 #define GET_DATA(data)              \
     _Generic((data),                \
-                  int: data_int,    \
-                char*: data_str,    \
-               double: data_flt,    \
-              default: data_any     \
+        long: data_int, \
+        long long: data_int, \
+        unsigned int: data_int, \
+        unsigned long: data_int, \
+        unsigned long long: data_int, \
+        int: data_int, \
+        float: data_flt, \
+        double: data_flt, \
+        long double: data_flt, \
+        char: data_int, \
+        short: data_int, \
+        unsigned short: data_int, \
+        char *: data_str, \
+        bool: data_int, \
+        default: data_any \
     )(data)
 
 #define GET_DATA_TYPE(data)         \
     _Generic((data),                \
-                  int: INTEGER,     \
-                char*: STRING,      \
-               double: FLOAT,       \
-              default: ANY          \
+        long: INTEGER, \
+        long long: INTEGER, \
+        unsigned int: INTEGER, \
+        unsigned long: INTEGER, \
+        unsigned long long: INTEGER, \
+        int: INTEGER, \
+        float: FLOAT, \
+        double: FLOAT, \
+        long double: FLOAT, \
+        char: INTEGER, \
+        short: INTEGER, \
+        unsigned short: INTEGER, \
+        char *: STRING, \
+        bool: INTEGER, \
+        default: ANY \
     )
 
 #define NEW_NODE(type, data) type##_new_node(GET_DATA(data), GET_DATA_TYPE(data))

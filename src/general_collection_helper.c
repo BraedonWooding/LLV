@@ -4,7 +4,7 @@
 #include <math.h>
 #include <stdio.h>
 
-#include "helper.h"
+#include "../include/helper.h"
 
 size_t sizeof_uint(unsigned long long int n) {
     if (n == 0) return 1;

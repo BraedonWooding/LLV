@@ -5,8 +5,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "LL.h"
-#include "../helper.h"
+#include "../../include/collections/LL.h"
+#include "../../include/helper.h"
 #include "../list_helper.h"
 
 #define AFTER_NODE (" -> ")
@@ -108,12 +108,15 @@ void LL_insert_before(LL list, LL_Node node, LL_Node at) {
 }
 
 LL_Node LL_remove_node(LL list, LL_Node node) {
+    if (node == NULL) return NULL;
+
     LL_Node at_prev;
     if (node == list->head) {
         list->head = node->next;
         at_prev = NULL;
     } else {
         at_prev = LL_find_prev(list, node);
+        if (at_prev == NULL) return NULL;
         at_prev->next = node->next;
     }
     if (node == list->tail) {
