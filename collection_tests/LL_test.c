@@ -326,7 +326,7 @@ int main(void) {
             LL_free(list);
         })
 
-        OBS_TEST("Multi element list ", {
+        OBS_TEST("Multi element list", {
             LL list = LL_new("3");
             long long items[10] = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             add_items_to_LL(list, 10, items);
@@ -341,7 +341,27 @@ int main(void) {
     })
 
     OBS_TEST_GROUP("LL_length", {
+        OBS_TEST("Empty list", {
+            LL list = LL_new("1");
+            obs_test(LL_length(list), ==, (size_t)0);
+            LL_free(list);
+        })
 
+        OBS_TEST("Single element list", {
+            LL list = LL_new("2");
+            LL_push(list, NEW_NODE(LL, 2));
+            obs_test(LL_length(list), ==, (size_t)1);
+            LL_free(list);
+        })
+
+        OBS_TEST("Multi element list", {
+            LL list = LL_new("3");
+            long long items[10] = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            add_items_to_LL(list, 10, items);
+            test_ll(list, items);
+            obs_test(LL_length(list), ==, (size_t)10);
+            LL_free(list);
+        })
     })
 
     OBS_TEST_GROUP("LL_push/pop", {

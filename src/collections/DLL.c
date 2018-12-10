@@ -11,9 +11,9 @@
 
 #define AFTER_NODE (" <-> ")
 #define AFTER_NODE_LEN (strlen(AFTER_NODE))
-#define START_OF_LIST (NULL_NODE " <- ")
+#define START_OF_LIST (NULL_NODE " <-> ")
 #define START_OF_LIST_LEN (strlen(START_OF_LIST))
-#define END_OF_LIST (" -> " NULL_NODE)
+#define END_OF_LIST (NULL_NODE)
 #define END_OF_LIST_LEN (strlen(END_OF_LIST))
 #define ELLIPSES (" ... <-> ")
 #define ELLIPSES_LEN (strlen(ELLIPSES))
@@ -135,31 +135,33 @@ size_t DLL_length(DLL list) {
 size_t *attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_count,
                     DLL_Node *out_forwards, DLL_Node *out_backwards, int *out_stop) {
     size_t *node_sizes = malloc_with_oom(sizeof(size_t) * len, "node_sizes");
-    // begins with 'x <- ' (5 characters) and ends with ' -> x' (5 characters)
-    // we want to allow a ' <-> ... <-> ' in the middle (so we add 5 characters)
-    // the we are just rounding it to 20 to act as an extra buffer to give us
-    // just nicer looking 'animations' then + 1 for '\0'
-    size_t count = 21;
 
+    *out_count = START_OF_LIST_LEN;
     *out_stop = 0;
     // only go through half the list
-    for (; *out_stop < len / 2 && count < size.width; (*out_stop)++) {
-        size_t forward_size = list->get_sizeof(*out_forwards);
-        if (count + forward_size >= size.width) break;
-        count += node_sizes[*out_stop] = forward_size;
-        // add ` <-> `
-        count += 5;
+    for (; *out_stop < (len + 1) / 2 && *out_count < size.width; (*out_stop)++) {
+        node_sizes[*out_stop] = list->get_sizeof(*out_forwards);
+        size_t forward_size = node_sizes[*out_stop] + AFTER_NODE_LEN;
+        if (*out_count + forward_size > size.width) break;
+        *out_count += forward_size;
 
-        size_t backward_size = list->get_sizeof(*out_backwards);
-        if (count + backward_size >= size.width) break;
-        count += node_sizes[len - 1 - *out_stop] = backward_size;
-        // ` <-> `
-        // the 5 character buffer we added way above
-        // really makes sure this isn't wrong
-        count += 5;
+        if (*out_stop == len / 2) break;
+
+        node_sizes[len - 1 - *out_stop] = list->get_sizeof(*out_backwards);
+        size_t backward_size = node_sizes[len - 1 - *out_stop] + AFTER_NODE_LEN;
+        if (*out_count + backward_size > size.width) break;
+        *out_count += node_sizes[len - 1 - *out_stop];
 
         (*out_forwards) = (*out_forwards)->next;
         (*out_backwards) = (*out_backwards)->prev;
+    }
+
+    if (*out_stop != len / 2) {
+        
+    } else {
+        // go through entire list
+        *out_forwards = list->head;
+        *out_backwards = NULL;
     }
 
     return node_sizes;

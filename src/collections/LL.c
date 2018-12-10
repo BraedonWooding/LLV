@@ -149,7 +149,6 @@ LL_Node LL_find_next(LL_Node n) {
 size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
                     LL_Node *out_forwards, LL_Node *out_backwards, int *out_stop) {
     size_t *node_sizes = malloc_with_oom(sizeof(size_t) * len, "node_sizes");
-    memset(node_sizes, 0, sizeof(size_t) * len);
 
     if (LL_is_empty(list)) {
         *out_stop = 0;
@@ -175,10 +174,8 @@ size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
 
     // how far backwards we can go
     int backwards_index = 0;
-    // Account for odd lists if need be, rounding on 0.5
-    int middle_index = (len + 1) / 2;
-
-    for (; *out_stop < middle_index; (*out_stop)++) {
+    // Account for odd lists by including the extra element on the left side
+    for (; *out_stop < (len + 1) / 2; (*out_stop)++) {
         size_t forward_size = node_sizes[*out_stop] + AFTER_NODE_LEN;
         if (forward_size + *out_count > size.width) break;
         *out_forwards = (*out_forwards)->next;
@@ -218,8 +215,8 @@ size_t LL_length(LL list) {
 void LL_print_list(Collection list) {
     LL ll = (LL)list;
     size_t len = LL_length(ll);
-    size_t count = 0;
-    int stop = 0;
+    size_t count;
+    int stop;
     LL_Node forwards = ll->head;
     LL_Node backwards = ll->tail;
     terminalSize size = get_terminal_size();
