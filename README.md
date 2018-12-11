@@ -1,10 +1,13 @@
 # LLV
 
+[![Build Status](https://travis-ci.com/BraedonWooding/LLV.svg?branch=master)](https://travis-ci.com/BraedonWooding/LLV)
+
 > A linked list (and way more!) visualisation tool
 
 > Made for teaching purposes for UNSW CSE
 
 > Made by Braedon Wooding
+
 
 Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we support;
 
@@ -31,6 +34,7 @@ Also note that the below image has the tick time quite low this is just to make 
   - Just download the `download_these` files, it comes with the required include headers and the compiled library.
 - To compile from source just clone (or download zip I guess) then just run `cmake .` to produce the required makefiles for your system, then just `make` should produce the library.  You'll still have to include the lib headers.
 - To compile with your file just do something like `gcc libLLV.a my_file.c` you can also add an `-I ~/LLV` (presuming you called it LLV and it is installed in home directory) so you can just do `#include <LLV/collections/Array.h>` if you want
+  - You may have to include it as a static library i.e. `gcc -lLLV my_file.c` (and will have to have `-LLocation` pointing to the location of the library unless it is in /usr/lib) depending on compiler.
 
 ## For those wanting to build a new collection
 
@@ -53,10 +57,12 @@ I would love for you to help maintain this, just a few things to consider;
 - Currently the core code base is quite trivally small (~1k lines not including examples)
   - Overall it is around 2.5k and will grow exponentially as new tests and collections come however if you remove tests and collections it is around 1k lines which is what I want it to be around, I do expect it to creep up to 2k but I don't want it to become too unmanageable.
 - Testing is pretty easy with all the stuff I've done :).
+  - To run tests you just do `make run_tests`
   - Testing collections is done via obsidian
   - Testing the actual program however is done through `output_tests` which contains two files for each test, a source file to run and expected output.
     - To produce a test I suggest you first go through it manually making sure each 'screen' is valid then run `./my_program.out > my_test.expected` instead of trying to build expected output manually, this kinda invalidates TDD but I don't really think it can be done another way (if you have any ideas I would love to hear them).
     - DO NOTE: that when making a test design it around the screen size being 80 in it's width you can define a different default size if you wish `#define DEFAULT_TERMINAL_WIDTH (80)` this width currently only effects tests, GDB/LLDB and other cases where we can't get the terminal width normally.
+  - All tests are run on every commit via Travis CI this way we can help stop regression issues.
 - Style guide (below)
 - Be nice to everyone :)
 - Label your PRs / Issues with `[<label>]` i.e. `[Bug]` (for issue) or `[Small]` (for PR)
