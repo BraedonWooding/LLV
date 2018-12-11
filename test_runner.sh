@@ -3,14 +3,15 @@
 # Collection tests are orientated around just checking that the collections work as expected
 # Output tests just check the program hasn't regressed and test all the examples and more!
 
-cmake -DCMAKE_BUILD_TYPE=Debug .
-make
+if [ -z $CC ]; then CC=clang; fi
 
 echo "== Testing Collections =="
-for test in collection_tests/*.c; do
+for test in collection_tests/*.out; do
     echo "Running $test"
-    gcc libLLV.a $test -o tmp.out
-    ./tmp.out
+    # We can't just include it like `clang libLLV.a my_file.c` like in clang
+    # we have to do it this way because GCC is ancient in some regards and this
+    # is one of them.
+    ./$test
     if [ $? -ne 0 ]; then
         echo "Testing Collections Failed"
         echo "ERROR: Test $test failed"
@@ -18,25 +19,24 @@ for test in collection_tests/*.c; do
     fi
 done
 
-echo "\n== Testing Collections Passed =="
-echo "\n== Testing Output =="
+printf "\n== Testing Collections Passed ==\n"
+printf "\n== Testing Output ==\n"
 
-for test in output_tests/*.c; do
-    echo "\nRunning $test"
+for test in output_tests/*.out; do
+    printf "\nRunning $test\n"
     filename=${test%.*}
-    gcc libLLV.a $test -o tmp.out
-    ./tmp.out > $filename.out
-    diff $filename.out $filename.expected
+    ./$test > $filename.result
+    diff $filename.result $filename.expected
     if [ $? -ne 0 ]; then
         echo "Testing Output Failed"
         echo "ERROR: Test $test failed difference shown above"
         exit 1
     fi
-    echo "\n$test successful"
+    printf "\n$test successful\n"
 done
 
-echo "\n== Testing Output Passed =="
-echo "\nCleaning up tmp files"
+printf "\n== Testing Output Passed ==\n"
+printf "\nCleaning up tmp files\n"
 
 rm tmp.out
 rm output_tests/*.out

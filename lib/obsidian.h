@@ -25,6 +25,10 @@
 #ifndef BWW_OBSIDIAN_H
 #define BWW_OBSIDIAN_H
 
+#ifndef OBSIDIAN_LOG_SIZE
+#define OBSIDIAN_LOG_SIZE 1024
+#endif
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -57,7 +61,7 @@
     int failures_in_group = 0; \
     int num_of_asserts = 0; \
     int old_num_of_asserts = 0; \
-    char *log; \
+    char log[OBSIDIAN_LOG_SIZE] = {0}; \
     printf("Beginning Tests for " #name "\n\n");
 
 #define OBS_TEST_GROUP(group_name, group) \
@@ -82,7 +86,7 @@
 #define OBS_TEST(name, group) \
     num_tests++; \
     success = true; \
-    log = ""; \
+    memset(log, 0, sizeof(log)); \
     group \
     if (success) { \
         successes++; \
@@ -91,7 +95,7 @@
         failures++; \
         printf(#name RED " failed" RESET "...\n"); \
         printf("\n== Log ==\n\n%s\n", log); \
-        free(log); \
+        memset(log, 0, sizeof(log)); \
     } \
 
 #define GET_FORMAT(x, op, val, y) \
@@ -118,7 +122,7 @@
     num_of_asserts++; \
     if (success && !(((val) op (cond)))) { \
         success = false; \
-        asprintf(&log,  GET_FORMAT(__FILE__ ":%d failed because " #val " => ", op, val, " is false"), __LINE__, val, cond); \
+        sprintf(log,  GET_FORMAT(__FILE__ ":%d failed because " #val " => ", op, val, " is false"), __LINE__, val, cond); \
     } \
     }
 
@@ -127,7 +131,7 @@
     num_of_asserts++; \
     if (success && !(val)) { \
         success = false; \
-        asprintf(&log,  __FILE__ ":%d failed because " #val " is false", __LINE__); \
+        sprintf(log,  __FILE__ ":%d failed because " #val " is false", __LINE__); \
     } \
     }
 
@@ -136,7 +140,7 @@
     num_of_asserts++; \
     if (success && (val)) { \
         success = false; \
-        asprintf(&log,  __FILE__ ":%d failed because " #val " is true", __LINE__); \
+        sprintf(log,  __FILE__ ":%d failed because " #val " is true", __LINE__); \
     } \
     }
 
@@ -151,7 +155,7 @@
     { \
     if (success && strcmp(a, b)) { \
         success = false; \
-        asprintf(&log,  __FILE__ ":%d failed because " #a " => %s does not equal" #b " => %s", __LINE__, a, b); \
+        sprintf(log,  __FILE__ ":%d failed because %s != %s", __LINE__, a, b); \
     } \
     }
 
@@ -166,7 +170,7 @@
 #define obs_assert_strcmp(a, b) \
     { \
         if (strcmp(a, b)) { \
-            fprintf(stderr, __FILE__ ":%d failed because " #a " => %s != %s <= " #b, __LINE__, a, b); \
+            fprintf(stderr, __FILE__ ":%d failed because %s != %s", __LINE__, a, b); \
             abort(); \
         } \
     }

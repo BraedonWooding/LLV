@@ -18,6 +18,12 @@ size_t list_sizeof(void *n) {
     return sizeof_data(node->data, node->data_tag) + EXTRA_WIDTH;
 }
 
+/*
+    @REFACTORING NOTICE:
+    - I'll attempt this soon, it isn't just magic numbers to fix I have a few crazy ideas
+      to how to fit even more pointers by placing above/below as well this could show nicer pointers
+      then having just below.
+*/
 void print_ptr(char **buf, size_t len, size_t count, char *ptr_name, size_t ptr_len, size_t offset) {
     // @REFACTORING
     // this is just a very early version
@@ -106,7 +112,8 @@ void print_out_nodes(Collection list, FakeNode begin, FakeNode end, char **buf, 
 
 void list_print_general(Collection list, size_t len, size_t count, FakeNode forwards,
                 FakeNode backwards, int stop, size_t *node_sizes, char *after_node,
-                char *start_of_list, char *end_of_list, char *ellipses, FakeNode head) {
+                char *start_of_list, char *end_of_list, char *ellipses, FakeNode head,
+                char *collection_name) {
     terminalSize size = get_terminal_size();
     obs_assert((size_t)size.width, >=, count);
 
@@ -143,7 +150,7 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
         write_str_center_incr(buf, &offset, list->vert_len, end_of_list, strlen(end_of_list));
     }
 
-    printf("List: %s\n", list->name);
+    printf("%s: %s\n", collection_name, list->name);
     for (int i = 0; i < list->vert_len; i++) {
         printf("%s\n", buf[i]);
         free(buf[i]);

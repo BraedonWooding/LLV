@@ -27,6 +27,7 @@ void list_print_node(void *n, char **buf, size_t size, size_t len, size_t offset
 
 void list_print_general(Collection list, size_t len, size_t count, FakeNode forwards,
                 FakeNode backwards, int stop, size_t *node_sizes, char *after_node,
-                char *start_of_list, char *end_of_list, char *ellipses, FakeNode head);
+                char *start_of_list, char *end_of_list, char *ellipses, FakeNode head,
+                char *collection_name);
 
 #endif

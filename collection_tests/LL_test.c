@@ -71,24 +71,24 @@ int main(void) {
             // int node
             LL_Node node = LL_new_node((Data){.int_data = 4}, INTEGER);
             obs_test(node->data_tag, ==, INTEGER);
-            obs_test(node->next, ==, NULL);
-            obs_test(node->ptr, ==, NULL);
+            obs_test((void*)node->next, ==, NULL);
+            obs_test((void*)node->ptr, ==, NULL);
             obs_test(node->data.int_data, ==, (long long)4);
             LL_free_node(node);
 
             // flt node
             node = LL_new_node((Data){.flt_data = 5.9}, FLOAT);
             obs_test(node->data_tag, ==, FLOAT);
-            obs_test(node->next, ==, NULL);
-            obs_test(node->ptr, ==, NULL);
+            obs_test((void*)node->next, ==, NULL);
+            obs_test((void*)node->ptr, ==, NULL);
             obs_test(node->data.flt_data, ==, 5.9);
             LL_free_node(node);
 
             // str node
             node = LL_new_node((Data){.str_data = "Hello"}, STRING);
             obs_test(node->data_tag, ==, STRING);
-            obs_test(node->next, ==, NULL);
-            obs_test(node->ptr, ==, NULL);
+            obs_test((void*)node->next, ==, NULL);
+            obs_test((void*)node->ptr, ==, NULL);
             obs_test_strcmp(node->data.str_data, "Hello");
             LL_free_node(node);
 
@@ -96,9 +96,9 @@ int main(void) {
             int x = 9;
             node = LL_new_node((Data){.any_data = &x}, ANY);
             obs_test(node->data_tag, ==, ANY);
-            obs_test(node->next, ==, NULL);
-            obs_test(node->ptr, ==, NULL);
-            obs_test(node->data.any_data, ==, &x);
+            obs_test((void*)node->next, ==, NULL);
+            obs_test((void*)node->ptr, ==, NULL);
+            obs_test((int*)node->data.any_data, ==, &x);
             LL_free_node(node);
         })
 
@@ -106,24 +106,24 @@ int main(void) {
             // int node
             LL_Node node = NEW_NODE(LL, 4);
             obs_test(node->data_tag, ==, INTEGER);
-            obs_test(node->next, ==, NULL);
-            obs_test(node->ptr, ==, NULL);
+            obs_test((void*)node->next, ==, NULL);
+            obs_test((void*)node->ptr, ==, NULL);
             obs_test(node->data.int_data, ==, (long long)4);
             LL_free_node(node);
 
             // flt node
             node = NEW_NODE(LL, 5.9);
             obs_test(node->data_tag, ==, FLOAT);
-            obs_test(node->next, ==, NULL);
-            obs_test(node->ptr, ==, NULL);
+            obs_test((void*)node->next, ==, NULL);
+            obs_test((void*)node->ptr, ==, NULL);
             obs_test(node->data.flt_data, ==, 5.9);
             LL_free_node(node);
 
             // str node
             node = NEW_NODE(LL, "Hello");
             obs_test(node->data_tag, ==, STRING);
-            obs_test(node->next, ==, NULL);
-            obs_test(node->ptr, ==, NULL);
+            obs_test((void*)node->next, ==, NULL);
+            obs_test((void*)node->ptr, ==, NULL);
             obs_test_strcmp(node->data.str_data, "Hello");
             LL_free_node(node);
 
@@ -131,9 +131,9 @@ int main(void) {
             int x = 9;
             node = NEW_NODE(LL, &x);
             obs_test(node->data_tag, ==, ANY);
-            obs_test(node->next, ==, NULL);
-            obs_test(node->ptr, ==, NULL);
-            obs_test(node->data.any_data, ==, &x);
+            obs_test((void*)node->next, ==, NULL);
+            obs_test((void*)node->ptr, ==, NULL);
+            obs_test((int*)node->data.any_data, ==, &x);
             LL_free_node(node);
         })
     });
@@ -149,7 +149,7 @@ int main(void) {
 
         OBS_TEST("Clearing list with elements", {
             LL list = LL_new("2");
-            long long elements[5] = ((long long[]){1, 2, 3, 4, 5});
+            long long *elements = ((long long[]){1, 2, 3, 4, 5});
             add_items_to_LL(list, 5, elements);
             test_ll(list, elements);
             LL_clear_list(list);
@@ -164,7 +164,7 @@ int main(void) {
             test_ll(list, elements);
             LL_clear_list(list);
             test_empty(list);
-            char *new_elements[3] = ((char*[]){"Hello", "World", "Wow"});
+            char **new_elements = ((char*[]){"Hello", "World", "Wow"});
             add_items_to_LL(list, 3, new_elements);
             test_ll_strcmp(list, new_elements);
             LL_clear_list(list);
@@ -210,44 +210,44 @@ int main(void) {
 
         OBS_TEST("Inserting after in middle of list", {
             LL list = LL_new("5");
-            long long items[10] = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             add_items_to_LL(list, 10, items);
             test_ll(list, items);
             LL_insert_after(list, NEW_NODE(LL, 100), list->head->next->next->next);
-            long long result[11] = ((long long[]){1, 2, 3, 4, 100, 5, 6, 7, 8, 9, 10});
+            long long *result = ((long long[]){1, 2, 3, 4, 100, 5, 6, 7, 8, 9, 10});
             test_ll(list, result);
             LL_free(list);
         })
 
         OBS_TEST("Inserting after on last element", {
             LL list = LL_new("6");
-            long long items[10] = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             add_items_to_LL(list, 10, items);
             test_ll(list, items);
             LL_insert_after(list, NEW_NODE(LL, 100), list->tail);
-            long long result[11] = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100});
+            long long *result = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100});
             test_ll(list, result);
             LL_free(list);
         })
 
         OBS_TEST("Inserting before in middle of list", {
             LL list = LL_new("7");
-            long long items[10] = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             add_items_to_LL(list, 10, items);
             test_ll(list, items);
             LL_insert_before(list, NEW_NODE(LL, 100), list->head->next->next->next);
-            long long result[11] = ((long long[]){1, 2, 3, 100, 4, 5, 6, 7, 8, 9, 10});
+            long long *result = ((long long[]){1, 2, 3, 100, 4, 5, 6, 7, 8, 9, 10});
             test_ll(list, result);
             LL_free(list);
         })
 
         OBS_TEST("Inserting before on first element", {
             LL list = LL_new("8");
-            long long items[10] = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             add_items_to_LL(list, 10, items);
             test_ll(list, items);
             LL_insert_before(list, NEW_NODE(LL, 100), list->head);
-            long long result[11] = ((long long[]){100, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            long long *result = ((long long[]){100, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             test_ll(list, result);
             LL_free(list);
         })
@@ -270,11 +270,11 @@ int main(void) {
 
         OBS_TEST("Remove a node from an non empty list", {
             LL list = LL_new("3");
-            long long items[10] = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             add_items_to_LL(list, 10, items);
             test_ll(list, items);
             LL_remove_node(list, list->head->next->next);
-            long long result[9] = ((long long[]){1, 2, 4, 5, 6, 7, 8, 9, 10});
+            long long *result = ((long long[]){1, 2, 4, 5, 6, 7, 8, 9, 10});
             test_ll(list, result);
             LL_free(list);
         })
@@ -292,16 +292,16 @@ int main(void) {
 
         OBS_TEST("Remove first and last then the rest (from forward to back)", {
             LL list = LL_new("5");
-            long long items[10] = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             add_items_to_LL(list, 10, items);
             test_ll(list, items);
             // remove front
             LL_free_node(LL_remove_node(list, list->head));
-            long long result1[9] = ((long long[]){2, 3, 4, 5, 6, 7, 8, 9, 10});
+            long long *result1 = ((long long[]){2, 3, 4, 5, 6, 7, 8, 9, 10});
             test_ll(list, result1);
             // remove back
             LL_free_node(LL_remove_node(list, list->tail));
-            long long result2[8] = ((long long[]){2, 3, 4, 5, 6, 7, 8, 9});
+            long long *result2 = ((long long[]){2, 3, 4, 5, 6, 7, 8, 9});
             test_ll(list, result2);
             // remove rest
             while (!LL_is_empty(list)) {
@@ -328,7 +328,7 @@ int main(void) {
 
         OBS_TEST("Multi element list", {
             LL list = LL_new("3");
-            long long items[10] = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             add_items_to_LL(list, 10, items);
             test_ll(list, items);
             obs_test_false(LL_is_empty(list));
@@ -356,7 +356,7 @@ int main(void) {
 
         OBS_TEST("Multi element list", {
             LL list = LL_new("3");
-            long long items[10] = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             add_items_to_LL(list, 10, items);
             test_ll(list, items);
             obs_test(LL_length(list), ==, (size_t)10);

@@ -13,6 +13,14 @@
     #define CLEAR_SCREEN "clear"
 #endif
 
+#ifndef DEFAULT_TERMINAL_WIDTH
+#define DEFAULT_TERMINAL_WIDTH (80)
+#endif
+
+#ifndef DEFAULT_TERMINAL_HEIGHT
+#define DEFAULT_TERMINAL_HEIGHT (80)
+#endif
+
 typedef struct _terminal_size_t {
     int width;
     int height;
@@ -27,6 +35,9 @@ void write_str_center_of_buf(char **buf, size_t offset, size_t len,
 void write_str_repeat_char(char *buf, size_t offset, char c, int count);
 
 void write_str_repeat_char_vert(char **buf, size_t offset, char c, int count, int index);
+
+void write_str_repeat_char_grid(char **buf, size_t offset, char c, int vert_count,
+                                int horiz_count, int index);
 
 terminalSize get_terminal_size(void);
 

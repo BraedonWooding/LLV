@@ -22,7 +22,7 @@ typedef struct _singly_linked_list_t {
 } *LL;
 
 /*
-    Create a new list with a given name.
+    Create a new list with a given name and a default type.
 */
 LL LL_new(char *name);
 

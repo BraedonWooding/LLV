@@ -1,7 +1,7 @@
 name = "list"
 
 [[contents]]
-ticked_off = false
+ticked_off = true
 title = "Just do some more sweeps for bugs"
 contents = []
 
@@ -15,13 +15,36 @@ title = "Such as attaching a ptr visual to a ptr to a node (that is Node * which
 contents = []
 
 [[contents]]
-ticked_off = false
+ticked_off = true
 title = "Need to decide how to handle things in the middle of the lists"
 contents = []
 
 [[contents]]
 ticked_off = false
 title = "Support stacks/queues"
+
+[[contents.contents]]
+ticked_off = true
+title = "Collections added"
+contents = []
+
+[[contents.contents]]
+ticked_off = false
+title = "Print 'Queue: ' rather than 'Linked List: '"
+contents = []
+
+[[contents]]
+ticked_off = false
+title = "Support Vectors"
+
+[[contents.contents]]
+ticked_off = true
+title = "Collection added"
+contents = []
+
+[[contents.contents]]
+ticked_off = false
+title = "Printing"
 contents = []
 
 [[contents]]
@@ -31,26 +54,22 @@ contents = []
 
 [[contents]]
 ticked_off = false
+title = "Support hashtables/sets"
+contents = []
+
+[[contents]]
+ticked_off = true
 title = "Fix up some of the code that needs a lil loving"
 contents = []
 
 [[contents]]
-ticked_off = false
+ticked_off = true
 title = "Comment functions and provide a nicer interface"
 contents = []
 
 [[contents]]
 ticked_off = true
 title = "Support floats"
-
-[[contents.contents]]
-ticked_off = false
-title = "Partial support, breaks sometimes"
-contents = []
-
-[[contents.contents]]
-ticked_off = false
-title = "Quite broken in fact"
 contents = []
 
 [[contents]]

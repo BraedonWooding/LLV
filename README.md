@@ -1,16 +1,18 @@
 # LLV
 
-> A linked list (and more!) visualisation tool
+> A linked list (and way more!) visualisation tool
 
 > Made for teaching purposes for UNSW CSE
 
 > Made by Braedon Wooding
 
-Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we just support;
+Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we support;
 
 - Singularly Linked Lists
 - Doubly Linked Lists
-- and very soon Queues/Stacks
+- Vectors (dynamic arrays)
+- Arrays (static)
+- Queues and Stacks
 
 In the future we are planning to support
 
@@ -25,46 +27,10 @@ Also note that the below image has the tick time quite low this is just to make 
 ## How to install
 
 - I suggest you just download the library from the releases section in github
-  - These are more stable and are much easier to use
-  - They come in just a single fromat `libLLV.a` which is just a static library
-    - Note: these libraries are actually (pseudo) compiled so they have architecture make sure you get the right one
-- If you want to compile from source all you need is cmake, then just say `cmake -DCMAKE_BUILD_TYPE=Release .` in the LLV directory
-  - Then you will have a ton of make files and stuff pop up (we don't commit these auto generated files)
-  - To compile the library now all you have to say is `make`
-  - `=Release` is just to avoid the asserts, often if there is a bug it is an extremely minor visual glitch (such as one of the boxes being too large)
-    - Please do report them if you find them!  But you wouldn't want the asserts to crash the application on these glitches when showing the animation
-    - So I would suggest this as to turn them off as to avoid disruptions.
-- To use the library you just use it like any other C library i.e. `gcc myFile.c libLLV.a -o outFile`
-
-## Small things to consider
-
-- Lists are relatively expensive in terms of memory
-  - So this visualization tool isn't really suited towards creating a lot of lists
-    more around doing a lot of manipulation of a few lists.
-  - Nodes are relatively cheap
-    - They do carry a forwards pointer always and a pointer to a string for display
-      - However I am investigating other ways we can have visual ptrs that aren't
-        as ugly as the ones in the past were (that is not visually but programatically).
-- Keep in mind that we all work on modern computers with GBs of memory so I doubt you'll ever run into memory issues...
-  - This is more such that if you decide making a thousand lists each with thousands of members then maybe you'll run into OOM (possibly).
-
-## How does this work
-
-Just incase you are interested;
-
-- We effectively emulate inheritance by using a pseudo v-table.
-- This gives us a lot of wliggle room with having independent printing options
-  - And each one also allows you to customize how you want to print the node.
-- Effectively each print just calculates the sizeof the list and adjusts in the case when it won't fit.
-  - By adding a '...', this operation is relatively complex since each node can have an arbitary size
-  - So what we have to do is effectively go both forward and backward
-  - Trying to find a semi-optimal solution to show the maximum amount of nodes
-    - We don't care about it being too overly optimal, just close enough
-      - Overtime I'll improve it, currently its a little too noticeably unoptimal for my tastes
-- It also just prints the list out to a buffer which is actually N buffers long
-  each one representing the a level of the buffer, this allows us to print out nodes
-  one at a time rather than having to print out the tops of each one then the centres
-  then the bottoms... which made the code a WHOLE lot simpler.
+  - This is mainly due to stability reasons
+  - Just download the `download_these` files, it comes with the required include headers and the compiled library.
+- To compile from source just clone (or download zip I guess) then just run `cmake .` to produce the required makefiles for your system, then just `make` should produce the library.  You'll still have to include the lib headers.
+- To compile with your file just do something like `gcc libLLV.a my_file.c` you can also add an `-I ~/LLV` (presuming you called it LLV and it is installed in home directory) so you can just do `#include <LLV/collections/Array.h>` if you want
 
 ## For those wanting to build a new collection
 
@@ -74,38 +40,35 @@ Furthermore if it is similar to one of the current collections there is a pretty
 
 ## Quick contributors guide
 
-- We use [todo](LINK_NEEDED) for our current list of items to well 'todo'
-  - You don't need to use it you can just update the TOML (which is soon changing to md)
+I would love for you to help maintain this, just a few things to consider;
+
+- We use [todo](https://github.com/BraedonWooding/Todo) for our current list of items
+  - You don't have to use this of course :), it is just a way for me to keep track of things.
+  - Currently a little buggy as I haven't updated it in a short while but I'll get around to it.
 - Small changes over big
   - Big changes are sometimes necessary, I've re-written the core once already
     since I wasn't happy with the lack of extensibility for other things than
-    just a linked list.
-- Currently the code base is quite trivally small (~1.5k lines not including examples)
-  - I would prefer for it to remain trivally small, I don't mind if there are tons
-    of collections, but having the codebase be anything over 3k lines can become
-    more tedious to manage and maintain, especially since testing with this kind
-    of application is quite hard.
-- Since testing is hard...
-  - Well its actually not too insane, I have a few plans to pull out where it prints to
-    and have that as a customizable variable (at compile time) so we can easily get
-    it printing properly to a log without having to do bash redirects which can cause problems
-    with inputs, even though we will probably just be setting the wait time to 1 (the smallest
-    delta you can have) so it is not like the program will receive inputs.
-    - I can't really get testing working now though since with how it places nodes
-      aren't at all consistent, once I fix that (should just require some tweaking)
-      we will be in a consistent place to predict exactly how nodes shall be placed.
-    - Note: this consistency is not about 'random' but more about it having a too large
-      buffer zone for it to place its nodes, but this buffer zone is required for some
-      inputs, so we have to figure out when its required and when not and deapply it
-      such that its more accurate.
-- Follow the style guide
+    just a linked list.  But this won't happen again so if it is > 100 lines maybe it can be broken up a bit?
+    - Exception would be new collections (though one collection per PR would be nice)
+- Currently the core code base is quite trivally small (~1k lines not including examples)
+  - Overall it is around 2.5k and will grow exponentially as new tests and collections come however if you remove tests and collections it is around 1k lines which is what I want it to be around, I do expect it to creep up to 2k but I don't want it to become too unmanageable.
+- Testing is pretty easy with all the stuff I've done :).
+  - Testing collections is done via obsidian
+  - Testing the actual program however is done through `output_tests` which contains two files for each test, a source file to run and expected output.
+    - To produce a test I suggest you first go through it manually making sure each 'screen' is valid then run `./my_program.out > my_test.expected` instead of trying to build expected output manually, this kinda invalidates TDD but I don't really think it can be done another way (if you have any ideas I would love to hear them).
+    - DO NOTE: that when making a test design it around the screen size being 80 in it's width you can define a different default size if you wish `#define DEFAULT_TERMINAL_WIDTH (80)` this width currently only effects tests, GDB/LLDB and other cases where we can't get the terminal width normally.
+- Style guide (below)
 - Be nice to everyone :)
 - Label your PRs / Issues with `[<label>]` i.e. `[Bug]` (for issue) or `[Small]` (for PR)
   or `[Bug Fix]` (for PR) just so I have an idea at a glance what you are doing.
-  - No 'requirements' on what they are called, but something like `[Collection]` for
-    new collections would be nice!
-- To compile you just do `cmake .` then `make` then you can `gcc` with the examples or your own code.
-  - This is only if you need to test your changes to the LLV source code else you should use the stable releases.
+  - No 'requirements' on what they are called, but something like `[Collection]` for new collections would be nice!
+
+## Roadmap
+
+- Support the collections stated at the top of this readme
+- Have `#ifndef`'s for most of the defines so you can modify them
+  - For example the width of the array can be set to -1 to have them be next to each other i.e. `|a|b|c|` and no extra bars or set to 0 to have extra bars i.e. `|a||b||c|` or can be set to any positive number to have spaces i.e. `|a| |b| |c|` this would be nice to set outside of having to edit source.
+- Much more tests! (break a few things!!!)
 
 ## Quick Style Guide
 

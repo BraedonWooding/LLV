@@ -30,6 +30,7 @@ void write_str_to_buf(char **buf, size_t offset, size_t len, size_t index,
 }
 
 terminalSize get_terminal_size(void) {
+#ifndef TESTING
     int cols, rows;
     #ifdef WINDOWS_COMPATIBILITY
         CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -43,22 +44,23 @@ terminalSize get_terminal_size(void) {
         rows = w.ws_row;
     #endif
 
-    // if the above methods fail just choose a semi reasonable guess
-    // this is more for GDB/LLDB such that they don't just fail on us since for
-    // whatever reason you can't grab a col/row size.
+    // this effects debuggers/tests
     if (cols == 0) {
-        cols = 80;
-        rows = 80;
+        cols = DEFAULT_TERMINAL_WIDTH;
+        rows = DEFAULT_TERMINAL_HEIGHT;
     }
 
     return (terminalSize){.width = cols, .height = rows};
+#else
+    return (terminalSize){.width = DEFAULT_TERMINAL_WIDTH, .height = DEFAULT_TERMINAL_HEIGHT};
+#endif
 }
 
 void sleep_ms(size_t ms) {
     #ifdef WINDOWS_COMPATIBILITY
         Sleep(ms);
     #elif defined(POSIX_LEGACY)
-        // has timeout as opposed to usleep
+        // use timeout as opposed to usleep
         struct timeval tv = { .tv_sec = ms / 1000, .tv_usec = (ms % 1000) * 1000 };
         select(0, NULL, NULL, NULL, &tv);
     #else
@@ -67,6 +69,10 @@ void sleep_ms(size_t ms) {
     #endif
 }
 
+/*
+    @Refactor: maybe could include `__FILE__:__LINE__` instead of the obj_name??
+               would have to make this a macro in that case (to get the file/line right)
+*/
 void *malloc_with_oom(size_t size, char *obj_name) {
     void *obj = malloc(size);
     if (obj == NULL) {
@@ -82,4 +88,11 @@ void write_str_repeat_char(char *buf, size_t offset, char c, int count) {
 
 void write_str_repeat_char_vert(char **buf, size_t offset, char c, int count, int index) {
     for (int i = 0; i < count; i++) buf[i][index + offset] = c;
+}
+
+void write_str_repeat_char_grid(char **buf, size_t offset, char c, int vert_count,
+                                int horiz_count, int index) {
+    for (int i = 0; i < horiz_count; i++) {
+        write_str_repeat_char_vert(buf, offset, ' ', vert_count, i + index);
+    }
 }

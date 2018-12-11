@@ -77,7 +77,6 @@ void fmt_update(char *fmt, ...) {
                 case 'n': {
                     // single node
                     FakeNode n = va_arg(list, FakeNode);
-
                     print_out_single_box(n, list_print_node, list_sizeof,
                                          DEFAULT_PRINT_HEIGHT);
                 } break;
@@ -121,7 +120,7 @@ void update(int number, ...) {
     update_wait();
 }
 
-void print_out_single_box(void *node, print_node printer, sizeof_node sizeof_n, int height) {
+void print_out_single_box(void *node, fn_print_node printer, fn_sizeof_node sizeof_n, int height) {
     char **buf = malloc_with_oom(sizeof(char *) * (height + DEFAULT_PTR_HEIGHT), "Single");
     size_t count = sizeof_n(node);
     for (int i = 0; i < height + DEFAULT_PTR_HEIGHT; i++) {

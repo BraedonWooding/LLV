@@ -7,9 +7,7 @@
 #include "../include/helper.h"
 
 size_t sizeof_uint(unsigned long long int n) {
-    if (n == 0) return 1;
-
-    return log10(n) + 1;
+    return (n == 0) ? 1 : log10(n) + 1;
 }
 
 size_t sizeof_int(long long int n) {

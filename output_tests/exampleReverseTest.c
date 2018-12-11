@@ -3,6 +3,8 @@
     This will be ran to generate the `.out`
 */
 
+#define DEFAULT_TERMINAL_WIDTH (80)
+
 #include "../include/collections/LL.h"
 #include "../include/llv.h"
 #include "../include/helper.h"

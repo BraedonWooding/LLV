@@ -222,5 +222,5 @@ void LL_print_list(Collection list) {
     terminalSize size = get_terminal_size();
     size_t *node_sizes = attempt_fit(ll, len, size, &count, &forwards, &backwards, &stop);
     list_print_general(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes,
-                       AFTER_NODE, START_OF_LIST, END_OF_LIST, ELLIPSES, (FakeNode)ll->head);
+                       AFTER_NODE, START_OF_LIST, END_OF_LIST, ELLIPSES, (FakeNode)ll->head, "Linked List");
 }

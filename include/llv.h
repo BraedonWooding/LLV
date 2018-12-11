@@ -54,7 +54,7 @@
 #define NEW_NODE(type, data) type##_new_node(GET_DATA(data), GET_DATA_TYPE(data))
 #endif
 
-#define SET_PTR(node, value) if (node != NULL) node->ptr = value;
+#define SET_PTR(node, value) if ((node) != NULL) (node)->ptr = value;
 #define UNSET_PTR(node) SET_PTR(node, NULL)
 
 void setup(size_t time, bool clear, bool incl_ptrs_single);
@@ -67,7 +67,7 @@ void clear_screen(void);
 void attach_ptr(void *node, char *ptr);
 bool deattach_ptr(void *node, char *ptr);
 
-void print_out_single_box(void *node, print_node printer, sizeof_node sizeof_n, int height);
+void print_out_single_box(void *node, fn_print_node printer, fn_sizeof_node sizeof_n, int height);
 void print_out_single_box_using_defaults(void *node, Collection c);
 
 #endif

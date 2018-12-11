@@ -177,5 +177,5 @@ void DLL_print_list(Collection list) {
     terminalSize size = get_terminal_size();
     size_t *node_sizes = attempt_fit(dll, len, size, &count, &forwards, &backwards, &stop);
     list_print_general(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes, AFTER_NODE,
-               START_OF_LIST, END_OF_LIST, ELLIPSES, (FakeNode)dll->head);
+               START_OF_LIST, END_OF_LIST, ELLIPSES, (FakeNode)dll->head, "Doubly Linked List");
 }
