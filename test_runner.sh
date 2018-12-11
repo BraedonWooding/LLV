@@ -38,5 +38,5 @@ done
 printf "\n== Testing Output Passed ==\n"
 printf "\nCleaning up tmp files\n"
 
-rm tmp.out
+rm collection_tests/*.out
 rm output_tests/*.out
