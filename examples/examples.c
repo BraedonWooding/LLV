@@ -60,27 +60,27 @@ void reverse_standard(void) {
     // not in place though, by using another list
     // memory wise the same.
     // new_LL pushes it to a global LL for update to work on.
-    LL to_reverse = LL_new("to_reverse");
+    LL to_reverse = ll_new("to_reverse");
     for (int i = 0; i < 1000; i += 10) {
-        // while you could do LL_new_node((Data){i}, INTEGER)
+        // while you could do ll_new_node((Data){i}, INTEGER)
         // you can also just use this great macro, which is honestly beautiful
-        LL_insert_after(to_reverse, NEW_NODE(LL, (double)i * 10000000.0 + 0.5), to_reverse->tail);
+        ll_insert_after(to_reverse, NEW_NODE(ll, (double)i * 10000000.0 + 0.5), to_reverse->tail);
     }
 
-    LL reversed = LL_new("reversed");
+    LL reversed = ll_new("reversed");
     // i've included the longer way as well for your 'enjoyment'
     // SET_PTR(to_reverse->head, "cur");
     attach_ptr(&to_reverse->head, "cur");
 
     // tons of helper functions such as remove_node, insert_node and so on
-    while (!LL_is_empty(to_reverse)) {
+    while (!ll_is_empty(to_reverse)) {
         // you can do whatever you want to the list
         LL_Node n = to_reverse->head;
         fmt_update("%l %l %s %n", to_reverse, reversed, "\nRemoving the following\n", n);
         to_reverse->head = n->next;
         // UNSET_PTR(n);
         // SET_PTR(to_reverse->head, "cur");
-        LL_push(reversed, n);
+        ll_push(reversed, n);
         // a simpler update looks like;
         // `update(2, to_reverse, reversed);`
         // a more complex one is like
@@ -89,8 +89,8 @@ void reverse_standard(void) {
 
     // if you care about freeing
     deattach_ptr(&to_reverse->head, "cur");
-    LL_free(to_reverse);
-    LL_free(reversed);
+    ll_free(to_reverse);
+    ll_free(reversed);
 }
 
 int main(int argc, char *argv[]) {

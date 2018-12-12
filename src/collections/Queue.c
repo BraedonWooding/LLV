@@ -11,21 +11,21 @@
 #include "../list_helper.h"
 
 Queue queue_new(char *name) {
-    return LL_new(name);
+    return ll_new(name);
 }
 
 void queue_free(Queue queue) {
-    LL_free(queue);
+    ll_free(queue);
 }
 
 QueueNode queue_new_node(Data data, TypeTag type) {
-    return LL_new_node(data, type);
+    return ll_new_node(data, type);
 }
 
 void queue_enqueue(Queue queue, QueueNode node) {
-    LL_append(queue, node);
+    ll_append(queue, node);
 }
 
 QueueNode queue_dequeue(Queue queue) {
-    return LL_pop(queue);
+    return ll_pop(queue);
 }

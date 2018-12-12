@@ -11,21 +11,21 @@
 #include "../list_helper.h"
 
 Stack stack_new(char *name) {
-    return LL_new(name);
+    return ll_new(name);
 }
 
 void stack_free(Stack stack) {
-    LL_free(stack);
+    ll_free(stack);
 }
 
 StackNode stack_new_node(Data data, TypeTag type) {
-    return LL_new_node(data, type);
+    return ll_new_node(data, type);
 }
 
 void stack_push(Stack stack, StackNode node) {
-    LL_push(stack, node);
+    ll_push(stack, node);
 }
 
 StackNode stack_pop(Stack stack) {
-    return LL_pop(stack);
+    return ll_pop(stack);
 }

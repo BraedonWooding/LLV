@@ -18,32 +18,32 @@
 #define ELLIPSES (" ... <-> ")
 #define ELLIPSES_LEN (strlen(ELLIPSES))
 
-void DLL_print_list(Collection collection);
+void dll_print_list(Collection collection);
 
-DLL DLL_new(char *name) {
+DLL dll_new(char *name) {
     DLL dll = malloc_with_oom(sizeof(struct _doubly_linked_list_t), "DLL");
     dll->name = name;
     dll->head = dll->tail = NULL;
-    dll->list_printer = DLL_print_list;
+    dll->list_printer = dll_print_list;
     dll->get_sizeof = list_sizeof;
     dll->node_printer = list_print_node;
     dll->vert_len = DEFAULT_PRINT_HEIGHT;
     return dll;
 }
 
-void DLL_free(DLL list) {
-    DLL_clear_list(list);
+void dll_free(DLL list) {
+    dll_clear_list(list);
     free(list);
 }
 
-void DLL_free_node(DLL_Node n) {
+void dll_free_node(DLL_Node n) {
     // should help catch any dereferencing memory that can't be accessed.
     n->next = NULL;
     n->prev = NULL;
     free(n);
 }
 
-DLL_Node DLL_new_node(Data data, TypeTag type) {
+DLL_Node dll_new_node(Data data, TypeTag type) {
     DLL_Node new_node = malloc_with_oom(sizeof(struct _dll_node_t), "DLL_Node");
     new_node->next = new_node->prev = NULL;
     new_node->data = data;
@@ -52,19 +52,19 @@ DLL_Node DLL_new_node(Data data, TypeTag type) {
     return new_node;
 }
 
-void DLL_push(DLL list, DLL_Node n) {
-    DLL_insert_before(list, n, list->head);
+void dll_push(DLL list, DLL_Node n) {
+    dll_insert_before(list, n, list->head);
 }
 
-DLL_Node DLL_pop(DLL list) {
-    return DLL_remove_node(list, list->head);
+DLL_Node dll_pop(DLL list) {
+    return dll_remove_node(list, list->head);
 }
 
-void DLL_append(DLL list, DLL_Node n) {
-    DLL_insert_after(list, n, list->tail);
+void dll_append(DLL list, DLL_Node n) {
+    dll_insert_after(list, n, list->tail);
 }
 
-void DLL_clear_list(DLL list) {
+void dll_clear_list(DLL list) {
     for (DLL_Node cur = list->head; cur != NULL;) {
         DLL_Node temp = cur;
         cur = cur->next;
@@ -73,7 +73,7 @@ void DLL_clear_list(DLL list) {
     list->head = list->tail = NULL;
 }
 
-void DLL_insert_after(DLL list, DLL_Node node, DLL_Node at) {
+void dll_insert_after(DLL list, DLL_Node node, DLL_Node at) {
     node->next = NULL;
     DLL_Node post_at = at->next;
     // at -> post_at => at -> node -> post_at;
@@ -82,20 +82,20 @@ void DLL_insert_after(DLL list, DLL_Node node, DLL_Node at) {
     if (post_at == NULL) list->tail = node;
 }
 
-void DLL_insert_before(DLL list, DLL_Node node, DLL_Node at) {
+void dll_insert_before(DLL list, DLL_Node node, DLL_Node at) {
     node->next = NULL;
     DLL_Node at_prev = NULL;
     if (at == list->head) {
         list->head = node;
     } else {
-        DLL_Node at_prev = DLL_find_prev(at);
+        DLL_Node at_prev = dll_find_prev(at);
         // at_prev -> at => at_prev -> node -> at
         at_prev->next = node;
     }
     node->next = at;
 }
 
-DLL_Node DLL_remove_node(DLL list, DLL_Node node) {
+DLL_Node dll_remove_node(DLL list, DLL_Node node) {
     if (node == list->head) {
         list->head = node->next;
     } else {
@@ -110,21 +110,21 @@ DLL_Node DLL_remove_node(DLL list, DLL_Node node) {
     return node;
 }
 
-bool DLL_is_empty(DLL list) {
+bool dll_is_empty(DLL list) {
     return list->head == NULL;
 }
 
-DLL_Node DLL_find_prev(DLL_Node at) {
+DLL_Node dll_find_prev(DLL_Node at) {
     if (at == NULL) return NULL;
     return at->prev;
 }
 
-DLL_Node DLL_find_next(DLL_Node n) {
+DLL_Node dll_find_next(DLL_Node n) {
     if (n == NULL) return NULL;
     return n->next;
 }
 
-size_t DLL_length(DLL list) {
+size_t dll_length(DLL list) {
     int count = 0;
     for (DLL_Node n = list->head; n != NULL; n = n->next) count++;
     return count;
@@ -167,9 +167,9 @@ size_t *attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_count,
     return node_sizes;
 }
 
-void DLL_print_list(Collection list) {
+void dll_print_list(Collection list) {
     DLL dll = (DLL)list;
-    size_t len = DLL_length(dll);
+    size_t len = dll_length(dll);
     size_t count;
     int stop;
     DLL_Node forwards = dll->head;
