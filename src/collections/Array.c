@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <wchar.h>
 
 #include "../../include/collections/Array.h"
 #include "../general_collection_helper.h"
@@ -18,8 +19,8 @@
     - (x == -1) no spaces and no double bars i.e. `|a|b|c|d|`
 */
 #define WIDTH (-1)
-#define ELLIPSES (" [ ... ] ")
-#define ELLIPSES_LEN (strlen(ELLIPSES))
+#define ELLIPSES (L" [ ... ] ")
+#define ELLIPSES_LEN (wcslen(ELLIPSES))
 
 void array_print(Collection c);
 
@@ -105,9 +106,9 @@ void array_print(Collection c) {
     size_t actual_len;
     size_t count = get_sizes(array, size.width, &node_sizes, &actual_len);
 
-    char **buf = malloc_with_oom(sizeof(char*) * (c->vert_len + DEFAULT_PTR_HEIGHT), "Buffer");
+    wchar_t **buf = malloc_with_oom(sizeof(wchar_t*) * (c->vert_len + DEFAULT_PTR_HEIGHT), "Buffer");
     for (int i = 0; i < c->vert_len + DEFAULT_PTR_HEIGHT; i++) {
-        buf[i] = malloc_with_oom((count + 1) * sizeof(char), "Buffer");
+        buf[i] = malloc_with_oom((count + 1) * sizeof(wchar_t), "Buffer");
         for (int j = 0; j < count; j++) buf[i][j] = ' ';
         buf[i][count] = '\0';
     }
@@ -138,7 +139,7 @@ void array_print(Collection c) {
 
     printf("Array: %s\n", c->name);
     for (int i = 0; i < c->vert_len; i++) {
-        printf("%s\n", buf[i]);
+        printf("%ls\n", buf[i]);
         free(buf[i]);
     }
     for (int i = c->vert_len; i < DEFAULT_PTR_HEIGHT + c->vert_len; i++) {
@@ -149,7 +150,7 @@ void array_print(Collection c) {
                 break;
             }
         }
-        if (found_non_space) printf("%s\n", buf[i]);
+        if (found_non_space) printf("%ls\n", buf[i]);
         free(buf[i]);
     }
 

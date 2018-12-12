@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <locale.h>
 
 #ifdef WINDOWS_COMPATIBILITY
     #include <windows.h>
@@ -19,14 +21,16 @@
     #endif
 #endif
 
-void write_str_center_of_buf(char **buf, size_t offset, size_t len,
-                             char *str, size_t str_len) {
+extern bool disable_unicode;
+
+void write_str_center_of_buf(wchar_t **buf, size_t offset, size_t len,
+                             wchar_t *str, size_t str_len) {
     write_str_to_buf(buf, offset, len, len / 2, str, str_len);
 }
 
-void write_str_to_buf(char **buf, size_t offset, size_t len, size_t index,
-                      char *str, size_t str_len) {
-    memcpy(buf[index] + offset, str, str_len);
+void write_str_to_buf(wchar_t **buf, size_t offset, size_t len, size_t index,
+                      wchar_t *str, size_t str_len) {
+    memcpy(buf[index] + offset, str, str_len * sizeof(wchar_t));
 }
 
 terminalSize get_terminal_size(void) {
@@ -82,17 +86,53 @@ void *malloc_with_oom(size_t size, char *obj_name) {
     return obj;
 }
 
-void write_str_repeat_char(char *buf, size_t offset, char c, int count) {
+void write_str_repeat_char(wchar_t *buf, size_t offset, wchar_t c, int count) {
     for (int i = 0; i < count; i++) buf[i + offset] = c;
 }
 
-void write_str_repeat_char_vert(char **buf, size_t offset, char c, int count, int index) {
+void write_str_repeat_char_vert(wchar_t **buf, size_t offset, wchar_t c, int count, int index) {
     for (int i = 0; i < count; i++) buf[i][index + offset] = c;
 }
 
-void write_str_repeat_char_grid(char **buf, size_t offset, char c, int vert_count,
+void write_str_repeat_char_grid(wchar_t **buf, size_t offset, wchar_t c, int vert_count,
                                 int horiz_count, int index) {
     for (int i = 0; i < horiz_count; i++) {
         write_str_repeat_char_vert(buf, offset, ' ', vert_count, i + index);
     }
+}
+
+// taken (and modified) from: https://rosettacode.org/wiki/Terminal_control/Unicode_output#C
+bool supports_unicode(void) {
+    if (disable_unicode) return false;
+
+    // cache value, no need to generate twice
+    static int res = -1;
+    if (res != -1) return res;
+
+    char *str = getenv("LANG");
+    puts(str);
+
+    // just looks for 'utf'
+    // not necessarily always true but I haven't seen a case of a false positive
+    // just false negatives so for the default value of false it won't ever cause issues
+    for (int i = 0; str[i] != '\0' && str[i + 1] != '\0' && str[i + 2] != '\0'; i++) {
+        if (tolower(str[i]) == 'u' && tolower(str[i + 1]) == 't' &&
+            tolower(str[i + 2]) == 'f') {
+            res = true;
+            printf("HERE\n");
+            #ifdef UNIX_COMPATIBILITY
+            // @Weird: for some reason we need to set the locale on unix systems
+            // (not all just high sierra and ubuntu so far) otherwise nothing is printed.
+            setlocale(LC_ALL, "");
+            #endif
+            return res;
+        }
+    }
+
+    res = DEFAULT_UNICODE_SUPPORT;
+    return res;
+}
+
+wchar_t select_char_unicode(wchar_t unicode, wchar_t backup) {
+    return supports_unicode() ? unicode : backup;
 }

@@ -10,7 +10,7 @@
 
 typedef struct _collection_t *Collection;
 
-typedef void(*fn_print_node)(void *n, char **buf, size_t size, size_t len, size_t offset);
+typedef void(*fn_print_node)(void *n, wchar_t **buf, size_t size, size_t len, size_t offset);
 typedef size_t(*fn_sizeof_node)(void *n);
 typedef void(*fn_print_list)(Collection collection);
 

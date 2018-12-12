@@ -4,19 +4,20 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <wchar.h>
 
 #include "../../include/collections/DLL.h"
 #include "../../include/helper.h"
 #include "../list_helper.h"
 
-#define AFTER_NODE (" <-> ")
-#define AFTER_NODE_LEN (strlen(AFTER_NODE))
-#define START_OF_LIST (NULL_NODE " <-> ")
-#define START_OF_LIST_LEN (strlen(START_OF_LIST))
+#define AFTER_NODE (L" <-> ")
+#define AFTER_NODE_LEN (wcslen(AFTER_NODE))
+#define START_OF_LIST (NULL_NODE L" <-> ")
+#define START_OF_LIST_LEN (wcslen(START_OF_LIST))
 #define END_OF_LIST (NULL_NODE)
-#define END_OF_LIST_LEN (strlen(END_OF_LIST))
-#define ELLIPSES (" ... <-> ")
-#define ELLIPSES_LEN (strlen(ELLIPSES))
+#define END_OF_LIST_LEN (wcslen(END_OF_LIST))
+#define ELLIPSES (L" ... <-> ")
+#define ELLIPSES_LEN (wcslen(ELLIPSES))
 
 void dll_print_list(Collection collection);
 

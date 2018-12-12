@@ -2,6 +2,7 @@
 #include "../include/llv.h"
 #include "../include/helper.h"
 #include "../include/collections/Array.h"
+#include <locale.h>
 
 #include <stdio.h>
 #include <stdlib.h>

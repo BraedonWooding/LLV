@@ -4,24 +4,25 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <wchar.h>
 
 #include "../../include/collections/LL.h"
 #include "../../include/helper.h"
 #include "../list_helper.h"
 
-#define AFTER_NODE (" -> ")
-#define AFTER_NODE_LEN (strlen(AFTER_NODE))
+#define AFTER_NODE (L" -> ")
+#define AFTER_NODE_LEN (wcslen(AFTER_NODE))
 
 // This used to be `NULL_NODE " <- "` but I've made it empty (but still a definition)
 // Since I felt that wasn't really what a linked list should look like as there is no
 // previous pointer on the first member.  However the code will still work if reverted
 // just incase it turns out we want this to look like it used to or some other way.
-#define START_OF_LIST ("")
-#define START_OF_LIST_LEN (strlen(START_OF_LIST))
-#define END_OF_LIST (" -> " NULL_NODE)
-#define END_OF_LIST_LEN (strlen(END_OF_LIST))
-#define ELLIPSES ("... -> ")
-#define ELLIPSES_LEN (strlen(ELLIPSES))
+#define START_OF_LIST (L"")
+#define START_OF_LIST_LEN (wcslen(START_OF_LIST))
+#define END_OF_LIST (L" -> " NULL_NODE)
+#define END_OF_LIST_LEN (wcslen(END_OF_LIST))
+#define ELLIPSES (L"... -> ")
+#define ELLIPSES_LEN (wcslen(ELLIPSES))
 
 void ll_print_list(Collection list);
 

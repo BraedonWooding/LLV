@@ -6,11 +6,19 @@
 
 #include "../include/types/collection_skeleton.h"
 #include "../include/types/shared_types.h"
+#include "../include/helper.h"
 
-#define NULL_NODE "X"
-#define NULL_NODE_LEN strlen(NULL_NODE)
+#define NULL_NODE L"X"
+#define NULL_NODE_LEN wcslen(NULL_NODE)
 #define SPACES_ON_SIDE (2)
 #define EXTRA_WIDTH (4)
+
+#define BOX_HORIZONTAL select_char_unicode(L'═', L'=')
+#define BOX_BOTTOM_RIGHT select_char_unicode(L'╝', L'=')
+#define BOX_BOTTOM_LEFT select_char_unicode(L'╚', L'=')
+#define BOX_VERT select_char_unicode(L'║', L'|')
+#define BOX_TOP_LEFT select_char_unicode(L'╔', L'=')
+#define BOX_TOP_RIGHT select_char_unicode(L'╗', L'=')
 
 // make sure your struct can downcast to this
 // don't malloc this!
@@ -23,11 +31,11 @@ typedef struct _fake_node_t {
 
 size_t list_sizeof(void *n);
 
-void list_print_node(void *n, char **buf, size_t size, size_t len, size_t offset);
+void list_print_node(void *n, wchar_t **buf, size_t size, size_t len, size_t offset);
 
 void list_print_general(Collection list, size_t len, size_t count, FakeNode forwards,
-                FakeNode backwards, int stop, size_t *node_sizes, char *after_node,
-                char *start_of_list, char *end_of_list, char *ellipses, FakeNode head,
+                FakeNode backwards, int stop, size_t *node_sizes, wchar_t *after_node,
+                wchar_t *start_of_list, wchar_t *end_of_list, wchar_t *ellipses, FakeNode head,
                 char *collection_name);
 
 #endif

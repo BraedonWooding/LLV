@@ -3,6 +3,7 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <wchar.h>
 #include <string.h>
 
 #include "list_helper.h"
@@ -20,6 +21,7 @@ void update_collection(Collection c);
 static size_t sleep_time = 0;
 static bool clear_on_update = true;
 static bool include_ptrs_on_single = false;
+bool disable_unicode = true;
 
 void attach_ptr(void *node, char *ptr) {
     VisualNode new = malloc_with_oom(sizeof(struct _ll_visual_t), "FakeNode");
@@ -100,10 +102,11 @@ void clear_screen(void) {
     system(CLEAR_SCREEN);
 }
 
-void setup(size_t time, bool clear, bool incl_ptrs_single) {
+void setup(size_t time, bool clear, bool incl_ptrs_single, bool dis_unicode) {
     sleep_time = time;
     clear_on_update = clear;
     include_ptrs_on_single = incl_ptrs_single;
+    disable_unicode = dis_unicode;
 }
 
 void update(int number, ...) {
@@ -121,17 +124,17 @@ void update(int number, ...) {
 }
 
 void print_out_single_box(void *node, fn_print_node printer, fn_sizeof_node sizeof_n, int height) {
-    char **buf = malloc_with_oom(sizeof(char *) * (height + DEFAULT_PTR_HEIGHT), "Single");
+    wchar_t **buf = malloc_with_oom(sizeof(wchar_t *) * (height + DEFAULT_PTR_HEIGHT), "Single");
     size_t count = sizeof_n(node);
     for (int i = 0; i < height + DEFAULT_PTR_HEIGHT; i++) {
-        buf[i] = malloc_with_oom(sizeof(char) * (count + 1), "Single");
+        buf[i] = malloc_with_oom(sizeof(wchar_t) * (count + 1), "Single");
         for (int j = 0; j < count; j++) buf[i][j] = ' ';
         buf[i][count] = '\0';
     }
     printer(node, buf, count, height, 0);
 
     for (int i = 0; i < height; i++) {
-        puts(buf[i]);
+        printf("%ls\n", buf[i]);
         free(buf[i]);
     }
     for (int i = height; i < DEFAULT_PTR_HEIGHT + height; i++) {
@@ -143,7 +146,7 @@ void print_out_single_box(void *node, fn_print_node printer, fn_sizeof_node size
                     break;
                 }
             }
-            if (found_non_space) printf("%s\n", buf[i]);
+            if (found_non_space) printf("%ls\n", buf[i]);
         }
         free(buf[i]);
     }

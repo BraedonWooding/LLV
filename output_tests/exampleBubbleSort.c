@@ -1,11 +1,9 @@
-#define DEFAULT_TERMINAL_WIDTH (80)
-
 #include "../include/collections/Array.h"
 #include "../include/llv.h"
 #include "../include/helper.h"
 
 int main(void) {
-    setup(1, false, false);
+    setup(1, false, false, true);
     Array array = array_new("to sort", 10);
     int *values = ((int[]){1000, 24, 12, 2, 9, 90, 110, 54, 1, 10});
     for (int i = 0; i < 10; i++) {

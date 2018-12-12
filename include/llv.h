@@ -57,7 +57,7 @@
 #define SET_PTR(node, value) if ((node) != NULL) (node)->ptr = value;
 #define UNSET_PTR(node) SET_PTR(node, NULL)
 
-void setup(size_t time, bool clear, bool incl_ptrs_single);
+void setup(size_t time, bool clear, bool incl_ptrs_single, bool disable_unicode);
 
 void update(int number, ...);
 void update_wait(void);
