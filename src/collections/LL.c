@@ -23,31 +23,31 @@
 #define ELLIPSES ("... -> ")
 #define ELLIPSES_LEN (strlen(ELLIPSES))
 
-void LL_print_list(Collection list);
+void ll_print_list(Collection list);
 
-LL LL_new(char *name) {
+LL ll_new(char *name) {
     LL ll = malloc_with_oom(sizeof(struct _singly_linked_list_t), "LL");
     ll->name = name;
     ll->head = ll->tail = NULL;
-    ll->list_printer = LL_print_list;
+    ll->list_printer = ll_print_list;
     ll->get_sizeof = list_sizeof;
     ll->node_printer = list_print_node;
     ll->vert_len = DEFAULT_PRINT_HEIGHT;
     return ll;
 }
 
-void LL_free(LL list) {
-    LL_clear_list(list);
+void ll_free(LL list) {
+    ll_clear_list(list);
     free(list);
 }
 
-void LL_free_node(LL_Node n) {
+void ll_free_node(LL_Node n) {
     // should help catch any dereferencing memory that can't be accessed.
     n->next = NULL;
     free(n);
 }
 
-LL_Node LL_new_node(Data data, TypeTag type) {
+LL_Node ll_new_node(Data data, TypeTag type) {
     LL_Node new_node = malloc_with_oom(sizeof(struct _LL_node_t), "LL LL_Node");
     new_node->next = NULL;
     new_node->data = data;
@@ -56,19 +56,19 @@ LL_Node LL_new_node(Data data, TypeTag type) {
     return new_node;
 }
 
-void LL_push(LL list, LL_Node n) {
-    LL_insert_before(list, n, list->head);
+void ll_push(LL list, LL_Node n) {
+    ll_insert_before(list, n, list->head);
 }
 
-LL_Node LL_pop(LL list) {
-    return LL_remove_node(list, list->head);
+LL_Node ll_pop(LL list) {
+    return ll_remove_node(list, list->head);
 }
 
-void LL_append(LL list, LL_Node n) {
-    LL_insert_after(list, n, list->tail);
+void ll_append(LL list, LL_Node n) {
+    ll_insert_after(list, n, list->tail);
 }
 
-void LL_clear_list(LL list) {
+void ll_clear_list(LL list) {
     for (LL_Node cur = list->head; cur != NULL;) {
         LL_Node temp = cur;
         cur = cur->next;
@@ -77,7 +77,7 @@ void LL_clear_list(LL list) {
     list->head = list->tail = NULL;
 }
 
-void LL_insert_after(LL list, LL_Node node, LL_Node at) {
+void ll_insert_after(LL list, LL_Node node, LL_Node at) {
     node->next = NULL;
     if (at == NULL) {
         list->tail = list->head = node;
@@ -90,7 +90,7 @@ void LL_insert_after(LL list, LL_Node node, LL_Node at) {
     }
 }
 
-void LL_insert_before(LL list, LL_Node node, LL_Node at) {
+void ll_insert_before(LL list, LL_Node node, LL_Node at) {
     node->next = NULL;
     if (at == NULL) {
         list->tail = list->head = node;
@@ -99,7 +99,7 @@ void LL_insert_before(LL list, LL_Node node, LL_Node at) {
         if (at == list->head) {
             list->head = node;
         } else {
-            LL_Node at_prev = LL_find_prev(list, at);
+            LL_Node at_prev = ll_find_prev(list, at);
             // at_prev -> at => at_prev -> node -> at
             at_prev->next = node;
         }
@@ -107,7 +107,7 @@ void LL_insert_before(LL list, LL_Node node, LL_Node at) {
     }
 }
 
-LL_Node LL_remove_node(LL list, LL_Node node) {
+LL_Node ll_remove_node(LL list, LL_Node node) {
     if (node == NULL) return NULL;
 
     LL_Node at_prev;
@@ -115,7 +115,7 @@ LL_Node LL_remove_node(LL list, LL_Node node) {
         list->head = node->next;
         at_prev = NULL;
     } else {
-        at_prev = LL_find_prev(list, node);
+        at_prev = ll_find_prev(list, node);
         if (at_prev == NULL) return NULL;
         at_prev->next = node->next;
     }
@@ -126,11 +126,11 @@ LL_Node LL_remove_node(LL list, LL_Node node) {
     return node;
 }
 
-bool LL_is_empty(LL list) {
+bool ll_is_empty(LL list) {
     return list->head == NULL;
 }
 
-LL_Node LL_find_prev(LL list, LL_Node at) {
+LL_Node ll_find_prev(LL list, LL_Node at) {
     if (at != NULL) {
         bool found;
         LL_Node cur;
@@ -141,7 +141,7 @@ LL_Node LL_find_prev(LL list, LL_Node at) {
     return NULL;
 }
 
-LL_Node LL_find_next(LL_Node n) {
+LL_Node ll_find_next(LL_Node n) {
     if (n == NULL) return NULL;
     return n->next;
 }
@@ -150,7 +150,7 @@ size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
                     LL_Node *out_forwards, LL_Node *out_backwards, int *out_stop) {
     size_t *node_sizes = malloc_with_oom(sizeof(size_t) * len, "node_sizes");
 
-    if (LL_is_empty(list)) {
+    if (ll_is_empty(list)) {
         *out_stop = 0;
         *out_count = 1;
         return node_sizes;
@@ -206,15 +206,15 @@ size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
     return node_sizes;
 }
 
-size_t LL_length(LL list) {
+size_t ll_length(LL list) {
     int count = 0;
     for (LL_Node n = list->head; n != NULL; n = n->next) count++;
     return count;
 }
 
-void LL_print_list(Collection list) {
+void ll_print_list(Collection list) {
     LL ll = (LL)list;
-    size_t len = LL_length(ll);
+    size_t len = ll_length(ll);
     size_t count;
     int stop;
     LL_Node forwards = ll->head;

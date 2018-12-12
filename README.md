@@ -11,10 +11,8 @@
 
 Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we support;
 
-- Singularly Linked Lists
-- Doubly Linked Lists
-- Vectors (dynamic arrays)
-- Arrays (static)
+- Singularly and Doubly Linked Lists
+- Dynamic and static arrays (vectors and arrays)
 - Queues and Stacks
 
 In the future we are planning to support
@@ -75,6 +73,7 @@ I would love for you to help maintain this, just a few things to consider;
 - Have `#ifndef`'s for most of the defines so you can modify them
   - For example the width of the array can be set to -1 to have them be next to each other i.e. `|a|b|c|` and no extra bars or set to 0 to have extra bars i.e. `|a||b||c|` or can be set to any positive number to have spaces i.e. `|a| |b| |c|` this would be nice to set outside of having to edit source.
 - Much more tests! (break a few things!!!)
+- Create gifs from the produced output
 
 ## Quick Style Guide
 
