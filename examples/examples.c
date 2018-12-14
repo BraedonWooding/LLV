@@ -1,7 +1,9 @@
 #include "../include/collections/LL.h"
+#include "../include/collections/DLL.h"
 #include "../include/llv.h"
 #include "../include/helper.h"
 #include "../include/collections/Array.h"
+#include <locale.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,8 +11,20 @@
 void usage_exit(void) {
     printf("Use like; ./program <X> where X is a number and from the following list\n"
            "0: Reverse standard\n"
-           "1: Bubble sort array\n");
+           "1: Bubble sort array\n"
+           "2: DLL add\n");
     exit(1);
+}
+
+void dll_add(void) {
+    DLL list = dll_new("list");
+    fmt_update("%l", list);
+    int *values = ((int[]){100, 24, 345, 59, 393, 292, 12});
+    for (int i = 0; i < 7; i++) {
+        dll_append(list, NEW_NODE(dll, values[i]));
+        fmt_update("%l", list);
+    }
+    fmt_update("%l", list);
 }
 
 void bubble_sort(void) {
@@ -105,6 +119,9 @@ int main(int argc, char *argv[]) {
         } break;
         case 1: {
             bubble_sort();
+        } break;
+        case 2: {
+            dll_add();
         } break;
         default: usage_exit();
     }

@@ -4,12 +4,14 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <wchar.h>
 
 #include "../../include/collections/Array.h"
 #include "../general_collection_helper.h"
 #include "../../include/helper.h"
 #include "../list_helper.h"
 #include "../../lib/obsidian.h"
+#include "../env_var.h"
 
 /*
     valid values for WIDTH
@@ -17,9 +19,9 @@
     - (x > 0) spaces i.e. for x == 1 `|a| |b| |c| |d|`
     - (x == -1) no spaces and no double bars i.e. `|a|b|c|d|`
 */
-#define WIDTH (-1)
-#define ELLIPSES (" [ ... ] ")
-#define ELLIPSES_LEN (strlen(ELLIPSES))
+#define WIDTH (1)
+#define ELLIPSES (L" [ ... ]")
+#define ELLIPSES_LEN (wcslen(ELLIPSES))
 
 void array_print(Collection c);
 
@@ -30,7 +32,6 @@ Array array_new(char *name, size_t size) {
     array->get_sizeof = list_sizeof;
     array->node_printer = list_print_node;
     array->list_printer = array_print;
-    array->vert_len = DEFAULT_PRINT_HEIGHT;
     array->name = name;
     return array;
 }
@@ -67,8 +68,13 @@ size_t array_length(Array array) {
     return array->len;
 }
 
-size_t get_sizes(Array array, size_t max, size_t **node_sizes, size_t *out_actual_len) {
-    size_t count = 0;
+size_t array_get_sizes(Array array, size_t max, size_t **node_sizes, size_t *out_actual_len) {
+    /*
+        @REFACTOR: this logic could be better we could just remove nodes
+                   if we need space for ellipses
+    */
+
+    size_t count = ELLIPSES_LEN;
     *out_actual_len = 0;
     *node_sizes = array->len == 0 ? NULL : malloc_with_oom(sizeof(size_t) * array->len, "Node Sizes");
 
@@ -93,7 +99,7 @@ size_t get_sizes(Array array, size_t max, size_t **node_sizes, size_t *out_actua
     // to discount the last one
     if (i > 0) count -= WIDTH;
 
-    if (i != array->len / 2) count += ELLIPSES_LEN;
+    if (i == array->len / 2) count -= ELLIPSES_LEN;
 
     return count;
 }
@@ -103,45 +109,45 @@ void array_print(Collection c) {
     terminalSize size = get_terminal_size();
     size_t *node_sizes;
     size_t actual_len;
-    size_t count = get_sizes(array, size.width, &node_sizes, &actual_len);
+    size_t count = array_get_sizes(array, size.width, &node_sizes, &actual_len);
 
-    char **buf = malloc_with_oom(sizeof(char*) * (c->vert_len + DEFAULT_PTR_HEIGHT), "Buffer");
-    for (int i = 0; i < c->vert_len + DEFAULT_PTR_HEIGHT; i++) {
-        buf[i] = malloc_with_oom((count + 1) * sizeof(char), "Buffer");
+    wchar_t **buf = malloc_with_oom(sizeof(wchar_t*) * (get_print_height() + get_ptr_height()), "Buffer");
+    for (int i = 0; i < get_print_height() + get_ptr_height(); i++) {
+        buf[i] = malloc_with_oom((count + 1) * sizeof(wchar_t), "Buffer");
         for (int j = 0; j < count; j++) buf[i][j] = ' ';
         buf[i][count] = '\0';
     }
 
-    size_t front_len = actual_len == array->len ? actual_len : (actual_len + 1) / 2;
+    size_t front_len = actual_len == array->len ? actual_len : (actual_len) / 2;
     size_t offset = 0;
     for (size_t i = 0; i < front_len; i++) {
         if (i != 0) {
-            write_str_repeat_char_grid(buf, offset, ' ', c->vert_len, WIDTH, 0);
+            write_str_repeat_char_grid(buf, offset, ' ', get_print_height(), WIDTH, 0);
             offset += WIDTH;
         }
-        list_print_node(array_at(array, i), buf, node_sizes[i], c->vert_len, offset);
+        list_print_node(array_at(array, i), buf, node_sizes[i], get_print_height(), offset);
         offset += node_sizes[i];
     }
 
     if (front_len != actual_len) {
         // do middle/ellipses
-        write_str_center_incr(buf, &offset, c->vert_len, ELLIPSES, ELLIPSES_LEN);
+        write_str_center_incr(buf, &offset, get_print_height(), ELLIPSES, ELLIPSES_LEN);
 
         // do back side
-        for (size_t i = array->len - 1; i >= array->len - actual_len; i--) {
-            write_str_repeat_char_grid(buf, offset, ' ', c->vert_len, WIDTH, 0);
+        for (size_t i = array->len - 1; i > array->len - 1 - actual_len / 2; i--) {
+            write_str_repeat_char_grid(buf, offset, ' ', get_print_height(), WIDTH, 0);
             offset += WIDTH;
-            list_print_node(array_at(array, i), buf, node_sizes[i], c->vert_len, offset);
+            list_print_node(array_at(array, i), buf, node_sizes[i], get_print_height(), offset);
             offset += node_sizes[i];
         }
     }
 
     printf("Array: %s\n", c->name);
-    for (int i = 0; i < c->vert_len; i++) {
-        printf("%s\n", buf[i]);
+    for (int i = 0; i < get_print_height(); i++) {
+        printf("%ls\n", buf[i]);
         free(buf[i]);
     }
-    for (int i = c->vert_len; i < DEFAULT_PTR_HEIGHT + c->vert_len; i++) {
+    for (int i = get_print_height(); i < get_ptr_height() + get_print_height(); i++) {
         bool found_non_space = false;
         for (int j = 0; j < count; j++) {
             if (buf[i][j] != ' ') {
@@ -149,7 +155,7 @@ void array_print(Collection c) {
                 break;
             }
         }
-        if (found_non_space) printf("%s\n", buf[i]);
+        if (found_non_space) printf("%ls\n", buf[i]);
         free(buf[i]);
     }
 

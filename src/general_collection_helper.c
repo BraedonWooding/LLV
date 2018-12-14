@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdio.h>
+#include <wchar.h>
 
 #include "../include/helper.h"
 
@@ -19,15 +20,15 @@ size_t sizeof_int(long long int n) {
 }
 
 size_t sizeof_flt(double flt) {
-    char buf[MAX_SIZE_FLT];
-    return snprintf(buf, MAX_SIZE_FLT, "%." MAX_PRECISION_FLT_PRINT_STR "g", flt);
+    // @TODO: make this better
+    wchar_t buf[MAX_SIZE_FLT];
+    return swprintf(buf, MAX_SIZE_FLT, L"%." MAX_PRECISION_FLT_PRINT_STR "g", flt);
 }
 
 size_t sizeof_data(Data data, TypeTag tag) {
     size_t node_size = 0;
     switch (tag) {
         case FLOAT: {
-            // todo
             node_size = sizeof_flt(data.flt_data);
         } break;
         case STRING: {
@@ -43,8 +44,8 @@ size_t sizeof_data(Data data, TypeTag tag) {
     return node_size;
 }
 
-void write_str_center_incr(char **buf, size_t *offset, size_t len,
-                           char *str, size_t str_len) {
+void write_str_center_incr(wchar_t **buf, size_t *offset, size_t len,
+                           wchar_t *str, size_t str_len) {
     write_str_center_of_buf(buf, *offset, len, str, str_len);
     *offset += str_len;
 }

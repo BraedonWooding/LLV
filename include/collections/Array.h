@@ -1,5 +1,5 @@
-#ifndef LLV_DOUBLY_LINKED_LIST_H
-#define LLV_DOUBLY_LINKED_LIST_H
+#ifndef LLV_ARRAY_H
+#define LLV_ARRAY_H
 
 #include <stdlib.h>
 #include <stdbool.h>

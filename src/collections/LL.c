@@ -4,24 +4,25 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <wchar.h>
 
 #include "../../include/collections/LL.h"
 #include "../../include/helper.h"
 #include "../list_helper.h"
 
-#define AFTER_NODE (" -> ")
-#define AFTER_NODE_LEN (strlen(AFTER_NODE))
+#define AFTER_NODE (select_str_unicode(L" ➢ ", L" -> "))
+#define AFTER_NODE_LEN (wcslen(AFTER_NODE))
 
 // This used to be `NULL_NODE " <- "` but I've made it empty (but still a definition)
 // Since I felt that wasn't really what a linked list should look like as there is no
 // previous pointer on the first member.  However the code will still work if reverted
 // just incase it turns out we want this to look like it used to or some other way.
-#define START_OF_LIST ("")
-#define START_OF_LIST_LEN (strlen(START_OF_LIST))
-#define END_OF_LIST (" -> " NULL_NODE)
-#define END_OF_LIST_LEN (strlen(END_OF_LIST))
-#define ELLIPSES ("... -> ")
-#define ELLIPSES_LEN (strlen(ELLIPSES))
+#define START_OF_LIST (L"")
+#define START_OF_LIST_LEN (wcslen(START_OF_LIST))
+#define END_OF_LIST (select_str_unicode(L" ➢ " NULL_NODE, L" -> " NULL_NODE))
+#define END_OF_LIST_LEN (wcslen(END_OF_LIST))
+#define ELLIPSES (select_str_unicode(L"⋯ ➢ ", L"... -> "))
+#define ELLIPSES_LEN (wcslen(ELLIPSES))
 
 void ll_print_list(Collection list);
 
@@ -32,7 +33,6 @@ LL ll_new(char *name) {
     ll->list_printer = ll_print_list;
     ll->get_sizeof = list_sizeof;
     ll->node_printer = list_print_node;
-    ll->vert_len = DEFAULT_PRINT_HEIGHT;
     return ll;
 }
 
@@ -146,13 +146,13 @@ LL_Node ll_find_next(LL_Node n) {
     return n->next;
 }
 
-size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
+size_t *ll_attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
                     LL_Node *out_forwards, LL_Node *out_backwards, int *out_stop) {
     size_t *node_sizes = malloc_with_oom(sizeof(size_t) * len, "node_sizes");
 
     if (ll_is_empty(list)) {
         *out_stop = 0;
-        *out_count = 1;
+        *out_count = NULL_NODE_LEN;
         return node_sizes;
     }
 
@@ -220,7 +220,7 @@ void ll_print_list(Collection list) {
     LL_Node forwards = ll->head;
     LL_Node backwards = ll->tail;
     terminalSize size = get_terminal_size();
-    size_t *node_sizes = attempt_fit(ll, len, size, &count, &forwards, &backwards, &stop);
+    size_t *node_sizes = ll_attempt_fit(ll, len, size, &count, &forwards, &backwards, &stop);
     list_print_general(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes,
                        AFTER_NODE, START_OF_LIST, END_OF_LIST, ELLIPSES, (FakeNode)ll->head, "Linked List");
 }
