@@ -100,8 +100,10 @@ void write_str_repeat_char_grid(wchar_t **buf, size_t offset, wchar_t c, int ver
 }
 
 bool contains_utf(char *str) {
-    // first check that we haven't disabled it
+    // first check that we haven't disabled it / forced it
+    // note: disabling takes precedence over force.
     if (unicode_disabled()) return false;
+    if (force_unicode()) return true;
 
     // just looks for 'utf'
     // not necessarily always true but I haven't seen a case of a false positive

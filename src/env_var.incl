@@ -9,3 +9,4 @@ new_env_var(include_ptrs_on_single, LLV_INCLUDE_PTRS_ON_SINGLE_BOX, bool, false,
 new_env_var(get_default_term_width, LLV_DEFAULT_TERM_WIDTH, int, 80, atoi);
 new_env_var(get_default_term_height, LLV_DEFAULT_TERM_HEIGHT, int, 80, atoi);
 new_env_var(testing_activated, LLV_TESTING, bool, false, atob);
+new_env_var(force_unicode, LLV_FORCE_UNICODE, bool, false, atob);

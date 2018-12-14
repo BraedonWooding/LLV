@@ -60,10 +60,11 @@ I would love for you to help maintain this, just a few things to consider;
 - Currently the core code base is quite trivally small (~1k lines not including examples)
   - Overall it is around 2.5k and will grow exponentially as new tests and collections come however if you remove tests and collections it is around 1k lines which is what I want it to be around, I do expect it to creep up to 2k but I don't want it to become too unmanageable.
 - Testing is pretty easy with all the stuff I've done :).
+  - Each output test is run under the following conditions; ascii/unicode normal boxes, ascii/unicode small boxes, ascii/unicode large boxes, small_term ascii/unicode.
   - To run tests you just do `make run_tests`
   - Testing collections is done via obsidian
   - Testing the actual program however is done through `output_tests` which contains two files for each test, a source file to run and expected output.
-    - To produce a test I suggest you first go through it manually making sure each 'screen' is valid then run `./my_program.out > my_test.expected` instead of trying to build expected output manually, this kinda invalidates TDD but I don't really think it can be done another way (if you have any ideas I would love to hear them).
+    - There is a test helper called `generate_matrix_output.sh` that will run all the given files under all test cases and produce the expected output for you
   - All tests are run on every commit via Travis CI this way we can help stop regression issues.
 - Style guide (below)
 - Be nice to everyone :)
