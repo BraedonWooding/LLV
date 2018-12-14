@@ -25,13 +25,22 @@ printf "\n== Testing Output ==\n"
 for test in output_tests/*.out; do
     printf "\nRunning $test\n"
     filename=${test%.*}
-    ./$test > $filename.result
-    diff $filename.result $filename.expected
-    if [ $? -ne 0 ]; then
-        echo "Testing Output Failed"
-        echo "ERROR: Test $test failed difference shown above"
-        exit 1
-    fi
+    for test_case in test_matrix/*; do
+        source $test_case
+        ./$test > $filename.result
+        test_case_name=$(basename $test_case)
+        if [ ! -f $filename.expected."${test_case_name%%.*}" ]; then
+            echo "Missing $filename.expected."${test_case_name%%.*}" exiting"
+            exit 2
+        fi
+        diff $filename.result $filename.expected."${test_case_name%%.*}"
+        if [ $? -ne 0 ]; then
+            echo "Testing Output Failed"
+            echo "ERROR: Test $test:$test_case failed difference shown above exiting"
+            exit 1
+        fi
+        printf "\n$test:$test_case successful\n"
+    done
     printf "\n$test successful\n"
 done
 
@@ -40,3 +49,4 @@ printf "\nCleaning up tmp files\n"
 
 rm collection_tests/*.out
 rm output_tests/*.out
+rm output_tests/*.result

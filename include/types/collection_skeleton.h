@@ -3,11 +3,6 @@
 
 #include <stdlib.h>
 
-/* This is used in implementation class to utilise a collection. */
-
-#define DEFAULT_PRINT_HEIGHT (3)
-#define DEFAULT_PTR_HEIGHT (2)
-
 typedef struct _collection_t *Collection;
 
 typedef void(*fn_print_node)(void *n, wchar_t **buf, size_t size, size_t len, size_t offset);

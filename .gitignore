@@ -57,9 +57,12 @@ Makefile
 CMakeCache.txt
 CMakeFiles/
 
+# Test stuff
+*.result
+
 # configuration files
 .vscode/
 
 # go away nintendo
-# (really just a mac thing)
+# (actually a mac thing nothing to do with nintendo)
 .DS_Store

@@ -76,7 +76,7 @@ void fmt_update(char *fmt, ...) {
                     // single node
                     FakeNode n = va_arg(list, FakeNode);
                     print_out_single_box(n, list_print_node, list_sizeof,
-                                         DEFAULT_PRINT_HEIGHT);
+                                         get_print_height());
                 } break;
                 case 'l': {
                     Collection c = va_arg(list, Collection);
@@ -113,9 +113,9 @@ void update(int number, ...) {
 }
 
 void print_out_single_box(void *node, fn_print_node printer, fn_sizeof_node sizeof_n, int height) {
-    wchar_t **buf = malloc_with_oom(sizeof(wchar_t *) * (height + DEFAULT_PTR_HEIGHT), "Single");
+    wchar_t **buf = malloc_with_oom(sizeof(wchar_t *) * (height + get_ptr_height()), "Single");
     size_t count = sizeof_n(node);
-    for (int i = 0; i < height + DEFAULT_PTR_HEIGHT; i++) {
+    for (int i = 0; i < height + get_ptr_height(); i++) {
         buf[i] = malloc_with_oom(sizeof(wchar_t) * (count + 1), "Single");
         for (int j = 0; j < count; j++) buf[i][j] = ' ';
         buf[i][count] = '\0';
@@ -126,7 +126,7 @@ void print_out_single_box(void *node, fn_print_node printer, fn_sizeof_node size
         printf("%ls\n", buf[i]);
         free(buf[i]);
     }
-    for (int i = height; i < DEFAULT_PTR_HEIGHT + height; i++) {
+    for (int i = height; i < get_ptr_height() + height; i++) {
         if (include_ptrs_on_single()) {
             bool found_non_space = false;
             for (int j = 0; j < count; j++) {
@@ -143,7 +143,7 @@ void print_out_single_box(void *node, fn_print_node printer, fn_sizeof_node size
 }
 
 void print_out_single_box_using_defaults(void *node, Collection c) {
-    print_out_single_box(node, c->node_printer, c->get_sizeof, DEFAULT_PRINT_HEIGHT);
+    print_out_single_box(node, c->node_printer, c->get_sizeof, get_print_height());
 }
 
 void update_collection(Collection c) {

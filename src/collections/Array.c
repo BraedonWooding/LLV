@@ -11,6 +11,7 @@
 #include "../../include/helper.h"
 #include "../list_helper.h"
 #include "../../lib/obsidian.h"
+#include "../env_var.h"
 
 /*
     valid values for WIDTH
@@ -18,7 +19,7 @@
     - (x > 0) spaces i.e. for x == 1 `|a| |b| |c| |d|`
     - (x == -1) no spaces and no double bars i.e. `|a|b|c|d|`
 */
-#define WIDTH (-1)
+#define WIDTH (1)
 #define ELLIPSES (L" [ ... ] ")
 #define ELLIPSES_LEN (wcslen(ELLIPSES))
 
@@ -68,7 +69,12 @@ size_t array_length(Array array) {
 }
 
 size_t get_sizes(Array array, size_t max, size_t **node_sizes, size_t *out_actual_len) {
-    size_t count = 0;
+    /*
+        @REFACTOR: this logic could be better we could just remove nodes
+                   if we need space for ellipses
+    */
+
+    size_t count = ELLIPSES_LEN;
     *out_actual_len = 0;
     *node_sizes = array->len == 0 ? NULL : malloc_with_oom(sizeof(size_t) * array->len, "Node Sizes");
 
@@ -93,7 +99,7 @@ size_t get_sizes(Array array, size_t max, size_t **node_sizes, size_t *out_actua
     // to discount the last one
     if (i > 0) count -= WIDTH;
 
-    if (i != array->len / 2) count += ELLIPSES_LEN;
+    if (i == array->len / 2) count -= ELLIPSES_LEN;
 
     return count;
 }
@@ -105,43 +111,43 @@ void array_print(Collection c) {
     size_t actual_len;
     size_t count = get_sizes(array, size.width, &node_sizes, &actual_len);
 
-    wchar_t **buf = malloc_with_oom(sizeof(wchar_t*) * (DEFAULT_PRINT_HEIGHT + DEFAULT_PTR_HEIGHT), "Buffer");
-    for (int i = 0; i < DEFAULT_PRINT_HEIGHT + DEFAULT_PTR_HEIGHT; i++) {
+    wchar_t **buf = malloc_with_oom(sizeof(wchar_t*) * (get_print_height() + get_ptr_height()), "Buffer");
+    for (int i = 0; i < get_print_height() + get_ptr_height(); i++) {
         buf[i] = malloc_with_oom((count + 1) * sizeof(wchar_t), "Buffer");
         for (int j = 0; j < count; j++) buf[i][j] = ' ';
         buf[i][count] = '\0';
     }
 
-    size_t front_len = actual_len == array->len ? actual_len : (actual_len + 1) / 2;
+    size_t front_len = actual_len == array->len ? actual_len : (actual_len) / 2;
     size_t offset = 0;
     for (size_t i = 0; i < front_len; i++) {
         if (i != 0) {
-            write_str_repeat_char_grid(buf, offset, ' ', DEFAULT_PRINT_HEIGHT, WIDTH, 0);
+            write_str_repeat_char_grid(buf, offset, ' ', get_print_height(), WIDTH, 0);
             offset += WIDTH;
         }
-        list_print_node(array_at(array, i), buf, node_sizes[i], DEFAULT_PRINT_HEIGHT, offset);
+        list_print_node(array_at(array, i), buf, node_sizes[i], get_print_height(), offset);
         offset += node_sizes[i];
     }
 
     if (front_len != actual_len) {
         // do middle/ellipses
-        write_str_center_incr(buf, &offset, DEFAULT_PRINT_HEIGHT, ELLIPSES, ELLIPSES_LEN);
+        write_str_center_incr(buf, &offset, get_print_height(), ELLIPSES, ELLIPSES_LEN);
 
         // do back side
-        for (size_t i = array->len - 1; i >= array->len - actual_len; i--) {
-            write_str_repeat_char_grid(buf, offset, ' ', DEFAULT_PRINT_HEIGHT, WIDTH, 0);
+        for (size_t i = array->len - 1; i > array->len - 1 - actual_len / 2; i--) {
+            write_str_repeat_char_grid(buf, offset, ' ', get_print_height(), WIDTH, 0);
             offset += WIDTH;
-            list_print_node(array_at(array, i), buf, node_sizes[i], DEFAULT_PRINT_HEIGHT, offset);
+            list_print_node(array_at(array, i), buf, node_sizes[i], get_print_height(), offset);
             offset += node_sizes[i];
         }
     }
 
     printf("Array: %s\n", c->name);
-    for (int i = 0; i < DEFAULT_PRINT_HEIGHT; i++) {
+    for (int i = 0; i < get_print_height(); i++) {
         printf("%ls\n", buf[i]);
         free(buf[i]);
     }
-    for (int i = DEFAULT_PRINT_HEIGHT; i < DEFAULT_PTR_HEIGHT + DEFAULT_PRINT_HEIGHT; i++) {
+    for (int i = get_print_height(); i < get_ptr_height() + get_print_height(); i++) {
         bool found_non_space = false;
         for (int j = 0; j < count; j++) {
             if (buf[i][j] != ' ') {
