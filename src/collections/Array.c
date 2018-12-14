@@ -68,7 +68,7 @@ size_t array_length(Array array) {
     return array->len;
 }
 
-size_t get_sizes(Array array, size_t max, size_t **node_sizes, size_t *out_actual_len) {
+size_t array_get_sizes(Array array, size_t max, size_t **node_sizes, size_t *out_actual_len) {
     /*
         @REFACTOR: this logic could be better we could just remove nodes
                    if we need space for ellipses
@@ -109,7 +109,7 @@ void array_print(Collection c) {
     terminalSize size = get_terminal_size();
     size_t *node_sizes;
     size_t actual_len;
-    size_t count = get_sizes(array, size.width, &node_sizes, &actual_len);
+    size_t count = array_get_sizes(array, size.width, &node_sizes, &actual_len);
 
     wchar_t **buf = malloc_with_oom(sizeof(wchar_t*) * (get_print_height() + get_ptr_height()), "Buffer");
     for (int i = 0; i < get_print_height() + get_ptr_height(); i++) {

@@ -146,7 +146,7 @@ LL_Node ll_find_next(LL_Node n) {
     return n->next;
 }
 
-size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
+size_t *ll_attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
                     LL_Node *out_forwards, LL_Node *out_backwards, int *out_stop) {
     size_t *node_sizes = malloc_with_oom(sizeof(size_t) * len, "node_sizes");
 
@@ -220,7 +220,7 @@ void ll_print_list(Collection list) {
     LL_Node forwards = ll->head;
     LL_Node backwards = ll->tail;
     terminalSize size = get_terminal_size();
-    size_t *node_sizes = attempt_fit(ll, len, size, &count, &forwards, &backwards, &stop);
+    size_t *node_sizes = ll_attempt_fit(ll, len, size, &count, &forwards, &backwards, &stop);
     list_print_general(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes,
                        AFTER_NODE, START_OF_LIST, END_OF_LIST, ELLIPSES, (FakeNode)ll->head, "Linked List");
 }

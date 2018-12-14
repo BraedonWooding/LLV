@@ -10,13 +10,13 @@
 #include "../../include/helper.h"
 #include "../list_helper.h"
 
-#define AFTER_NODE (L" <-> ")
+#define AFTER_NODE (select_str_unicode(L" ⟺ ", L" <-> "))
 #define AFTER_NODE_LEN (wcslen(AFTER_NODE))
-#define START_OF_LIST (NULL_NODE L" <-> ")
+#define START_OF_LIST (select_str_unicode(NULL_NODE L" ⟺ ", NULL_NODE L" <-> "))
 #define START_OF_LIST_LEN (wcslen(START_OF_LIST))
 #define END_OF_LIST (NULL_NODE)
 #define END_OF_LIST_LEN (wcslen(END_OF_LIST))
-#define ELLIPSES (L" ... <-> ")
+#define ELLIPSES (select_str_unicode(L" ⋯ ⟺ ", L" ... <-> "))
 #define ELLIPSES_LEN (wcslen(ELLIPSES))
 
 void dll_print_list(Collection collection);
@@ -132,7 +132,7 @@ size_t dll_length(DLL list) {
 
 // @TODO: this is very wrong I'm sure!
 // Should be based of LL but doesn't need to generate the entire list every time
-size_t *attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_count,
+size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_count,
                     DLL_Node *out_forwards, DLL_Node *out_backwards, int *out_stop) {
     size_t *node_sizes = malloc_with_oom(sizeof(size_t) * len, "node_sizes");
 
@@ -175,7 +175,7 @@ void dll_print_list(Collection list) {
     DLL_Node forwards = dll->head;
     DLL_Node backwards = dll->tail;
     terminalSize size = get_terminal_size();
-    size_t *node_sizes = attempt_fit(dll, len, size, &count, &forwards, &backwards, &stop);
+    size_t *node_sizes = dll_attempt_fit(dll, len, size, &count, &forwards, &backwards, &stop);
     list_print_general(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes, AFTER_NODE,
                START_OF_LIST, END_OF_LIST, ELLIPSES, (FakeNode)dll->head, "Doubly Linked List");
 }
