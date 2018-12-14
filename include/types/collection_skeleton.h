@@ -5,7 +5,7 @@
 
 /* This is used in implementation class to utilise a collection. */
 
-#define DEFAULT_PRINT_HEIGHT (5)
+#define DEFAULT_PRINT_HEIGHT (3)
 #define DEFAULT_PTR_HEIGHT (2)
 
 typedef struct _collection_t *Collection;
@@ -28,7 +28,6 @@ typedef void(*fn_print_list)(Collection collection);
     fn_print_node node_printer;     \
     fn_sizeof_node get_sizeof;      \
     fn_print_list list_printer;     \
-    size_t vert_len;                \
 
 // Currently we expect everyone to fit in the COLLECTION_NODE struct properly
 // Really we should do the same as above!  and have fake node defined as just that

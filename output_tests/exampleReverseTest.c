@@ -3,7 +3,6 @@
 #include "../include/helper.h"
 
 int main(void) {
-    setup(1, false, false, true);
     LL to_reverse = ll_new("to_reverse");
     for (int i = 0; i < 100; i += 1) {
         ll_insert_after(to_reverse, NEW_NODE(ll, i), to_reverse->tail);

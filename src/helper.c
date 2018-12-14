@@ -21,6 +21,8 @@
     #endif
 #endif
 
+#include "env_var.h"
+
 extern bool disable_unicode;
 
 void write_str_center_of_buf(wchar_t **buf, size_t offset, size_t len,
@@ -34,7 +36,6 @@ void write_str_to_buf(wchar_t **buf, size_t offset, size_t len, size_t index,
 }
 
 terminalSize get_terminal_size(void) {
-#ifndef TESTING
     int cols, rows;
     #ifdef WINDOWS_COMPATIBILITY
         CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -49,15 +50,12 @@ terminalSize get_terminal_size(void) {
     #endif
 
     // this effects debuggers/tests
-    if (cols == 0) {
-        cols = DEFAULT_TERMINAL_WIDTH;
-        rows = DEFAULT_TERMINAL_HEIGHT;
+    if (cols == 0 || testing_activated()) {
+        cols = get_default_term_width();
+        rows = get_default_term_height();
     }
 
     return (terminalSize){.width = cols, .height = rows};
-#else
-    return (terminalSize){.width = DEFAULT_TERMINAL_WIDTH, .height = DEFAULT_TERMINAL_HEIGHT};
-#endif
 }
 
 void sleep_ms(size_t ms) {
@@ -101,16 +99,9 @@ void write_str_repeat_char_grid(wchar_t **buf, size_t offset, wchar_t c, int ver
     }
 }
 
-// taken (and modified) from: https://rosettacode.org/wiki/Terminal_control/Unicode_output#C
-bool supports_unicode(void) {
-    if (disable_unicode) return false;
-
-    // cache value, no need to generate twice
-    static int res = -1;
-    if (res != -1) return res;
-
-    char *str = getenv("LANG");
-    puts(str);
+bool contains_utf(char *str) {
+    // first check that we haven't disabled it
+    if (unicode_disabled()) return false;
 
     // just looks for 'utf'
     // not necessarily always true but I haven't seen a case of a false positive
@@ -118,21 +109,42 @@ bool supports_unicode(void) {
     for (int i = 0; str[i] != '\0' && str[i + 1] != '\0' && str[i + 2] != '\0'; i++) {
         if (tolower(str[i]) == 'u' && tolower(str[i + 1]) == 't' &&
             tolower(str[i + 2]) == 'f') {
-            res = true;
-            printf("HERE\n");
             #ifdef UNIX_COMPATIBILITY
-            // @Weird: for some reason we need to set the locale on unix systems
+            // @OS BUG: for some reason we need to set the locale on unix systems
             // (not all just high sierra and ubuntu so far) otherwise nothing is printed.
+            // on mac the reason is that high sierra set LANG wrong (default is "" which is
+            // nonsensical)
             setlocale(LC_ALL, "");
             #endif
-            return res;
+            return true;
         }
     }
-
-    res = DEFAULT_UNICODE_SUPPORT;
-    return res;
+    return false;
 }
 
 wchar_t select_char_unicode(wchar_t unicode, wchar_t backup) {
     return supports_unicode() ? unicode : backup;
+}
+
+wchar_t *select_str_unicode(wchar_t *unicode, wchar_t *backup) {
+    return supports_unicode() ? unicode : backup;
+}
+
+bool str_icase_eql(char *a, char *b) {
+    int i;
+    for (i = 0; a[i] != '\0' && b[i] != '\0'; i++) {
+        if (tolower(a[i]) != tolower(b[i])) return false;
+    }
+    // if they are different lengths
+    if (a[i] != '\0' || b[i] != '\0') return false;
+    return true;
+}
+
+bool atob(char *str) {
+    if (str_icase_eql(str, "true") || str_icase_eql(str, "false")) {
+        return true;
+    }
+    int res = atoi(str);
+    if (res == 1 || res == 0) return res;
+    return false;
 }

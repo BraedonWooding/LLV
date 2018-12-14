@@ -111,10 +111,10 @@ void print_out_nodes(Collection list, FakeNode begin, FakeNode end, wchar_t **bu
     int i = starting_size;
     FakeNode n;
     for (n = begin; n != end; n = n->next, i++) {
-        list_print_node(n, buf, node_sizes[i], list->vert_len, *offset);
+        list_print_node(n, buf, node_sizes[i], DEFAULT_PRINT_HEIGHT, *offset);
         *offset += node_sizes[i];
         if (n->next != end) {
-            write_str_center_incr(buf, offset, list->vert_len, after_node, wcslen(after_node));
+            write_str_center_incr(buf, offset, DEFAULT_PRINT_HEIGHT, after_node, wcslen(after_node));
         }
     }
 }
@@ -128,8 +128,8 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
 
     // now we have sizes we can allocate buffer and prepare to print list
     // probably going to be a few characters bigger than we need but no harm no foul
-    wchar_t **buf = malloc_with_oom(sizeof(wchar_t*) * (list->vert_len + DEFAULT_PTR_HEIGHT), "Buffer");
-    for (int i = 0; i < list->vert_len + DEFAULT_PTR_HEIGHT; i++) {
+    wchar_t **buf = malloc_with_oom(sizeof(wchar_t*) * (DEFAULT_PRINT_HEIGHT + DEFAULT_PTR_HEIGHT), "Buffer");
+    for (int i = 0; i < DEFAULT_PRINT_HEIGHT + DEFAULT_PTR_HEIGHT; i++) {
         buf[i] = malloc_with_oom((count + 1) * sizeof(wchar_t), "Buffer");
         for (int j = 0; j < count; j++) buf[i][j] = ' ';
         buf[i][count] = '\0';
@@ -141,14 +141,14 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
     bool everything_fits = forward_stop == NULL;
 
     if (head == NULL) {
-        write_str_center_incr(buf, &offset, list->vert_len, NULL_NODE, wcslen(NULL_NODE));
+        write_str_center_incr(buf, &offset, DEFAULT_PRINT_HEIGHT, NULL_NODE, wcslen(NULL_NODE));
     } else {
-        write_str_center_incr(buf, &offset, list->vert_len, start_of_list, wcslen(start_of_list));
+        write_str_center_incr(buf, &offset, DEFAULT_PRINT_HEIGHT, start_of_list, wcslen(start_of_list));
         print_out_nodes(list, head, forward_stop, buf, node_sizes, &offset, after_node, 0);
 
         if (!everything_fits) {
-            write_str_center_incr(buf, &offset, list->vert_len, after_node, wcslen(after_node));
-            write_str_center_incr(buf, &offset, list->vert_len, ellipses, wcslen(ellipses));
+            write_str_center_incr(buf, &offset, DEFAULT_PRINT_HEIGHT, after_node, wcslen(after_node));
+            write_str_center_incr(buf, &offset, DEFAULT_PRINT_HEIGHT, ellipses, wcslen(ellipses));
             size_t backwards_start = len;
             backwards = backwards->next;
             for (FakeNode n = backwards; n != NULL; n = n->next) backwards_start--;
@@ -156,15 +156,15 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
         }
 
         // print end character
-        write_str_center_incr(buf, &offset, list->vert_len, end_of_list, wcslen(end_of_list));
+        write_str_center_incr(buf, &offset, DEFAULT_PRINT_HEIGHT, end_of_list, wcslen(end_of_list));
     }
 
     printf("%s: %s\n", collection_name, list->name);
-    for (int i = 0; i < list->vert_len; i++) {
+    for (int i = 0; i < DEFAULT_PRINT_HEIGHT; i++) {
         printf("%ls\n", buf[i]);
         free(buf[i]);
     }
-    for (int i = list->vert_len; i < DEFAULT_PTR_HEIGHT + list->vert_len; i++) {
+    for (int i = DEFAULT_PRINT_HEIGHT; i < DEFAULT_PTR_HEIGHT + DEFAULT_PRINT_HEIGHT; i++) {
         bool found_non_space = false;
         for (int j = 0; j < count; j++) {
             if (buf[i][j] != ' ') {

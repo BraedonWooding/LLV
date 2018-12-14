@@ -20,6 +20,7 @@ size_t sizeof_int(long long int n) {
 }
 
 size_t sizeof_flt(double flt) {
+    // @TODO: make this better
     wchar_t buf[MAX_SIZE_FLT];
     return swprintf(buf, MAX_SIZE_FLT, L"%." MAX_PRECISION_FLT_PRINT_STR "g", flt);
 }
@@ -28,7 +29,6 @@ size_t sizeof_data(Data data, TypeTag tag) {
     size_t node_size = 0;
     switch (tag) {
         case FLOAT: {
-            // todo
             node_size = sizeof_flt(data.flt_data);
         } break;
         case STRING: {

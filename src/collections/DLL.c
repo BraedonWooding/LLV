@@ -28,7 +28,6 @@ DLL dll_new(char *name) {
     dll->list_printer = dll_print_list;
     dll->get_sizeof = list_sizeof;
     dll->node_printer = list_print_node;
-    dll->vert_len = DEFAULT_PRINT_HEIGHT;
     return dll;
 }
 

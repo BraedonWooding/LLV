@@ -16,7 +16,6 @@ Vector vec_new(char *name) {
     vec->grow_function = poly_grow_function;
     vec->factor = 2.0;
     vec->name = name;
-    vec->vert_len = DEFAULT_PRINT_HEIGHT;
     return vec;
 }
 

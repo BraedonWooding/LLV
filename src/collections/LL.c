@@ -10,7 +10,7 @@
 #include "../../include/helper.h"
 #include "../list_helper.h"
 
-#define AFTER_NODE (L" -> ")
+#define AFTER_NODE (select_str_unicode(L" ➢ ", L" -> "))
 #define AFTER_NODE_LEN (wcslen(AFTER_NODE))
 
 // This used to be `NULL_NODE " <- "` but I've made it empty (but still a definition)
@@ -19,9 +19,9 @@
 // just incase it turns out we want this to look like it used to or some other way.
 #define START_OF_LIST (L"")
 #define START_OF_LIST_LEN (wcslen(START_OF_LIST))
-#define END_OF_LIST (L" -> " NULL_NODE)
+#define END_OF_LIST (select_str_unicode(L" ➢ " NULL_NODE, L" -> " NULL_NODE))
 #define END_OF_LIST_LEN (wcslen(END_OF_LIST))
-#define ELLIPSES (L"... -> ")
+#define ELLIPSES (select_str_unicode(L"… ➢ ", L"... -> "))
 #define ELLIPSES_LEN (wcslen(ELLIPSES))
 
 void ll_print_list(Collection list);
@@ -33,7 +33,6 @@ LL ll_new(char *name) {
     ll->list_printer = ll_print_list;
     ll->get_sizeof = list_sizeof;
     ll->node_printer = list_print_node;
-    ll->vert_len = DEFAULT_PRINT_HEIGHT;
     return ll;
 }
 
@@ -153,7 +152,7 @@ size_t *attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
 
     if (ll_is_empty(list)) {
         *out_stop = 0;
-        *out_count = 1;
+        *out_count = NULL_NODE_LEN;
         return node_sizes;
     }
 
