@@ -20,7 +20,7 @@
     - (x == -1) no spaces and no double bars i.e. `|a|b|c|d|`
 */
 #define WIDTH (1)
-#define ELLIPSES (L" [ ... ] ")
+#define ELLIPSES (L" [ ... ]")
 #define ELLIPSES_LEN (wcslen(ELLIPSES))
 
 void array_print(Collection c);
