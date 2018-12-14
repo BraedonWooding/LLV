@@ -25,6 +25,11 @@ Also note that the below image has the tick time quite low this is just to make 
 
 ![Demonstration](https://user-images.githubusercontent.com/22880786/46268789-0084f780-c580-11e8-9278-ca123f8ba489.gif)
 
+## Other features
+
+- We support unicode and 'ascii' (all tests run on both) unicode just makes the boxes look nicer and the arrows are less ascii like.
+- We support changing variables without requiring re-compiles (especially important since the core library is meant to not have to be ever recompiled) these include; disabling unicode, changing default dimensions, changing step time...  Look at [Changing Variables](#changing_variables) for more.
+
 ## How to install
 
 - I suggest you just download the library from the releases section in github
@@ -59,7 +64,6 @@ I would love for you to help maintain this, just a few things to consider;
   - Testing collections is done via obsidian
   - Testing the actual program however is done through `output_tests` which contains two files for each test, a source file to run and expected output.
     - To produce a test I suggest you first go through it manually making sure each 'screen' is valid then run `./my_program.out > my_test.expected` instead of trying to build expected output manually, this kinda invalidates TDD but I don't really think it can be done another way (if you have any ideas I would love to hear them).
-    - DO NOTE: that when making a test design it around the screen size being 80 in it's width you can define a different default size if you wish `#define DEFAULT_TERMINAL_WIDTH (80)` this width currently only effects tests, GDB/LLDB and other cases where we can't get the terminal width normally.
   - All tests are run on every commit via Travis CI this way we can help stop regression issues.
 - Style guide (below)
 - Be nice to everyone :)
@@ -70,9 +74,7 @@ I would love for you to help maintain this, just a few things to consider;
 ## Roadmap
 
 - Support the collections stated at the top of this readme
-- Have `#ifndef`'s for most of the defines so you can modify them
-  - For example the width of the array can be set to -1 to have them be next to each other i.e. `|a|b|c|` and no extra bars or set to 0 to have extra bars i.e. `|a||b||c|` or can be set to any positive number to have spaces i.e. `|a| |b| |c|` this would be nice to set outside of having to edit source.
-- Much more tests! (break a few things!!!)
+- Much more tests! (hopefully breaking a few things!!!)
 - Create gifs from the produced output
 
 ## Quick Style Guide

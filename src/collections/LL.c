@@ -21,7 +21,7 @@
 #define START_OF_LIST_LEN (wcslen(START_OF_LIST))
 #define END_OF_LIST (select_str_unicode(L" ➢ " NULL_NODE, L" -> " NULL_NODE))
 #define END_OF_LIST_LEN (wcslen(END_OF_LIST))
-#define ELLIPSES (select_str_unicode(L"… ➢ ", L"... -> "))
+#define ELLIPSES (select_str_unicode(L"⋯ ➢ ", L"... -> "))
 #define ELLIPSES_LEN (wcslen(ELLIPSES))
 
 void ll_print_list(Collection list);
