@@ -99,25 +99,27 @@ void write_str_repeat_char_grid(wchar_t **buf, size_t offset, wchar_t c, int ver
     }
 }
 
-bool contains_utf(char *str) {
-    // first check that we haven't disabled it / forced it
-    // note: disabling takes precedence over force.
+bool supports_unicode() {
     if (unicode_disabled()) return false;
-    if (force_unicode()) return true;
+    #ifdef UNIX_COMPATIBILITY
+    // @OS BUG: for some reason we need to set the locale on unix systems
+    // (not all just high sierra and ubuntu so far) otherwise nothing is printed.
+    // on mac the reason is that high sierra set LANG wrong (default is "" which is
+    // nonsensical)
+    setlocale(LC_ALL, "");
+    #endif
 
+    if (force_unicode()) return true;
+    return unicode_in_lang();
+}
+
+bool contains_utf(char *str) {
     // just looks for 'utf'
     // not necessarily always true but I haven't seen a case of a false positive
     // just false negatives so for the default value of false it won't ever cause issues
     for (int i = 0; str[i] != '\0' && str[i + 1] != '\0' && str[i + 2] != '\0'; i++) {
         if (tolower(str[i]) == 'u' && tolower(str[i + 1]) == 't' &&
             tolower(str[i + 2]) == 'f') {
-            #ifdef UNIX_COMPATIBILITY
-            // @OS BUG: for some reason we need to set the locale on unix systems
-            // (not all just high sierra and ubuntu so far) otherwise nothing is printed.
-            // on mac the reason is that high sierra set LANG wrong (default is "" which is
-            // nonsensical)
-            setlocale(LC_ALL, "");
-            #endif
             return true;
         }
     }

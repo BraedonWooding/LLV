@@ -19,6 +19,12 @@ static VisualNode visual_ptrs = NULL;
 
 void update_collection(Collection c);
 
+void print_border(void) {
+    terminalSize size = get_terminal_size();
+    for (int i = 0; i < size.width; i++) printf("%lc", BOX_HORIZONTAL);
+    printf("\n");
+}
+
 void attach_ptr(void *node, char *ptr) {
     VisualNode new = malloc_with_oom(sizeof(struct _ll_visual_t), "FakeNode");
     new->node = node;
@@ -66,6 +72,7 @@ void update_ptrs(bool remove) {
 
 void fmt_update(char *fmt, ...) {
     if (clear_on_update()) clear_screen();
+    print_border();
     va_list list;
     va_start(list, fmt);
     update_ptrs(false);
@@ -91,6 +98,7 @@ void fmt_update(char *fmt, ...) {
     }
     update_ptrs(true);
     va_end(list);
+    print_border();
     update_wait();
 }
 
@@ -100,6 +108,7 @@ void clear_screen(void) {
 
 void update(int number, ...) {
     if (clear_on_update()) clear_screen();
+    print_border();
     va_list list;
     va_start(list, number);
     update_ptrs(false);
@@ -109,6 +118,7 @@ void update(int number, ...) {
     }
     va_end(list);
     update_ptrs(true);
+    print_border();
     update_wait();
 }
 

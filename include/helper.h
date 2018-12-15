@@ -55,5 +55,6 @@ wchar_t *select_str_unicode(wchar_t *unicode, wchar_t *backup);
 
 bool str_icase_eql(char *a, char *b);
 bool atob(char *str);
+bool supports_unicode(void);
 
 #endif
