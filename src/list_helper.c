@@ -177,7 +177,7 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
         free(buf[i]);
     }
 
-    obs_assert(offset, ==, count);
+    ///obs_assert(offset, ==, count);
     printf("\n");
 
     free(buf);

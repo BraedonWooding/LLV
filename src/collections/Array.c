@@ -69,37 +69,61 @@ size_t array_length(Array array) {
 }
 
 size_t array_get_sizes(Array array, size_t max, size_t **node_sizes, size_t *out_actual_len) {
-    /*
-        @REFACTOR: this logic could be better we could just remove nodes
-                   if we need space for ellipses
-    */
-
-    size_t count = ELLIPSES_LEN;
+    size_t count = 0;
     *out_actual_len = 0;
     *node_sizes = array->len == 0 ? NULL : malloc_with_oom(sizeof(size_t) * array->len, "Node Sizes");
 
     // same idea as DLL, go both ways
     size_t i;
+    int mod = -1;
+
+    // this will handle the case where we have extra width at the end
+    if (array->len > 0) count = -WIDTH;
+
     for (i = 0; i < (array->len + 1) / 2; i++) {
         size_t forward_size = array->get_sizeof(array_at(array, i));
-        if (forward_size + count + WIDTH > max) break;
         (*node_sizes)[i] = forward_size;
+
+        if (forward_size + count + WIDTH > max) {
+            count += ELLIPSES_LEN;
+            if (count > max) {
+                mod = 1;
+            }
+            break;
+        }
         count += forward_size + WIDTH;
         (*out_actual_len)++;
 
         if (i == array->len / 2) break;
 
         size_t backward_size = array->get_sizeof(array_at(array, array->len - 1 - i));
-        if (backward_size + count + WIDTH > max) break;
         (*node_sizes)[array->len - 1 - i] = backward_size;
+        if (backward_size + count + WIDTH > max) {
+            count += ELLIPSES_LEN;
+            if (count > max) mod = 0;
+            break;
+        }
         count += backward_size + WIDTH;
         (*out_actual_len)++;
     }
 
-    // to discount the last one
-    if (i > 0) count -= WIDTH;
-
-    if (i == array->len / 2) count -= ELLIPSES_LEN;
+    // this presumes that we don't have one node bigger than the screen.
+    // obviously this could be incorrect.
+    if (mod != -1) {
+        // we have to handle the size being over the limit
+        while (count > max) {
+            if (mod % 2 == 0) {
+                // we want to undo front
+                count -= (*node_sizes)[i] + WIDTH;
+            } else {
+                // undo back
+                i--;
+                count -= (*node_sizes)[array->len - 1 - i] + WIDTH;
+            }
+            (*out_actual_len)--;
+            mod++;
+        }
+    }
 
     return count;
 }
@@ -110,6 +134,7 @@ void array_print(Collection c) {
     size_t *node_sizes;
     size_t actual_len;
     size_t count = array_get_sizes(array, size.width, &node_sizes, &actual_len);
+    obs_assert(actual_len, <=, array->len);
 
     wchar_t **buf = malloc_with_oom(sizeof(wchar_t*) * (get_print_height() + get_ptr_height()), "Buffer");
     for (int i = 0; i < get_print_height() + get_ptr_height(); i++) {
@@ -118,7 +143,7 @@ void array_print(Collection c) {
         buf[i][count] = '\0';
     }
 
-    size_t front_len = actual_len == array->len ? actual_len : (actual_len) / 2;
+    size_t front_len = actual_len == array->len ? actual_len : (actual_len + 1) / 2;
     size_t offset = 0;
     for (size_t i = 0; i < front_len; i++) {
         if (i != 0) {
@@ -134,7 +159,7 @@ void array_print(Collection c) {
         write_str_center_incr(buf, &offset, get_print_height(), ELLIPSES, ELLIPSES_LEN);
 
         // do back side
-        for (size_t i = array->len - 1; i > array->len - 1 - actual_len / 2; i--) {
+        for (size_t i = array->len - actual_len / 2; i < array->len; i++) {
             write_str_repeat_char_grid(buf, offset, ' ', get_print_height(), WIDTH, 0);
             offset += WIDTH;
             list_print_node(array_at(array, i), buf, node_sizes[i], get_print_height(), offset);

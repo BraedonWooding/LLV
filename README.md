@@ -66,6 +66,7 @@ I would love for you to help maintain this, just a few things to consider;
   - Testing the actual program however is done through `output_tests` which contains two files for each test, a source file to run and expected output.
     - There is a test helper called `generate_matrix_output.sh` that will run all the given files under all test cases and produce the expected output for you
   - All tests are run on every commit via Travis CI this way we can help stop regression issues.
+  - Note: DLL unicode expected output tests may look a little funny due to the fact that ⟺ is larger in coding fonts than terminal ones.
 - Style guide (below)
 - Be nice to everyone :)
 - Label your PRs / Issues with `[<label>]` i.e. `[Bug]` (for issue) or `[Small]` (for PR)
@@ -76,7 +77,8 @@ I would love for you to help maintain this, just a few things to consider;
 
 - Support the collections stated at the top of this readme
 - Much more tests! (hopefully breaking a few things!!!)
-- Create gifs from the produced output
+- Memory tests to make sure we are freeing stuff properly
+  - This is lower priority though
 
 ## Quick Style Guide
 
