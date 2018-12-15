@@ -337,7 +337,42 @@ int main(void) {
     })
 
     OBS_TEST_GROUP("LL_find_prev/next", {
+        OBS_TEST("Previous/Next of first element", {
+            LL list = ll_new("1");
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            add_items_to_LL(list, 10, items);
+            test_ll(list, items);
+            obs_test(ll_find_prev(list, list->head), ==, NULL);
+            obs_test(ll_find_next(list->head)->data.int_data, ==, (long long)2);
+            ll_free(list);
+        })
 
+        OBS_TEST("Previous/Next of last element", {
+            LL list = ll_new("2");
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            add_items_to_LL(list, 10, items);
+            test_ll(list, items);
+            obs_test(ll_find_prev(list, list->tail)->data.int_data, ==, (long long)9);
+            obs_test(ll_find_next(list->tail), ==, NULL);
+            ll_free(list);
+        })
+
+        OBS_TEST("Previous/Next of null element", {
+            LL list = ll_new("3");
+            obs_test(ll_find_prev(list, NULL), ==, NULL);
+            obs_test(ll_find_next(NULL), ==, NULL);
+            ll_free(list);
+        })
+
+        OBS_TEST("Previous/Next of middle elements", {
+            LL list = ll_new("4");
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            add_items_to_LL(list, 10, items);
+            test_ll(list, items);
+            obs_test(ll_find_prev(list, list->head->next->next), ==, list->head->next);
+            obs_test(ll_find_next(list->head->next->next->next), ==, list->head->next->next->next->next);
+            ll_free(list);
+        })
     })
 
     OBS_TEST_GROUP("ll_length", {
@@ -365,11 +400,61 @@ int main(void) {
     })
 
     OBS_TEST_GROUP("LL_push/pop", {
-        
+        OBS_TEST("Push onto empty list, then pop it", {
+            LL list = ll_new("1");
+            ll_push(list, NEW_NODE(ll, 4));
+            obs_test(ll_length(list), ==, (size_t)1);
+            obs_test(list->head->data.int_data, ==, (long long)4);
+            LL_Node n = ll_pop(list);
+            obs_test(n->data.int_data, ==, (long long)4);
+            ll_free_node(n);
+            obs_test(ll_length(list), ==, (size_t)0);
+            ll_free(list);
+        })
+
+        OBS_TEST("Pop empty list", {
+            LL list = ll_new("2");
+            obs_test(ll_pop(list), ==, NULL);
+            ll_free(list);
+        })
+
+        OBS_TEST("Push multiple then pop them", {
+            long long *elements = ((long long[]){1, 2, 5, 9, 2, 4, 5});
+            long long *result = ((long long[]){5, 4, 2, 9, 5, 2, 1});
+            LL list = ll_new("3");
+            for (int i = 0; i < 7; i++) {
+                ll_push(list, NEW_NODE(ll, elements[i]));
+            }
+            test_ll(list, result);
+            for (int i = 0; i < 7; i++) {
+                LL_Node n = ll_pop(list);
+                obs_test(n->data.int_data, ==, result[i]);
+                ll_free_node(n);
+            }
+            obs_test(ll_length(list), ==, (size_t)0);
+            ll_free(list);
+        })
     })
 
     OBS_TEST_GROUP("LL_append", {
+        OBS_TEST("Append to empty list", {
+            LL list = ll_new("1");
+            ll_append(list, NEW_NODE(ll, 10));
+            obs_test(ll_length(list), ==, (size_t)1);
+            obs_test(list->head->data.int_data, ==, (long long)10);
+            ll_free(list);
+        })
 
+        OBS_TEST("Append to non-empty list", {
+            LL list = ll_new("1");
+            long long *elements = ((long long[]){1, 2, 5, 9, 2, 4, 5});
+            add_items_to_LL(list, 7, elements);
+            test_ll(list, elements);
+            ll_append(list, NEW_NODE(ll, 10));
+            obs_test(ll_length(list), ==, (size_t)8);
+            obs_test(list->tail->data.int_data, ==, (long long)10);
+            ll_free(list);
+        })
     })
 
     OBS_REPORT
