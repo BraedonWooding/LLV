@@ -59,6 +59,7 @@ CMakeFiles/
 
 # Test stuff
 *.result
+tmp/
 
 # configuration files
 .vscode/
