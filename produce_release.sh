@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-mkdir release && cd release
+mkdir release
+cd release
 cmake ..
 make
 mkdir github
