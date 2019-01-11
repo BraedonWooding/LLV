@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "../../include/collections/Vector.h"
+#include "../../include/collections/vector.h"
 #include "../../include/helper.h"
 #include "../list_helper.h"
 #include "../../lib/obsidian.h"
