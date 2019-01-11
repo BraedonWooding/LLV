@@ -32,12 +32,10 @@ Also note that the below image has the tick time quite low this is just to make 
 
 ## How to install
 
-- I suggest you just download the library from the releases section in github
-  - This is mainly due to stability reasons
-  - Just download the `download_these` files, it comes with the required include headers and the compiled library.
-- To compile from source just clone (or download zip I guess) then just run `cmake .` to produce the required makefiles for your system, then just `make` should produce the library.  You'll still have to include the lib headers.
-- To compile with your file just do something like `gcc libLLV.a my_file.c` you can also add an `-I ~/LLV` (presuming you called it LLV and it is installed in home directory) so you can just do `#include <LLV/collections/Array.h>` if you want
-  - You may have to include it as a static library i.e. `gcc -lLLV my_file.c` (and will have to have `-LLocation` pointing to the location of the library unless it is in /usr/lib) depending on compiler.
+- Just run `wget https://raw.githubusercontent.com/BraedonWooding/LLV/master/install.sh && sh install.sh` on any posix system (i.e. cse, MacOS, Linux/BSD variants)
+  - or if you are on windows just copy + paste `include.zip` contents into your include path and `libLLV.a` into your lib path from the latest release [here](https://github.com/BraedonWooding/LLV/releases)
+- Then just have `#include <LLV/llv.h>` and any collections you want like `#include <LLV/collections/ll.h>`
+  - `ll.h` (Linked List), `dll.h` (Doubly Linked list), `array.h` (Static Array), `vector.h` (Dynamic Array), `queue.h` (Queue LILO/FIFO), `stack.h` (Stack FILO/LIFO) are the currently supported collections.
 
 ## For those wanting to build a new collection
 
@@ -49,9 +47,6 @@ Furthermore if it is similar to one of the current collections there is a pretty
 
 I would love for you to help maintain this, just a few things to consider;
 
-- We use [todo](https://github.com/BraedonWooding/Todo) for our current list of items
-  - You don't have to use this of course :), it is just a way for me to keep track of things.
-  - Currently a little buggy as I haven't updated it in a short while but I'll get around to it.
 - Small changes over big
   - Big changes are sometimes necessary, I've re-written the core once already
     since I wasn't happy with the lack of extensibility for other things than
@@ -94,7 +89,7 @@ struct _struct_name_t {
 // which seems fine until you realise it just mallocs a pointer since it proritises
 // the variable over the 'common' name!
 // The ONLY case I'll accept common names are if the class is not to be malloc'd
-// i.e. look at `terminalSize`
+// i.e. look at `terminalSize` in that case they can't have a uppercase pointer name
 
 // pointer types are upper camel case (pascal case)
 typedef structName *StructName;
@@ -109,12 +104,19 @@ int stack_pop(Stack s) {
     // ...
 }
 
-// Switch statements are to be in this format (prevents bugs)
+// Switch statements are to be in this format
+// (mainly because this way it is much easier to see forgotten breaks)
 switch (x) {
     case a: {
         // ...
     } break;
-    case b: {
+    case c: case d: {
+        // ...
+    } break;
+    case q: {
+        // ...
+    } // fallthrough to p (fallthroughs like this should be avoided)
+    case p: {
         // ...
     } break;
 }

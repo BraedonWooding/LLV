@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # PLEASE only use this on a test case once you know
 # that the test case is producing correct output
 # else you will just cause false positives to pop up

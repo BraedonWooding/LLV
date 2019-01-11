@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <wchar.h>
 
-#include "../../include/collections/Array.h"
+#include "../../include/collections/array.h"
 #include "../general_collection_helper.h"
 #include "../../include/helper.h"
 #include "../list_helper.h"

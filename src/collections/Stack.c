@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "../../include/collections/LL.h"
+#include "../../include/collections/ll.h"
 #include "../../include/collections/Stack.h"
 #include "../../include/helper.h"
 #include "../list_helper.h"

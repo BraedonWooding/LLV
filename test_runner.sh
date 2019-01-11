@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Our Testing Script
 # Runs the collection tests as well as the output tests
 # Collection tests are orientated around just checking that the collections work as expected

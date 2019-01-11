@@ -1,6 +1,6 @@
-#include "../include/collections/LL.h"
-#include "../include/llv.h"
-#include "../include/helper.h"
+#include <LLV/collections/ll.h>
+#include <LLV/llv.h>
+#include <LLV/helper.h>
 
 int main(void) {
     LL to_reverse = ll_new("to_reverse");

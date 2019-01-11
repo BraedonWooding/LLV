@@ -1,8 +1,8 @@
-#include "../include/collections/LL.h"
-#include "../include/collections/DLL.h"
-#include "../include/llv.h"
-#include "../include/helper.h"
-#include "../include/collections/Array.h"
+#include <LLV/collections/ll.h>
+#include <LLV/collections/dll.h>
+#include <LLV/collections/array.h>
+#include <LLV/llv.h>
+
 #include <locale.h>
 
 #include <stdio.h>

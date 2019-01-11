@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Converts the ascii art into gifs
 # You may have to change things like delay/size/font to make it fit/look/work better
 # This is more just a helper than anything

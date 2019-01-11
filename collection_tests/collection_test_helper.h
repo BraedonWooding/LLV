@@ -1,7 +1,7 @@
 #ifndef LLV_COLLECTION_TEST_HELPER_H
 #define LLV_COLLECTION_TEST_HELPER_H
 
-#include "../include/llv.h"
+#include <LLV/llv.h>
 
 typedef struct _fake_node_t {
     char *ptr;
