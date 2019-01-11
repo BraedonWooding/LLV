@@ -8,6 +8,9 @@
 
 > Made by Braedon Wooding
 
+![Demonstration](https://user-images.githubusercontent.com/22880786/51027673-9d2a4d00-15e5-11e9-9ead-787631546460.gif)
+
+> The tick rate is set to be extremely fast (otherwise it wouldn't fit within the gif limits) so normally you would either set it to be much higher (higher is slower) or you would set it to 0 which would mean you press enter to step manually between each animation frame.
 
 Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we support;
 
@@ -21,10 +24,6 @@ In the future we are planning to support
 - Various types of graphs
 - Hashtables/Hashsets
 
-Also note that the below image has the tick time quite low this is just to make it look nice as a gif, so you'll probably want to up that to make it so you can follow it, if set to 0 then it'll use manual stepping (enter to make each update pass)
-
-![Demonstration](https://user-images.githubusercontent.com/22880786/46268789-0084f780-c580-11e8-9278-ca123f8ba489.gif)
-
 ## Other features
 
 - We support unicode and 'ascii' (all tests run on both) unicode just makes the boxes look nicer and the arrows are less ascii like.
@@ -32,12 +31,10 @@ Also note that the below image has the tick time quite low this is just to make 
 
 ## How to install
 
-- I suggest you just download the library from the releases section in github
-  - This is mainly due to stability reasons
-  - Just download the `download_these` files, it comes with the required include headers and the compiled library.
-- To compile from source just clone (or download zip I guess) then just run `cmake .` to produce the required makefiles for your system, then just `make` should produce the library.  You'll still have to include the lib headers.
-- To compile with your file just do something like `gcc libLLV.a my_file.c` you can also add an `-I ~/LLV` (presuming you called it LLV and it is installed in home directory) so you can just do `#include <LLV/collections/Array.h>` if you want
-  - You may have to include it as a static library i.e. `gcc -lLLV my_file.c` (and will have to have `-LLocation` pointing to the location of the library unless it is in /usr/lib) depending on compiler.
+- Just run `wget https://raw.githubusercontent.com/BraedonWooding/LLV/master/install.sh && sh install.sh` on any posix system (i.e. cse, MacOS, Linux/BSD variants)
+  - or if you are on windows just copy + paste `include.zip` contents into your include path and `libLLV.a` into your lib path from the latest release [here](https://github.com/BraedonWooding/LLV/releases)
+- Then just have `#include <LLV/llv.h>` and any collections you want like `#include <LLV/collections/ll.h>`
+  - `ll.h` (Linked List), `dll.h` (Doubly Linked list), `array.h` (Static Array), `vector.h` (Dynamic Array), `queue.h` (Queue LILO/FIFO), `stack.h` (Stack FILO/LIFO) are the currently supported collections.
 
 ## For those wanting to build a new collection
 
@@ -45,13 +42,25 @@ You just build it like you normally would however make sure the alignment of the
 
 Furthermore if it is similar to one of the current collections there is a pretty good chance I've already made the core printing logic under collection_helper, as long as your nodes match up with the `FakeNode` alignment then they will work, they take the barebones implementation required to print them out.  For example DLL and LL both use the same logic to print out their nodes.
 
+## Changing Variables
+
+In our test matrix we have a series of bash sources that edit environmental variables (to edit things like terminal width/height, unicode/ascii, clearing and so on) you can use them to like `$ export LLV_PRINT_HEIGHT=5`
+
+- `LLV_PRINT_HEIGHT` (default 3) how vertically high each node is
+- `LLV_PTR_HEIGHT` (default 2) nodes can display pointers this refers to how many spots below a ndoe a pointer can be held in.
+- `LLV_SLEEP_TIME` (default 0) the time between each 'animation' frame if 0 it will require you to press `enter` to go to the next frame.
+- `LLV_DISABLE_UNICODE` (default 0) disables unicode (overrides force unicode)
+- `LLV_FORCE_UNICODE` (default 0) on systems where we can't detect unicode support still force unicode (i.e. Mac's notoriously have unicode issues with some versions like High Sierra so you may need this to be on).
+- `LLV_CLEAR_ON_UPDATE` (default 1) on each animation frame update clear the screen
+- `LLV_INCLUDE_PTRS_ON_SINGLE_BOX` (default 0) when printing out a single node by itself (with no associated list) include any pointers associated with it?
+- `LLV_DEFAULT_TERM_WIDTH` (default 80) the default terminal width (effects tests/gdb)
+- `LLV_DEFAULT_TERM_HEIGHT` (default 80) the default terminal height (effects tests/gdb)
+- `LLV_TESTING` (default 0) enable it before running tests
+
 ## Quick contributors guide
 
 I would love for you to help maintain this, just a few things to consider;
 
-- We use [todo](https://github.com/BraedonWooding/Todo) for our current list of items
-  - You don't have to use this of course :), it is just a way for me to keep track of things.
-  - Currently a little buggy as I haven't updated it in a short while but I'll get around to it.
 - Small changes over big
   - Big changes are sometimes necessary, I've re-written the core once already
     since I wasn't happy with the lack of extensibility for other things than
@@ -94,7 +103,7 @@ struct _struct_name_t {
 // which seems fine until you realise it just mallocs a pointer since it proritises
 // the variable over the 'common' name!
 // The ONLY case I'll accept common names are if the class is not to be malloc'd
-// i.e. look at `terminalSize`
+// i.e. look at `terminalSize` in that case they can't have a uppercase pointer name
 
 // pointer types are upper camel case (pascal case)
 typedef structName *StructName;
@@ -109,12 +118,19 @@ int stack_pop(Stack s) {
     // ...
 }
 
-// Switch statements are to be in this format (prevents bugs)
+// Switch statements are to be in this format
+// (mainly because this way it is much easier to see forgotten breaks)
 switch (x) {
     case a: {
         // ...
     } break;
-    case b: {
+    case c: case d: {
+        // ...
+    } break;
+    case q: {
+        // ...
+    } // fallthrough to p (fallthroughs like this should be avoided)
+    case p: {
         // ...
     } break;
 }

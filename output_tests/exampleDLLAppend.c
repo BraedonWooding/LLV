@@ -1,6 +1,6 @@
-#include "../include/collections/DLL.h"
-#include "../include/llv.h"
-#include "../include/helper.h"
+#include <LLV/collections/dll.h>
+#include <LLV/llv.h>
+#include <LLV/helper.h>
 
 int main(void) {
     DLL list = dll_new("list");

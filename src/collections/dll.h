@@ -6,7 +6,7 @@
 #include <stdint.h>
 #include <wchar.h>
 
-#include "../../include/collections/DLL.h"
+#include "../../include/collections/dll.h"
 #include "../../include/helper.h"
 #include "../list_helper.h"
 
