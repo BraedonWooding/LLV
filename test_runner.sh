@@ -53,6 +53,8 @@ for test in output_tests/*.out; do
     printf "\n$test ${GREEN}successful${RESET}\n"
 done
 
+source default.sh
+
 printf "\n== ${CYAN}Testing Output${CYAN} ${GREEN}Passed${RESET} ==\n"
 printf "\nCleaning up tmp files\n"
 

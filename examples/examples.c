@@ -17,10 +17,10 @@ void usage_exit(void) {
 }
 
 void dll_add(void) {
-    DLL list = dll_new("list");
+    DLL list = dll_new("Adding elements to list");
     fmt_update("%l", list);
-    int *values = ((int[]){100, 24, 345, 59, 393, 292, 12});
-    for (int i = 0; i < 7; i++) {
+    int *values = ((int[]){100, 24, 345, 59, 393, 292, 12, 500, 800, 900, 40044040});
+    for (int i = 0; i < 11; i++) {
         dll_append(list, NEW_NODE(dll, values[i]));
         fmt_update("%l", list);
     }
@@ -28,9 +28,9 @@ void dll_add(void) {
 }
 
 void bubble_sort(void) {
-    Array array = array_new("to sort", 10);
-    int *values = ((int[]){1000, 24, 12, 2, 9, 90, 110, 54, 1, 10});
-    for (int i = 0; i < 10; i++) {
+    Array array = array_new("Sorting List", 7);
+    int *values = ((int[]){1, 1000, 9, 90, 110, 54, 10});
+    for (int i = 0; i < 7; i++) {
         array_set(array, i, NEW_NODE(array, values[i]));
     }
 
@@ -44,7 +44,7 @@ void bubble_sort(void) {
     bool changes = true;
     while (changes) {
         changes = false;
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 6; i++) {
             n1 = array_at(array, i);
             n2 = array_at(array, i + 1);
             fmt_update("%l", array);
@@ -74,30 +74,28 @@ void reverse_standard(void) {
     // not in place though, by using another list
     // memory wise the same.
     // new_LL pushes it to a global LL for update to work on.
-    LL to_reverse = ll_new("to_reverse");
-    for (int i = 0; i < 1000; i += 10) {
+    LL to_reverse = ll_new("Original List");
+    for (int i = 0; i < 10; i++) {
         // while you could do ll_new_node((Data){i}, INTEGER)
         // you can also just use this great macro, which is honestly beautiful
-        ll_insert_after(to_reverse, NEW_NODE(ll, (double)i * 10000000.0 + 0.5), to_reverse->tail);
+        ll_insert_after(to_reverse, NEW_NODE(ll, (double)i * 10000000.0), to_reverse->tail);
     }
 
-    LL reversed = ll_new("reversed");
+    LL reversed = ll_new("Reversed");
     // i've included the longer way as well for your 'enjoyment'
-    // SET_PTR(to_reverse->head, "cur");
-    attach_ptr(&to_reverse->head, "cur");
+    LL_Node cur = to_reverse->head;
+    // SET_PTR(cur, "cur");
+    attach_ptr(&cur, "cur");
 
     // tons of helper functions such as remove_node, insert_node and so on
-    while (!ll_is_empty(to_reverse)) {
-        // you can do whatever you want to the list
-        LL_Node n = to_reverse->head;
-        fmt_update("%l %l %s %n", to_reverse, reversed, "\nRemoving the following\n", n);
-        to_reverse->head = n->next;
-        // UNSET_PTR(n);
-        // SET_PTR(to_reverse->head, "cur");
-        ll_push(reversed, n);
+    while (cur != NULL) {
+        // UNSET_PTR(cur);
+        ll_push(reversed, ll_new_node(cur->data, cur->data_tag));
         // a simpler update looks like;
         // `update(2, to_reverse, reversed);`
         // a more complex one is like
+        cur = cur->next;
+        // SET_PTR(cur, "cur");
         fmt_update("%s %l %l", "Resulting in;", to_reverse, reversed);
     }
 

@@ -8,6 +8,9 @@
 
 > Made by Braedon Wooding
 
+![Demonstration](https://user-images.githubusercontent.com/22880786/51027673-9d2a4d00-15e5-11e9-9ead-787631546460.gif)
+
+> The tick rate is set to be extremely fast (otherwise it wouldn't fit within the gif limits) so normally you would either set it to be much higher (higher is slower) or you would set it to 0 which would mean you press enter to step manually between each animation frame.
 
 Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we support;
 
@@ -20,10 +23,6 @@ In the future we are planning to support
 - Various types of trees (BST/Tries)
 - Various types of graphs
 - Hashtables/Hashsets
-
-Also note that the below image has the tick time quite low this is just to make it look nice as a gif, so you'll probably want to up that to make it so you can follow it, if set to 0 then it'll use manual stepping (enter to make each update pass)
-
-![Demonstration](https://user-images.githubusercontent.com/22880786/46268789-0084f780-c580-11e8-9278-ca123f8ba489.gif)
 
 ## Other features
 
@@ -42,6 +41,21 @@ Also note that the below image has the tick time quite low this is just to make 
 You just build it like you normally would however make sure the alignment of the first few types match the alignment of `Collection`, this is just so we can have effective generics behind the scenes for our printer, just makes it easier (since we need to access some of the fields).
 
 Furthermore if it is similar to one of the current collections there is a pretty good chance I've already made the core printing logic under collection_helper, as long as your nodes match up with the `FakeNode` alignment then they will work, they take the barebones implementation required to print them out.  For example DLL and LL both use the same logic to print out their nodes.
+
+## Changing Variables
+
+In our test matrix we have a series of bash sources that edit environmental variables (to edit things like terminal width/height, unicode/ascii, clearing and so on) you can use them to like `$ export LLV_PRINT_HEIGHT=5`
+
+- `LLV_PRINT_HEIGHT` (default 3) how vertically high each node is
+- `LLV_PTR_HEIGHT` (default 2) nodes can display pointers this refers to how many spots below a ndoe a pointer can be held in.
+- `LLV_SLEEP_TIME` (default 0) the time between each 'animation' frame if 0 it will require you to press `enter` to go to the next frame.
+- `LLV_DISABLE_UNICODE` (default 0) disables unicode (overrides force unicode)
+- `LLV_FORCE_UNICODE` (default 0) on systems where we can't detect unicode support still force unicode (i.e. Mac's notoriously have unicode issues with some versions like High Sierra so you may need this to be on).
+- `LLV_CLEAR_ON_UPDATE` (default 1) on each animation frame update clear the screen
+- `LLV_INCLUDE_PTRS_ON_SINGLE_BOX` (default 0) when printing out a single node by itself (with no associated list) include any pointers associated with it?
+- `LLV_DEFAULT_TERM_WIDTH` (default 80) the default terminal width (effects tests/gdb)
+- `LLV_DEFAULT_TERM_HEIGHT` (default 80) the default terminal height (effects tests/gdb)
+- `LLV_TESTING` (default 0) enable it before running tests
 
 ## Quick contributors guide
 
