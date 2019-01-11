@@ -1,9 +1,9 @@
-#include <LLV/collections/ll.h>
+#include "../include/collections/ll.h"
 #include "../lib/obsidian.h"
-#include <LLV/llv.h>
+#include "../include/llv.h"
 #include "collection_test_helper.h"
-#include <LLV/types/collection_skeleton.h>
-#include <LLV/types/shared_types.h>
+#include "../include/types/collection_skeleton.h"
+#include "../include/types/shared_types.h"
 #include <string.h>
 
 int main(void) {

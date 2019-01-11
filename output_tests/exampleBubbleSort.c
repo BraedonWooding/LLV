@@ -1,6 +1,6 @@
-#include <LLV/collections/array.h>
-#include <LLV/llv.h>
-#include <LLV/helper.h>
+#include "../include/collections/array.h"
+#include "../include/llv.h"
+#include "../include/helper.h"
 
 int main(void) {
     Array array = array_new("to sort", 10);
