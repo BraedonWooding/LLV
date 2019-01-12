@@ -58,8 +58,6 @@ I would love for you to help maintain this, just a few things to consider;
     since I wasn't happy with the lack of extensibility for other things than
     just a linked list.  But this won't happen again so if it is > 100 lines maybe it can be broken up a bit?
     - Exception would be new collections (though one collection per PR would be nice)
-- Currently the core code base is quite trivally small (~1k lines not including examples)
-  - Overall it is around 2.5k and will grow exponentially as new tests and collections come however if you remove tests and collections it is around 1k lines which is what I want it to be around, I do expect it to creep up to 2k but I don't want it to become too unmanageable.
 - Testing is pretty easy with all the stuff I've done :).
   - Each output test is run under the following conditions; ascii/unicode normal boxes, ascii/unicode small boxes, ascii/unicode large boxes, small_term ascii/unicode.
   - To run tests you just do `make run_tests`
@@ -79,7 +77,7 @@ I would love for you to help maintain this, just a few things to consider;
 - Support the collections stated at the top of this readme
 - Much more tests! (hopefully breaking a few things!!!)
 - Memory tests to make sure we are freeing stuff properly
-  - This is lower priority though
+  - This is much lower priority though
 
 ## Quick Style Guide
 

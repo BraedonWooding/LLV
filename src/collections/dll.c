@@ -169,8 +169,9 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
             broke_due_to_size = true;
             break;
         }
+
         *out_count += forward_size;
-        (*out_forwards) = (*out_forwards)->next;
+        *out_forwards = (*out_forwards)->next;
 
         if (*out_stop == len / 2) break;
 
@@ -180,12 +181,15 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
             broke_due_to_size = true;
             break;
         }
-        *out_count += backward_size;
 
-        (*out_backwards) = (*out_backwards)->prev;
+        *out_count += backward_size;
+        *out_backwards = (*out_backwards)->prev;
     }
 
-
+    if (*out_stop == 0 && broke_due_to_size) {
+        printf("Error: No valid sizing constraint matches terminal size; i.e. increase your terminal size since on current size can't even fit the bare minimum\n");
+        exit(1);
+    }
 
     if (!broke_due_to_size) {
         // go through entire list
@@ -193,7 +197,7 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
         *out_backwards = NULL;
         *out_count -= ELLIPSES_LEN;
     } else {
-        //*out_backwards = (*out_backwards)->prev;
+    
     }
 
     return node_sizes;

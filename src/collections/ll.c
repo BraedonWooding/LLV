@@ -174,22 +174,31 @@ size_t *ll_attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count
 
     // how far backwards we can go
     int backwards_index = 0;
+    bool broke_due_to_size = false;
     // Account for odd lists by including the extra element on the left side
     for (; *out_stop < (len + 1) / 2; (*out_stop)++) {
         size_t forward_size = node_sizes[*out_stop] + AFTER_NODE_LEN;
-        if (forward_size + *out_count > size.width) break;
+        if (forward_size + *out_count > size.width) {
+            broke_due_to_size = true;
+            break;
+        }
         *out_forwards = (*out_forwards)->next;
         *out_count += forward_size;
 
-        // @TODO: confirm that this is correct with a few tests
-        // I'm like 110% sure this should work this way (otherwise it will double up on nodes)
-        // but it is always good to make sure with a few tests that show this is needed.
         if (*out_stop == len / 2) break;
 
         size_t backward_size = node_sizes[len - 1 - *out_stop] + AFTER_NODE_LEN;
-        if (backward_size + *out_count > size.width) break;
+        if (backward_size + *out_count > size.width) {
+            broke_due_to_size = true;
+            break;
+        }
         *out_count += backward_size;
         backwards_index++;
+    }
+
+    if (*out_stop == 0 && broke_due_to_size) {
+        printf("Error: No valid sizing constraint matches terminal size; i.e. increase your terminal size since on current size can't even fit the bare minimum\n");
+        exit(1);
     }
 
     // we need to actually traverse the list

@@ -1,0 +1,30 @@
+[H[2J========================================
+Doubly Linked List: Adding elements to list from user prompt
+ 
+X
+ 
+
+========================================
+Enter an integer: ========================================
+Doubly Linked List: Adding elements to list from user prompt
+      =========      
+X <-> | 29492 | <-> X
+      =========      
+
+========================================
+Enter an integer: ========================================
+Doubly Linked List: Adding elements to list from user prompt
+      =========     ======      
+X <-> | 29492 | <-> | 24 | <-> X
+      =========     ======      
+
+========================================
+Enter an integer: ========================================
+Doubly Linked List: Adding elements to list from user prompt
+      =========             ======      
+X <-> | 29492 | <-> ... <-> | 24 | <-> X
+      =========             ======      
+
+========================================
+Enter an integer: ========================================
+Error: No valid sizing constraint matches terminal size; i.e. increase your terminal size since on current size can't even fit the bare minimum

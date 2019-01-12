@@ -125,6 +125,12 @@ size_t array_get_sizes(Array array, size_t max, size_t **node_sizes, size_t *out
         }
     }
 
+    if ((*out_actual_len == 1 && array_length(array) > 1) ||
+        (*out_actual_len == 0 && array_length(array) > 0)) {
+        printf("Error: No valid sizing constraint matches terminal size; i.e. increase your terminal size since on current size can't even fit the bare minimum\n");
+        exit(1);
+    }
+
     return count;
 }
 

@@ -4,9 +4,6 @@
 # that the test case is producing correct output
 # else you will just cause false positives to pop up
 
-cmake .
-make
-
 GREEN="\e[32m"
 RESET="\e[39m"
 BLUE="\e[34m"
@@ -17,6 +14,7 @@ for test in test_matrix/*; do
     printf "== ${GREEN}Generating${RESET} $test ==\n"
     for f in $@; do
         printf "    ${BLUE}For${RESET} $f\n"
-        $f > "${f%%.*}".expected."${file%%.*}"
+        b=$(basename $f)
+        $f > output_tests/"${b%%.*}".expected."${file%%.*}"
     done
 done
