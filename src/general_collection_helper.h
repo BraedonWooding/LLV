@@ -4,9 +4,7 @@
 #include "../include/types/collection_skeleton.h"
 #include "../include/types/shared_types.h"
 
-#define MAX_SIZE_FLT                    (8)
-#define MAX_PRECISION_FLT_PRINT         (6)
-#define MAX_PRECISION_FLT_PRINT_STR     "6"
+#define MAX_SIZE_FLT                    (15)
 
 size_t sizeof_uint(unsigned long long int n);
 

@@ -2,15 +2,19 @@
 
 [![Build Status](https://travis-ci.com/BraedonWooding/LLV.svg?branch=master)](https://travis-ci.com/BraedonWooding/LLV)
 
-> A linked list (and way more!) visualisation tool
+> A generic collection visualisation tool
 
-> Made for teaching purposes for UNSW CSE
+> Originally made for teaching purposes for UNSW CSE
 
 > Made by Braedon Wooding
 
 ![Demonstration](https://user-images.githubusercontent.com/22880786/51027673-9d2a4d00-15e5-11e9-9ead-787631546460.gif)
 
 > The tick rate is set to be extremely fast (otherwise it wouldn't fit within the gif limits) so normally you would either set it to be much higher (higher is slower) or you would set it to 0 which would mean you press enter to step manually between each animation frame.
+
+## NOTE
+
+Check out [Quick Start Guide](https://github.com/BraedonWooding/LLV/wiki/quick_start)
 
 Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we support;
 
@@ -23,6 +27,8 @@ In the future we are planning to support
 - Various types of trees (BST/Tries)
 - Various types of graphs
 - Hashtables/Hashsets
+
+Also note that all collections aren't singularly typed so you could mix int/float/string/void* within a single collection!  (though typically it is recommended to keep to one)
 
 ## Other features
 

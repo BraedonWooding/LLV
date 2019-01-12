@@ -70,7 +70,7 @@ void list_print_node(void *n, wchar_t **buf, size_t size, size_t len, size_t off
     switch (node->data_tag) {
         case FLOAT: {
             text_to_print = malloc_with_oom(sizeof(wchar_t) * (size - EXTRA_WIDTH / 2 + 1), "Text to print");
-            swprintf(text_to_print, size - EXTRA_WIDTH / 2, L"%g", node->data.flt_data);
+            swprintf(text_to_print, size - EXTRA_WIDTH / 2 + 1, L"%.5g", node->data.flt_data);
         } break;
         case STRING: {
             size_t len = strlen(node->data.str_data);

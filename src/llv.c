@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <wchar.h>
 #include <string.h>
+#include <assert.h>
 
 #include "list_helper.h"
 #include "env_var.h"
@@ -46,6 +47,45 @@ bool deattach_ptr(void *node, char *ptr) {
     return false;
 }
 
+void input_wait(char *fmt, va_list args) {
+    // sleep time doesn't effect this
+    for (char *a = fmt; *a != '\0'; a++) {
+        if (*a == '%') {
+            assert((*(++a) == 'i') && "%i must be the last of the fmt");
+            switch (*(++a)) {
+                case 'i': {
+                    printf("Enter an integer: ");
+                    int *i = va_arg(args, int*);
+                    scanf("%d", i);
+                } break;
+                case 'l': {
+                    printf("Enter a long integer: ");
+                    long *i = va_arg(args, long*);
+                    scanf("%ld", i);
+                } break;
+                case 'c': {
+                    printf("Enter a character: ");
+                    char *c = va_arg(args, char*);
+                    scanf("%c", c);
+                } break;
+                case 's': {
+                    printf("Enter a string: ");
+                    char *str = va_arg(args, char*);
+                    scanf("%s", str);
+                } break;
+                case 'f': {
+                    printf("Enter a floating pointer number: ");
+                    double *flt = va_arg(args, double*);
+                    scanf("%lf", flt);
+                } break;
+                default: {
+                    printf("Unknown %c", *a);
+                }
+            }
+        }
+    }
+}
+
 void update_wait(void) {
     // wait either a set amount of time or till key press
     if (get_sleep_time() > 0) sleep_ms(get_sleep_time());
@@ -77,6 +117,7 @@ void fmt_update(char *fmt, ...) {
     va_list list;
     va_start(list, fmt);
     update_ptrs(false);
+
     for (char *a = fmt; *a != '\0'; a++) {
         if (*a == '%') {
             switch (*(++a)) {
@@ -94,6 +135,13 @@ void fmt_update(char *fmt, ...) {
                     char *str = va_arg(list, char *);
                     printf("%s\n", str);
                 } break;
+                case 'i': {
+                    a--; // go back to `%`
+                    update_ptrs(true);
+                    print_border();
+                    input_wait(a, list);
+                    va_end(list);
+                } return;
             }
         }
     }

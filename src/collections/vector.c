@@ -84,7 +84,8 @@ void vec_insert_after(Vector vec, size_t index, struct _vec_data_t node) {
     }
 
     if (vec->cur_len == vec->max_len) vec_reserve(vec, vec->cur_len + 1);
-    memmove(vec->data + index + 2, vec->data + index + 1, vec->cur_len - 1 - index);
+    memmove(vec->data + index + 2, vec->data + index + 1,
+        sizeof(struct _vec_data_t) * (vec->cur_len - 1 - index));
     vec->data[index + 1] = node;
     vec->cur_len++;
 }
@@ -97,7 +98,8 @@ void vec_insert_before(Vector vec, size_t index, struct _vec_data_t node) {
     }
 
     if (vec->cur_len == vec->max_len) vec_reserve(vec, vec->cur_len + 1);
-    memmove(vec->data + index + 1, vec->data + index, vec->cur_len - 1 - index);
+    memmove(vec->data + index + 1, vec->data + index,
+        sizeof(struct _vec_data_t) * (vec->cur_len - 1 - index));
     vec->data[index] = node;
     vec->cur_len++;
 }
@@ -110,7 +112,8 @@ void vec_remove(Vector vec, size_t index) {
         return;
     } else {
         // shuffle back one post index
-        memmove(vec->data + index, vec->data + index + 1, vec->cur_len - 1 - index);
+        memmove(vec->data + index, vec->data + index + 1,
+            sizeof(struct _vec_data_t) * (vec->cur_len - 1 - index));
     }
 }
 

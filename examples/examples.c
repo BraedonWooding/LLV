@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Look at examples.incl for the code
+
 #define ARRAY_LEN(a) (sizeof(a) / sizeof(*a))
 
 void usage_exit(void) {

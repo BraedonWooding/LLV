@@ -7,7 +7,7 @@ EXAMPLE_X(reverse_standard, 0, "Reverse standard", {
     for (int i = 0; i < 10; i++) {
         // while you could do ll_new_node((Data){i}, INTEGER)
         // you can also just use this great macro, which is honestly beautiful
-        ll_insert_after(to_reverse, NEW_NODE(ll, (double)i * 10000000.0), to_reverse->tail);
+        ll_append(to_reverse, NEW_NODE(ll, (double)i * 10000000.0));
     }
 
     LL reversed = ll_new("Reversed");
@@ -31,7 +31,7 @@ EXAMPLE_X(reverse_standard, 0, "Reverse standard", {
     }
 
     // if you care about freeing
-    deattach_ptr(&to_reverse->head, "cur");
+    deattach_ptr(&cur, "cur");
     ll_free(to_reverse);
     ll_free(reversed);
 })
@@ -89,4 +89,133 @@ EXAMPLE_X(dll_insert_user, 2, "DLL insert from user prompt", {
         fmt_update("%l", list);
     }
     fmt_update("%l", list);
+})
+
+EXAMPLE_X(wiki_eg1, 3, "Removing odd elements", {
+    LL list = ll_new("Example List");
+    update(1, list); // prints out the list (which will be empty)
+    for (int i = 0; i < 10; i++) {
+        // NEW_NODE is a special generic macro that will create data
+        // correctly with the proper type tag
+        // in this case it is ll_new_node((Data){i}, INTEGER)
+        ll_append(list, NEW_NODE(ll, i));
+        update(1, list);
+    }
+
+    // LL and DLL have `head` and `tail`
+    LL_Node cur = list->head;
+    // this means that as you update cur
+    // It'll display what box it currently is pointing to
+    // cur can be null as well in that case it'll point to nothing
+    attach_ptr(&cur, "cur");
+    update(1, list);
+    // sidenote: you can also call SET_PTR(cur, "cur"); and UNSET_PTR(cur);
+    // if for a specific reason you don't want it to track and update
+    // also remember to deattach_ptr(&cur); at the end if you care about freeing
+    while (cur != NULL) {
+       // read data as int, can also do GET(cur, int)
+       // note typesafe so know what you are doing!!
+       if (cur->data.int_data % 2 != 0) {
+           // remove node
+           LL_Node tmp = cur;
+           cur = cur->next;
+           ll_remove_node(list, tmp); // this also returns the removed node
+           // sidenote: you could write this out yourself
+           // by carrying around a prev ptr (or calling ll_find_prev)
+           // fmt_update is a fancy printf basically
+           fmt_update("%l %s %n", list, "Removed Node:", tmp);
+           ll_free_node(tmp); // if you care
+       } else {
+           cur = cur->next;
+           update(1, list);
+       }
+    }
+
+    fmt_update("%s %l", "Finished Removing Odd Nodes", list);
+    deattach_ptr(&cur, "cur");
+    ll_free(list);
+})
+
+EXAMPLE_X(wiki_eg2, 4, "User input then removing even nodes", {
+    LL list = ll_new("Example List");
+    int res;
+    while(true) {
+        // make sure to cast buffers like this - same reason as scanf
+        // %i for input then `i` for int
+        // valid ones are: %ii (int) %il (long) %ic (char) %is (char buf - no allocation) %if (double)
+        // note: they must all be at the end!!
+        fmt_update("%l %ii", list, &res);
+        if (res == -1) break;
+        ll_append(list, NEW_NODE(ll, res));
+    }
+
+    // LL and DLL have `head` and `tail`
+    LL_Node cur = list->head;
+    // this means that as you update cur
+    // It'll display what box it currently is pointing to
+    // cur can be null as well in that case it'll point to nothing
+    attach_ptr(&cur, "cur");
+    update(1, list);
+    // sidenote: you can also call SET_PTR(cur, "cur"); and UNSET_PTR(cur);
+    // if for a specific reason you don't want it to track and update
+    // also remember to deattach_ptr(&cur); at the end if you care about freeing
+    while (cur != NULL) {
+       // read data as int, can also do GET(cur, int)
+       // note typesafe so know what you are doing!!
+       if (cur->data.int_data % 2 == 0) {
+           // remove node
+           LL_Node tmp = cur;
+           cur = cur->next;
+           ll_remove_node(list, tmp); // this also returns the removed node
+           // sidenote: you could write this out yourself
+           // by carrying around a prev ptr (or calling ll_find_prev)
+           // fmt_update is a fancy printf basically
+           fmt_update("%l %s %n", list, "Removed Node:", tmp);
+           ll_free_node(tmp); // if you care
+       } else {
+           cur = cur->next;
+       }
+    }
+
+    fmt_update("%s %l", "Finished Removing Even Nodes", list);
+    deattach_ptr(&cur, "cur");
+    ll_free(list);
+})
+
+EXAMPLE_X(wiki_eg3, 5, "User input then removing out of bounds", {
+    LL list = ll_new("Example List");
+    double res;
+    while(true) {
+        fmt_update("%l %if", list, &res);
+        getchar();
+        // 0 has an actual proper value so epsilon isn't needed
+        // here since we aren't doing arithmetic on it
+        if (res == 0) break;
+        // NEW_NODE picks up on it being a double and doesn't care!!! yay
+        ll_append(list, NEW_NODE(ll, res));
+    }
+
+    // change from the wiki example due to commas being weird in macros
+    double lower; double upper;
+    // no need to have lists here we just want a lower and upper bound but why not
+    fmt_update("%l %s %if %if", list, "Enter lower and then upper bound", &lower, &upper);
+
+    LL_Node cur = list->head;
+    attach_ptr(&cur, "cur");
+    update(1, list);
+    while (cur != NULL) {
+       if (cur->data.flt_data < lower || cur->data.flt_data > upper) {
+           LL_Node tmp = cur;
+           cur = cur->next;
+           ll_remove_node(list, tmp);
+           fmt_update("%l %s %n", list, "Removed Node:", tmp);
+           ll_free_node(tmp);
+       } else {
+           cur = cur->next;
+       }
+    }
+
+    fmt_update("%s %l", "Finished Removing Nodes out of bounds", list);
+    deattach_ptr(&cur, "cur");
+    ll_free(list);
 })
