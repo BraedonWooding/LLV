@@ -51,7 +51,8 @@ void update_wait(void) {
     if (get_sleep_time() > 0) sleep_ms(get_sleep_time());
     else {
         printf("\nType enter to continue...\n");
-        getchar();
+        int c;
+        while ( (c = getchar()) != '\n' && c != EOF );
     }
 }
 
