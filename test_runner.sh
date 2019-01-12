@@ -41,11 +41,11 @@ for test in $1/output_tests/*.out; do
         source $test_case
         $test > $filename.result
         test_case_name=$(basename $test_case)
-        if [ ! -f output_tests/$filename.expected."${test_case_name%%.*}" ]; then
-            printf "${YELLOW}Missing${RESET} output_tests/$filename.expected."${test_case_name%%.*}" exiting\n"
+        if [ ! -f output_tests/expected/$filename.expected."${test_case_name%%.*}" ]; then
+            printf "${YELLOW}Missing${RESET} output_tests/expected/$filename.expected."${test_case_name%%.*}" exiting\n"
             exit 2
         fi
-        diff $filename.result output_tests/$filename.expected."${test_case_name%%.*}"
+        diff $filename.result output_tests/expected/$filename.expected."${test_case_name%%.*}"
         if [ $? -ne 0 ]; then
             printf "${CYAN}Testing Output${CYAN} ${RED}Failed${RESET}\n"
             printf "${RED}ERROR${RESET}: Test $test:$test_case ${RED}failed${RESET} difference shown above exiting\n"
@@ -69,11 +69,11 @@ for test in example/example_tests/*.in; do
         num="${num_and_in%%.*}"
         $1/example $num < $test > $filename.result
         test_case_name=$(basename $test_case)
-        if [ ! -f example/example_tests/$filename.expected."${test_case_name%%.*}" ]; then
-            printf "${YELLOW}Missing${RESET} example/example_tests/$filename.expected."${test_case_name%%.*}" exiting\n"
+        if [ ! -f example/example_tests/expected/$filename.expected."${test_case_name%%.*}" ]; then
+            printf "${YELLOW}Missing${RESET} example/example_tests/expected/$filename.expected."${test_case_name%%.*}" exiting\n"
             exit 2
         fi
-        diff $filename.result example/example_tests/$filename.expected."${test_case_name%%.*}"
+        diff $filename.result example/example_tests/expected/$filename.expected."${test_case_name%%.*}"
         if [ $? -ne 0 ]; then
             printf "${CYAN}Testing Example${CYAN} ${RED}Failed${RESET}\n"
             printf "${RED}ERROR${RESET}: Test $test:$test_case ${RED}failed${RESET} difference shown above exiting\n"

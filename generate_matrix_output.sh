@@ -15,6 +15,6 @@ for test in test_matrix/*; do
     for f in $@; do
         printf "    ${BLUE}For${RESET} $f\n"
         b=$(basename $f)
-        $f > output_tests/"${b%%.*}".expected."${file%%.*}"
+        $f > output_tests/expected/"${b%%.*}".expected."${file%%.*}"
     done
 done

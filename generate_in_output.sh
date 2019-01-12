@@ -18,6 +18,7 @@ for test in test_matrix/*; do
         printf "    ${BLUE}For${RESET} $f\n"
         num_and_in="${f#*.}"
         num="${num_and_in%%.*}"
-        $1 $num < $f > "${f%%.*}".$num.expected."${file%%.*}"
+        basename="$(basename $f)"
+        $1 $num < $f > $(dirname $f)/expected/${basename%%.*}.$num.expected."${file%%.*}"
     done
 done
