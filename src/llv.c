@@ -52,7 +52,7 @@ void update_wait(void) {
     else {
         printf("\nType enter to continue...\n");
         int c;
-        while ( (c = getchar()) != '\n' && c != EOF );
+        while ((c = getchar()) != '\n' && c != EOF);
     }
 }
 
