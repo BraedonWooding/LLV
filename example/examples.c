@@ -1,3 +1,5 @@
+// This is because when we are running this for tests we don't have it installed
+// to our include path (or lib path) so we just use relative directs
 #ifndef TESTING
 #include <LLV/collections/ll.h>
 #include <LLV/collections/dll.h>
