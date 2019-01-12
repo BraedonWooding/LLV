@@ -14,7 +14,7 @@
 
 ## NOTE
 
-Check out [Quick Start Guide](https://github.com/BraedonWooding/LLV/wiki/quick_start)
+Check out [Quick Start Guide](https://github.com/BraedonWooding/LLV/wiki/Quick-Start)
 
 Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we support;
 
@@ -28,12 +28,13 @@ In the future we are planning to support
 - Various types of graphs
 - Hashtables/Hashsets
 
-Also note that all collections aren't singularly typed so you could mix int/float/string/void* within a single collection!  (though typically it is recommended to keep to one)
+Also note that all collections aren't singularly typed so you could mix int/float/string/void* within a single collection!  (though typically it is recommended to keep to one).
 
 ## Other features
 
 - We support unicode and 'ascii' (all tests run on both) unicode just makes the boxes look nicer and the arrows are less ascii like.
-- We support changing variables without requiring re-compiles (especially important since the core library is meant to not have to be ever recompiled) these include; disabling unicode, changing default dimensions, changing step time...  Look at [Changing Variables](#changing_variables) for more.
+- We support changing variables without requiring re-compiles (especially important since the core library is meant to not have to be ever recompiled) these include; disabling unicode, changing default dimensions, changing step time...  Look at [Changing Variables](https://github.com/BraedonWooding/LLV/wiki/Reference-Sheet#variables) for more.
+- You can take input during it and we do all the type conversions for you!
 
 ## How to install
 
@@ -47,21 +48,6 @@ Also note that all collections aren't singularly typed so you could mix int/floa
 You just build it like you normally would however make sure the alignment of the first few types match the alignment of `Collection`, this is just so we can have effective generics behind the scenes for our printer, just makes it easier (since we need to access some of the fields).
 
 Furthermore if it is similar to one of the current collections there is a pretty good chance I've already made the core printing logic under collection_helper, as long as your nodes match up with the `FakeNode` alignment then they will work, they take the barebones implementation required to print them out.  For example DLL and LL both use the same logic to print out their nodes.
-
-## Changing Variables
-
-In our test matrix we have a series of bash sources that edit environmental variables (to edit things like terminal width/height, unicode/ascii, clearing and so on) you can use them to like `$ export LLV_PRINT_HEIGHT=5`
-
-- `LLV_PRINT_HEIGHT` (default 3) how vertically high each node is
-- `LLV_PTR_HEIGHT` (default 2) nodes can display pointers this refers to how many spots below a ndoe a pointer can be held in.
-- `LLV_SLEEP_TIME` (default 0) the time between each 'animation' frame if 0 it will require you to press `enter` to go to the next frame.
-- `LLV_DISABLE_UNICODE` (default 0) disables unicode (overrides force unicode)
-- `LLV_FORCE_UNICODE` (default 0) on systems where we can't detect unicode support still force unicode (i.e. Mac's notoriously have unicode issues with some versions like High Sierra so you may need this to be on).
-- `LLV_CLEAR_ON_UPDATE` (default 1) on each animation frame update clear the screen
-- `LLV_INCLUDE_PTRS_ON_SINGLE_BOX` (default 0) when printing out a single node by itself (with no associated list) include any pointers associated with it?
-- `LLV_DEFAULT_TERM_WIDTH` (default 80) the default terminal width (effects tests/gdb)
-- `LLV_DEFAULT_TERM_HEIGHT` (default 80) the default terminal height (effects tests/gdb)
-- `LLV_TESTING` (default 0) enable it before running tests
 
 ## Quick contributors guide
 
