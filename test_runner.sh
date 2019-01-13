@@ -31,38 +31,38 @@ for test in $1/collection_tests/*.out; do
 done
 
 printf "== ${CYAN}Testing Collections ${GREEN}Passed${RESET} ==\n"
-printf "== ${CYAN}Testing Output${RESET} ==\n"
+printf "== ${CYAN}Testing Output${RESET} ==\n\n"
 
 for test in $1/output_tests/*.out; do
-    printf "\n${BLUE}Running${RESET} $test\n"
     base=$(basename $test)
     filename=${base%.*}
+    printf "${BLUE}Running${RESET} $filename "
     for test_case in test_matrix/*; do
         source $test_case
         $test > $filename.result
         test_case_name=$(basename $test_case)
         if [ ! -f output_tests/expected/$filename.expected."${test_case_name%%.*}" ]; then
-            printf "${YELLOW}Missing${RESET} output_tests/expected/$filename.expected."${test_case_name%%.*}" exiting\n"
+            printf "\n${YELLOW}Missing${RESET} output_tests/expected/$filename.expected."${test_case_name%%.*}" exiting\n"
             exit 2
         fi
         diff $filename.result output_tests/expected/$filename.expected."${test_case_name%%.*}"
         if [ $? -ne 0 ]; then
-            printf "${CYAN}Testing Output${CYAN} ${RED}Failed${RESET}\n"
+            printf "\n${CYAN}Testing Output${CYAN} ${RED}Failed${RESET}\n"
             printf "${RED}ERROR${RESET}: Test $test:$test_case ${RED}failed${RESET} difference shown above exiting\n"
             exit 1
         fi
-        printf "\n$test:$test_case ${GREEN}successful${RESET}\n"
+        printf "${GREEN}.${RESET}"
     done
-    printf "\n$test ${GREEN}successful${RESET}\n"
+    printf " ${GREEN}successful${RESET}\n"
 done
 
 printf "\n== ${CYAN}Testing Output${CYAN} ${GREEN}Passed${RESET} ==\n"
-printf "== ${CYAN}Testing Examples${RESET} ==\n"
+printf "== ${CYAN}Testing Examples${RESET} ==\n\n"
 
 for test in example/example_tests/*.in; do
-    printf "\n${BLUE}Running${RESET} $test\n"
     base=$(basename $test)
     filename=${base%.*}
+    printf "${BLUE}Running${RESET} ${base%%.*} "
     for test_case in test_matrix/*; do
         source $test_case
         num_and_in="${test#*.}"
@@ -70,18 +70,18 @@ for test in example/example_tests/*.in; do
         $1/example $num < $test > $filename.result
         test_case_name=$(basename $test_case)
         if [ ! -f example/example_tests/expected/$filename.expected."${test_case_name%%.*}" ]; then
-            printf "${YELLOW}Missing${RESET} example/example_tests/expected/$filename.expected."${test_case_name%%.*}" exiting\n"
+            printf "\n${YELLOW}Missing${RESET} example/example_tests/expected/$filename.expected."${test_case_name%%.*}" exiting\n"
             exit 2
         fi
         diff $filename.result example/example_tests/expected/$filename.expected."${test_case_name%%.*}"
         if [ $? -ne 0 ]; then
-            printf "${CYAN}Testing Example${CYAN} ${RED}Failed${RESET}\n"
+            printf "\n${CYAN}Testing Example${CYAN} ${RED}Failed${RESET}\n"
             printf "${RED}ERROR${RESET}: Test $test:$test_case ${RED}failed${RESET} difference shown above exiting\n"
             exit 1
         fi
-        printf "\n$test:$test_case ${GREEN}successful${RESET}\n"
+        printf "${GREEN}.${RESET}"
     done
-    printf "\n$test ${GREEN}successful${RESET}\n"
+    printf " ${GREEN}successful${RESET}\n"
 done
 
 source default.sh

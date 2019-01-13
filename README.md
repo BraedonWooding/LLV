@@ -4,6 +4,8 @@
 
 > A generic collection visualisation tool
 
+> All collections, examples, and the program itself are thoroughly tested.
+
 > Originally made for teaching purposes for UNSW CSE
 
 > Made by Braedon Wooding
