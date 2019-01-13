@@ -29,9 +29,14 @@
 #define OBSIDIAN_LOG_SIZE 1024
 #endif
 
+#ifndef OBSIDIAN_CAT_BUF_SIZE
+#define OBSIDIAN_CAT_BUF_SIZE 1024
+#endif
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define RED   "\x1B[31m"
 #define GRN   "\x1B[32m"
@@ -62,6 +67,7 @@
     int num_of_asserts = 0; \
     int old_num_of_asserts = 0; \
     char log[OBSIDIAN_LOG_SIZE] = {0}; \
+    char cat_buf[OBSIDIAN_CAT_BUF_SIZE] = {0}; \
     printf("Beginning Tests for " #name "\n\n");
 
 #define OBS_TEST_GROUP(group_name, group) \
@@ -98,31 +104,32 @@
         memset(log, 0, sizeof(log)); \
     } \
 
-#define GET_FORMAT(x, op, val, y) \
+#define GET_FORMAT(val) \
     _Generic((val), \
-            long: x "%ld " #op " %ld" y, \
-            long long: x "%lld " #op " %lld" y, \
-            unsigned int: x "%u " #op " %u" y, \
-            unsigned long: x "%lu " #op " %lu" y, \
-            unsigned long long: x "%llu " #op " %llu" y, \
-            int: x "%d " #op " %d" y, \
-            float: x "%f " #op " %f" y, \
-            double: x "%lf " #op " %lf" y, \
-            long double: x "%llf " #op " %llf" y, \
-            char: x "%c " #op " %c" y, \
-            short: x "%hd " #op " %hd" y, \
-            unsigned short: x "%hu" #op "%hu" y, \
-            char *: x "%s " #op " %s" y, \
-            bool: x "%d " #op " %d" y, \
-            default: x "%p " #op " %p" y \
+            long: "%ld", \
+            unsigned int: "%u", \
+            unsigned long: "%lu", \
+            int: "%d", \
+            float: "%f", \
+            double: "%lf", \
+            char: "%c", \
+            short: "%hd", \
+            unsigned short: "%hu", \
+            char *: "%s", \
+            bool: "%d", \
+            default: "%p" \
     )
 
-#define obs_test(val, op, cond) \
+#define GET_PRINTF(file_str, op, lhs, rhs, reason) \
+    snprintf(cat_buf, OBSIDIAN_CAT_BUF_SIZE, "%s %s %s %s %s", file_str, GET_FORMAT(lhs), #op, GET_FORMAT(rhs), reason)
+
+#define obs_test(lhs, op, rhs) \
     { \
     num_of_asserts++; \
-    if (success && !(((val) op (cond)))) { \
+    if (success && !(((lhs) op (rhs)))) { \
         success = false; \
-        sprintf(log,  GET_FORMAT(__FILE__ ":%d failed because " #val " => ", op, val, " is false"), __LINE__, val, cond); \
+        GET_PRINTF(__FILE__ ":%d failed because " #lhs " =>", op, lhs, rhs, "is false"); \
+        sprintf(log, cat_buf, __LINE__, lhs, rhs); \
     } \
     }
 
@@ -163,7 +170,14 @@
 #define obs_assert(val, op, cond) \
     { \
         if (!((val) op (cond))) { \
-            fprintf(stderr, GET_FORMAT(__FILE__ ":%d failed because " #val " => ", op, val, " <= " #cond " is false"), __LINE__, val, cond); \
+            char cat_buf[] = __FILE__":%d failed because "#val" => %l "#op" %l <= " #cond " is false"; \
+            char *first = strstr(cat_buf, "%l"); \
+            char *second = strstr(first + 1, "%l"); \
+            char *first_format = GET_FORMAT(val); \
+            char *second_format = GET_FORMAT(cond); \
+            strncpy(first, first_format, strlen(first_format)); \
+            strncpy(second, second_format, strlen(second_format)); \
+            fprintf(stderr, cat_buf, __LINE__, val, cond); \
             abort(); \
         } \
     }

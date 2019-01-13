@@ -2,9 +2,11 @@
 
 [![Build Status](https://travis-ci.com/BraedonWooding/LLV.svg?branch=master)](https://travis-ci.com/BraedonWooding/LLV)
 
-> A linked list (and way more!) visualisation tool
+> A generic collection visualisation tool
 
-> Made for teaching purposes for UNSW CSE
+> All collections, examples, and the program itself are thoroughly tested.
+
+> Originally made for teaching purposes for UNSW CSE
 
 > Made by Braedon Wooding
 
@@ -12,10 +14,15 @@
 
 > The tick rate is set to be extremely fast (otherwise it wouldn't fit within the gif limits) so normally you would either set it to be much higher (higher is slower) or you would set it to 0 which would mean you press enter to step manually between each animation frame.
 
+## NOTE
+
+Check out [Quick Start Guide](https://github.com/BraedonWooding/LLV/wiki/Quick-Start)
+
 Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we support;
 
 - Singularly and Doubly Linked Lists
-- Dynamic and static arrays (vectors and arrays)
+- Dynamic and static arrays (arraylist/vector/list and arrays)
+  - We call our dynamic arrays just `List` since `Vector` is too opaque and `ArrayList` is too long and we don't have to worry about conflictions with linked lists since they are `LL` and `DLL` respectively.
 - Queues and Stacks
 
 In the future we are planning to support
@@ -24,38 +31,27 @@ In the future we are planning to support
 - Various types of graphs
 - Hashtables/Hashsets
 
+Also note that all collections aren't singularly typed so you could mix int/float/string/void* within a single collection!  (though typically it is recommended to keep to one).
+
 ## Other features
 
 - We support unicode and 'ascii' (all tests run on both) unicode just makes the boxes look nicer and the arrows are less ascii like.
-- We support changing variables without requiring re-compiles (especially important since the core library is meant to not have to be ever recompiled) these include; disabling unicode, changing default dimensions, changing step time...  Look at [Changing Variables](#changing_variables) for more.
+- We support changing variables without requiring re-compiles (especially important since the core library is meant to not have to be ever recompiled) these include; disabling unicode, changing default dimensions, changing step time...  Look at [Changing Variables](https://github.com/BraedonWooding/LLV/wiki/Reference-Sheet#variables) for more.
+- You can take input during it and we do all the type conversions for you!
 
 ## How to install
 
 - Just run `wget https://raw.githubusercontent.com/BraedonWooding/LLV/master/install.sh && sh install.sh` on any posix system (i.e. cse, MacOS, Linux/BSD variants)
   - or if you are on windows just copy + paste `include.zip` contents into your include path and `libLLV.a` into your lib path from the latest release [here](https://github.com/BraedonWooding/LLV/releases)
 - Then just have `#include <LLV/llv.h>` and any collections you want like `#include <LLV/collections/ll.h>`
-  - `ll.h` (Linked List), `dll.h` (Doubly Linked list), `array.h` (Static Array), `vector.h` (Dynamic Array), `queue.h` (Queue LILO/FIFO), `stack.h` (Stack FILO/LIFO) are the currently supported collections.
+  - `ll.h` (Linked List), `dll.h` (Doubly Linked list), `array.h` (Static Array), `list.h` (Dynamic Array), `queue.h` (Queue LILO/FIFO), `stack.h` (Stack FILO/LIFO) are the currently supported collections.
+- Note: if you are having issues with anything check out the [FAQ](https://github.com/BraedonWooding/LLV/wiki/FAQ) first before opening an issue
 
 ## For those wanting to build a new collection
 
 You just build it like you normally would however make sure the alignment of the first few types match the alignment of `Collection`, this is just so we can have effective generics behind the scenes for our printer, just makes it easier (since we need to access some of the fields).
 
 Furthermore if it is similar to one of the current collections there is a pretty good chance I've already made the core printing logic under collection_helper, as long as your nodes match up with the `FakeNode` alignment then they will work, they take the barebones implementation required to print them out.  For example DLL and LL both use the same logic to print out their nodes.
-
-## Changing Variables
-
-In our test matrix we have a series of bash sources that edit environmental variables (to edit things like terminal width/height, unicode/ascii, clearing and so on) you can use them to like `$ export LLV_PRINT_HEIGHT=5`
-
-- `LLV_PRINT_HEIGHT` (default 3) how vertically high each node is
-- `LLV_PTR_HEIGHT` (default 2) nodes can display pointers this refers to how many spots below a ndoe a pointer can be held in.
-- `LLV_SLEEP_TIME` (default 0) the time between each 'animation' frame if 0 it will require you to press `enter` to go to the next frame.
-- `LLV_DISABLE_UNICODE` (default 0) disables unicode (overrides force unicode)
-- `LLV_FORCE_UNICODE` (default 0) on systems where we can't detect unicode support still force unicode (i.e. Mac's notoriously have unicode issues with some versions like High Sierra so you may need this to be on).
-- `LLV_CLEAR_ON_UPDATE` (default 1) on each animation frame update clear the screen
-- `LLV_INCLUDE_PTRS_ON_SINGLE_BOX` (default 0) when printing out a single node by itself (with no associated list) include any pointers associated with it?
-- `LLV_DEFAULT_TERM_WIDTH` (default 80) the default terminal width (effects tests/gdb)
-- `LLV_DEFAULT_TERM_HEIGHT` (default 80) the default terminal height (effects tests/gdb)
-- `LLV_TESTING` (default 0) enable it before running tests
 
 ## Quick contributors guide
 
@@ -66,8 +62,6 @@ I would love for you to help maintain this, just a few things to consider;
     since I wasn't happy with the lack of extensibility for other things than
     just a linked list.  But this won't happen again so if it is > 100 lines maybe it can be broken up a bit?
     - Exception would be new collections (though one collection per PR would be nice)
-- Currently the core code base is quite trivally small (~1k lines not including examples)
-  - Overall it is around 2.5k and will grow exponentially as new tests and collections come however if you remove tests and collections it is around 1k lines which is what I want it to be around, I do expect it to creep up to 2k but I don't want it to become too unmanageable.
 - Testing is pretty easy with all the stuff I've done :).
   - Each output test is run under the following conditions; ascii/unicode normal boxes, ascii/unicode small boxes, ascii/unicode large boxes, small_term ascii/unicode.
   - To run tests you just do `make run_tests`
@@ -87,7 +81,7 @@ I would love for you to help maintain this, just a few things to consider;
 - Support the collections stated at the top of this readme
 - Much more tests! (hopefully breaking a few things!!!)
 - Memory tests to make sure we are freeing stuff properly
-  - This is lower priority though
+  - This is much lower priority though
 
 ## Quick Style Guide
 

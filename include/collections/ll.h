@@ -16,7 +16,7 @@ struct _LL_node_t {
 };
 
 typedef struct _singly_linked_list_t {
-    COLLECTION_CHILD;   // inherited members
+    struct _collection_t parent;   // inherited members
     LL_Node head;       // the front of the list
     LL_Node tail;       // the back of the list
 } *LL;
@@ -49,7 +49,7 @@ void ll_default_print_data(LL_Node n);
 /*
     Free all nodes in collection.
 */
-void ll_clear_list(LL list);
+void ll_clear(LL list);
 
 /*
     Inserts the given node after the LL_Node 'at'.

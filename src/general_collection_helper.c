@@ -20,9 +20,13 @@ size_t sizeof_int(long long int n) {
 }
 
 size_t sizeof_flt(double flt) {
-    // @TODO: make this better
     wchar_t buf[MAX_SIZE_FLT];
-    return swprintf(buf, MAX_SIZE_FLT, L"%." MAX_PRECISION_FLT_PRINT_STR "g", flt);
+    int res = swprintf(buf, MAX_SIZE_FLT, L"%.5g", flt);
+    if (res < 0) {
+        fprintf(stderr, "BUG IN FLT PRINTER\n");
+        abort();
+    }
+    return (size_t)res;
 }
 
 size_t sizeof_data(Data data, TypeTag tag) {

@@ -23,16 +23,16 @@ void dll_print_list(Collection collection);
 
 DLL dll_new(char *name) {
     DLL dll = malloc_with_oom(sizeof(struct _doubly_linked_list_t), "DLL");
-    dll->name = name;
+    dll->parent.name = name;
     dll->head = dll->tail = NULL;
-    dll->list_printer = dll_print_list;
-    dll->get_sizeof = list_sizeof;
-    dll->node_printer = list_print_node;
+    dll->parent.list_printer = dll_print_list;
+    dll->parent.get_sizeof = list_sizeof;
+    dll->parent.node_printer = list_print_node;
     return dll;
 }
 
 void dll_free(DLL list) {
-    dll_clear_list(list);
+    dll_clear(list);
     free(list);
 }
 
@@ -64,7 +64,7 @@ void dll_append(DLL list, DLL_Node n) {
     dll_insert_after(list, n, list->tail);
 }
 
-void dll_clear_list(DLL list) {
+void dll_clear(DLL list) {
     for (DLL_Node cur = list->head; cur != NULL;) {
         DLL_Node temp = cur;
         cur = cur->next;
@@ -163,29 +163,33 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
     // only go through half the list
     bool broke_due_to_size = false;
     for (; *out_stop < (len + 1) / 2; (*out_stop)++) {
-        node_sizes[*out_stop] = list->get_sizeof(*out_forwards);
+        node_sizes[*out_stop] = list->parent.get_sizeof(*out_forwards);
         size_t forward_size = node_sizes[*out_stop] + AFTER_NODE_LEN;
         if (*out_count + forward_size > size.width) {
             broke_due_to_size = true;
             break;
         }
+
         *out_count += forward_size;
-        (*out_forwards) = (*out_forwards)->next;
+        *out_forwards = (*out_forwards)->next;
 
         if (*out_stop == len / 2) break;
 
-        node_sizes[len - 1 - *out_stop] = list->get_sizeof(*out_backwards);
+        node_sizes[len - 1 - *out_stop] = list->parent.get_sizeof(*out_backwards);
         size_t backward_size = node_sizes[len - 1 - *out_stop] + AFTER_NODE_LEN;
         if (*out_count + backward_size > size.width) {
             broke_due_to_size = true;
             break;
         }
-        *out_count += backward_size;
 
-        (*out_backwards) = (*out_backwards)->prev;
+        *out_count += backward_size;
+        *out_backwards = (*out_backwards)->prev;
     }
 
-
+    if (*out_stop == 0 && broke_due_to_size) {
+        printf("Error: No valid sizing constraint matches terminal size; i.e. increase your terminal size since on current size can't even fit the bare minimum\n");
+        exit(1);
+    }
 
     if (!broke_due_to_size) {
         // go through entire list
@@ -193,7 +197,7 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
         *out_backwards = NULL;
         *out_count -= ELLIPSES_LEN;
     } else {
-        //*out_backwards = (*out_backwards)->prev;
+    
     }
 
     return node_sizes;

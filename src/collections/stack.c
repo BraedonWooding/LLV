@@ -18,6 +18,22 @@ void stack_free(Stack stack) {
     ll_free(stack);
 }
 
+void stack_free_node(StackNode n) {
+    ll_free_node(n);
+}
+
+void stack_clear(Stack stack) {
+    ll_clear(stack);
+}
+
+size_t stack_length(Stack stack) {
+    return ll_length(stack);
+}
+
+bool stack_is_empty(Stack stack) {
+    return ll_is_empty(stack);
+}
+
 StackNode stack_new_node(Data data, TypeTag type) {
     return ll_new_node(data, type);
 }

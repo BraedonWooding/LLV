@@ -17,7 +17,7 @@ struct _dll_node_t {
 };
 
 typedef struct _doubly_linked_list_t {
-    COLLECTION_CHILD;   // all the inherited members
+    struct _collection_t parent;   // all the inherited members
     DLL_Node head;      // the head of the list
     DLL_Node tail;      // the tail of the list
 } *DLL;
@@ -50,7 +50,7 @@ void dll_default_print_data(DLL_Node n);
 /*
     Free all nodes in collection.
 */
-void dll_clear_list(DLL list);
+void dll_clear(DLL list);
 
 /*
     Inserts the given node after the DLL_Node 'at'.
