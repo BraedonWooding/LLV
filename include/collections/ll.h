@@ -16,7 +16,7 @@ struct _LL_node_t {
 };
 
 typedef struct _singly_linked_list_t {
-    COLLECTION_CHILD;   // inherited members
+    struct _collection_t parent;   // inherited members
     LL_Node head;       // the front of the list
     LL_Node tail;       // the back of the list
 } *LL;

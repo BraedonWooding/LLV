@@ -19,7 +19,8 @@ Check out [Quick Start Guide](https://github.com/BraedonWooding/LLV/wiki/Quick-S
 Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we support;
 
 - Singularly and Doubly Linked Lists
-- Dynamic and static arrays (vectors and arrays)
+- Dynamic and static arrays (arraylist/vector/list and arrays)
+  - We call our dynamic arrays just `List` since `Vector` is too opaque and `ArrayList` is too long and we don't have to worry about conflictions with linked lists since they are `LL` and `DLL` respectively.
 - Queues and Stacks
 
 In the future we are planning to support

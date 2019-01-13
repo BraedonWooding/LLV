@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include "ll.h"
 #include "../types/shared_types.h"
 #include "../types/collection_skeleton.h"
 
@@ -14,6 +15,15 @@ Queue queue_new(char *name);
 
 /* Frees the queue and all the memory its allocated */
 void queue_free(Queue queue);
+
+/* Frees the given node */
+void queue_free_node(QueueNode n);
+
+/* Returns how many items are currently in queue */
+size_t queue_length(Queue queue);
+
+/* Returns true if there are no items in queue */
+bool queue_is_empty(Queue queue);
 
 /*
    Create a new node

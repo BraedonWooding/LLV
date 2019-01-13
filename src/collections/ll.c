@@ -28,11 +28,11 @@ void ll_print_list(Collection list);
 
 LL ll_new(char *name) {
     LL ll = malloc_with_oom(sizeof(struct _singly_linked_list_t), "LL");
-    ll->name = name;
+    ll->parent.name = name;
     ll->head = ll->tail = NULL;
-    ll->list_printer = ll_print_list;
-    ll->get_sizeof = list_sizeof;
-    ll->node_printer = list_print_node;
+    ll->parent.list_printer = ll_print_list;
+    ll->parent.get_sizeof = list_sizeof;
+    ll->parent.node_printer = list_print_node;
     return ll;
 }
 
@@ -159,7 +159,7 @@ size_t *ll_attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count
     *out_count = START_OF_LIST_LEN + NULL_NODE_LEN;
     *out_stop = 0;
     for (; *out_forwards != NULL; *out_forwards = (*out_forwards)->next, (*out_stop)++) {
-        node_sizes[*out_stop] = list->get_sizeof(*out_forwards);
+        node_sizes[*out_stop] = list->parent.get_sizeof(*out_forwards);
         *out_count += node_sizes[*out_stop] + AFTER_NODE_LEN;
     }
 

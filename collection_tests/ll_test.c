@@ -12,7 +12,7 @@ int main(void) {
     OBS_TEST_GROUP("LL_new && ll_new_node", {
         OBS_TEST("Create list and test properties", {
             LL list = ll_new("1");
-            obs_test_strcmp(list->name, "1");
+            obs_test_strcmp(list->parent.name, "1");
             test_empty_list(list, ll);
             ll_free(list);
         })

@@ -6,36 +6,36 @@
 #include "../types/shared_types.h"
 #include "../types/collection_skeleton.h"
 
-typedef struct _vector_t *Vector;
-typedef struct _vec_data_t *VecNode;
+typedef struct _list_t *List;
+typedef struct _list_data_t *ListNode;
 
 typedef size_t(*fn_growth_factor)(size_t old_len, size_t min_new_len, double factor);
 
-struct _vec_data_t {
+struct _list_data_t {
     char *ptr;
     Data data; // the data type
     TypeTag data_tag; // the corresponding tag;
 };
 
-struct _vector_t {
-    COLLECTION_CHILD;
-    VecNode data;
-    size_t max_len;
+struct _list_t {
+    struct _collection_t parent;
+    ListNode data;
     size_t cur_len;
+    size_t max_len;
     fn_growth_factor grow_function;
     double factor;
 };
 
 /*
-    Create a new vector with the given name.
+    Create a new list with the given name.
     By default uses `poly_grow_function` with factor 2.
 */
-Vector vec_new(char *name);
+List list_new(char *name);
 
 /*
-    Frees the vector.
+    Frees the list.
 */
-void vec_free(Vector vec);
+void list_free(List list);
 
 /*
     Grows the list linearly.
@@ -64,57 +64,57 @@ size_t exponential_grow_function(size_t old_len, size_t min_new_len, double fact
 /*
     Get the node at the index given.
 */
-VecNode vec_at(Vector vec, size_t index);
+ListNode list_at(List list, size_t index);
 
 /*
-    Creates a new vec node.
+    Creates a new list node.
     Used for the other functions
 */
-struct _vec_data_t vec_new_node(Data data, TypeTag type);
+struct _list_data_t list_new_node(Data data, TypeTag type);
 
 /*
-    Makes sure the vector can handle len amount of data.
+    Makes sure the list can handle len amount of data.
 */
-void vec_reserve(Vector vec, size_t len);
+void list_reserve(List list, size_t len);
 
 /*
     Clears list.  Will release memory if release_memory is true.
 */
-void vec_clear_list(Vector vec, bool release_memory);
+void list_clear_list(List list, bool release_memory);
 
 /*
     Pushes node to back of list, growing if needed.
 */
-void vec_push_back(Vector vec, struct _vec_data_t node);
+void list_push_back(List list, struct _list_data_t node);
 
 /*
     Inserts node after index given.
 */
-void vec_insert_after(Vector vec, size_t index, struct _vec_data_t node);
+void list_insert_after(List list, size_t index, struct _list_data_t node);
 
 /*
     Inserts node before index given.
 */
-void vec_insert_before(Vector vec, size_t index, struct _vec_data_t node);
+void list_insert_before(List list, size_t index, struct _list_data_t node);
 
 /*
     Removes node at index.
 */
-void vec_remove(Vector vec, size_t index);
+void list_remove(List list, size_t index);
 
 /*
-    Returns true if vector is empty.
+    Returns true if list is empty.
 */
-bool vec_is_empty(Vector vec);
+bool list_is_empty(List list);
 
 /*
-    Returns length of vector.
+    Returns length of list.
 */
-size_t vec_length(Vector vec);
+size_t list_length(List list);
 
 /*
-    Returns capacity of vector.
+    Returns capacity of list.
 */
-size_t vec_capacity(Vector vec);
+size_t list_capacity(List list);
 
 #endif

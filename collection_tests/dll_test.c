@@ -1,5 +1,4 @@
 #include "../include/collections/dll.h"
-#include "../include/collections/ll.h"
 #include "../lib/obsidian.h"
 #include "../include/llv.h"
 #include "collection_test_helper.h"
@@ -17,7 +16,7 @@ int main(void) {
     OBS_TEST_GROUP("DLL_new && dll_new_node", {
         OBS_TEST("Create list and test properties", {
             DLL list = dll_new("1");
-            obs_test_strcmp(list->name, "1");
+            obs_test_strcmp(list->parent.name, "1");
             test_empty_list(list, dll);
             dll_free(list);
         })

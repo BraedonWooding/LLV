@@ -23,11 +23,11 @@ void dll_print_list(Collection collection);
 
 DLL dll_new(char *name) {
     DLL dll = malloc_with_oom(sizeof(struct _doubly_linked_list_t), "DLL");
-    dll->name = name;
+    dll->parent.name = name;
     dll->head = dll->tail = NULL;
-    dll->list_printer = dll_print_list;
-    dll->get_sizeof = list_sizeof;
-    dll->node_printer = list_print_node;
+    dll->parent.list_printer = dll_print_list;
+    dll->parent.get_sizeof = list_sizeof;
+    dll->parent.node_printer = list_print_node;
     return dll;
 }
 
@@ -163,7 +163,7 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
     // only go through half the list
     bool broke_due_to_size = false;
     for (; *out_stop < (len + 1) / 2; (*out_stop)++) {
-        node_sizes[*out_stop] = list->get_sizeof(*out_forwards);
+        node_sizes[*out_stop] = list->parent.get_sizeof(*out_forwards);
         size_t forward_size = node_sizes[*out_stop] + AFTER_NODE_LEN;
         if (*out_count + forward_size > size.width) {
             broke_due_to_size = true;
@@ -175,7 +175,7 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
 
         if (*out_stop == len / 2) break;
 
-        node_sizes[len - 1 - *out_stop] = list->get_sizeof(*out_backwards);
+        node_sizes[len - 1 - *out_stop] = list->parent.get_sizeof(*out_backwards);
         size_t backward_size = node_sizes[len - 1 - *out_stop] + AFTER_NODE_LEN;
         if (*out_count + backward_size > size.width) {
             broke_due_to_size = true;
