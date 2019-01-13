@@ -11,4 +11,4 @@ addons:
       - llvm-toolchain-trusty-3.9
     packages:
       - clang-3.9
-script: cmake . && make all && make run_tests
+script: cmake . && make run_tests
