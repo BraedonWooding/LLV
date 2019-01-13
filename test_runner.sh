@@ -67,7 +67,7 @@ for test in example/example_tests/*.in; do
         source $test_case
         num_and_in="${test#*.}"
         num="${num_and_in%%.*}"
-        $1/example $num < $test > $filename.result
+        $1/example_tests $num < $test > $filename.result
         test_case_name=$(basename $test_case)
         if [ ! -f example/example_tests/expected/$filename.expected."${test_case_name%%.*}" ]; then
             printf "\n${YELLOW}Missing${RESET} example/example_tests/expected/$filename.expected."${test_case_name%%.*}" exiting\n"
