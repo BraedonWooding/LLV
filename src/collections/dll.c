@@ -32,7 +32,7 @@ DLL dll_new(char *name) {
 }
 
 void dll_free(DLL list) {
-    dll_clear_list(list);
+    dll_clear(list);
     free(list);
 }
 
@@ -64,7 +64,7 @@ void dll_append(DLL list, DLL_Node n) {
     dll_insert_after(list, n, list->tail);
 }
 
-void dll_clear_list(DLL list) {
+void dll_clear(DLL list) {
     for (DLL_Node cur = list->head; cur != NULL;) {
         DLL_Node temp = cur;
         cur = cur->next;

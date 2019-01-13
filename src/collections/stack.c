@@ -22,6 +22,10 @@ void stack_free_node(StackNode n) {
     ll_free_node(n);
 }
 
+void stack_clear(Stack stack) {
+    ll_clear(stack);
+}
+
 size_t stack_length(Stack stack) {
     return ll_length(stack);
 }

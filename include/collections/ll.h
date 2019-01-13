@@ -49,7 +49,7 @@ void ll_default_print_data(LL_Node n);
 /*
     Free all nodes in collection.
 */
-void ll_clear_list(LL list);
+void ll_clear(LL list);
 
 /*
     Inserts the given node after the LL_Node 'at'.

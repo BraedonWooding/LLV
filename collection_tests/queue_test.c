@@ -6,10 +6,6 @@
 #include "../include/types/shared_types.h"
 #include <string.h>
 
-/*
-    Practically identical tests to LL though I'm sure I'll expand it later.
-*/
-
 int main(void) {
     OBS_SETUP("Queue")
 
@@ -128,5 +124,26 @@ int main(void) {
             obs_test_true(queue_is_empty(queue));
         })
     })
+
+    OBS_TEST_GROUP("Queue clear", {
+        OBS_TEST("Clear empty", {
+            Queue queue = queue_new("1");
+            test_empty_list(queue, queue);
+            queue_clear(queue);
+            test_empty_list(queue, queue);
+        })
+
+        OBS_TEST("Clear with elements", {
+            Queue queue = queue_new("1");
+            test_empty_list(queue, queue);
+            for (int i = 0; i < 100; i++) {
+                queue_enqueue(queue, NEW_NODE(queue, i));
+            }
+            obs_test(queue_length(queue), ==, (size_t)100);
+            queue_clear(queue);
+            test_empty_list(queue, queue);
+        })
+    })
+
     OBS_REPORT
 }

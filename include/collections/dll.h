@@ -50,7 +50,7 @@ void dll_default_print_data(DLL_Node n);
 /*
     Free all nodes in collection.
 */
-void dll_clear_list(DLL list);
+void dll_clear(DLL list);
 
 /*
     Inserts the given node after the DLL_Node 'at'.

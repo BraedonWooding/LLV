@@ -6,10 +6,6 @@
 #include "../include/types/shared_types.h"
 #include <string.h>
 
-/*
-    Practically identical tests to LL though I'm sure I'll expand it later.
-*/
-
 int main(void) {
     OBS_SETUP("Doubly Linked List")
 
@@ -97,11 +93,11 @@ int main(void) {
         })
     });
 
-    OBS_TEST_GROUP("DLL_clear_list", {
+    OBS_TEST_GROUP("DLL_clear", {
         OBS_TEST("Clearing empty list", {
             DLL list = dll_new("1");
             test_empty_list(list, dll);
-            dll_clear_list(list);
+            dll_clear(list);
             test_empty_list(list, dll);
             dll_free(list);
         })
@@ -111,7 +107,7 @@ int main(void) {
             long long *elements = ((long long[]){1, 2, 3, 4, 5});
             map_items(list, 5, elements, dll, dll_append);
             test_list(list, elements, dll);
-            dll_clear_list(list);
+            dll_clear(list);
             test_empty_list(list, dll);
             dll_free(list);
         })
@@ -121,12 +117,12 @@ int main(void) {
             double *elements = ((double[]){5.0, 3.2, 100.5, 421.222, 1.022, 2.22, 0.2});
             map_items(list, 7, elements, dll, dll_append);
             test_list(list, elements, dll);
-            dll_clear_list(list);
+            dll_clear(list);
             test_empty_list(list, dll);
             char **new_elements = ((char*[]){"Hello", "World", "Wow"});
             map_items(list, 3, new_elements, dll, dll_append);
             test_strcmp_fakenode(list, new_elements);
-            dll_clear_list(list);
+            dll_clear(list);
             test_empty_list(list, dll);
             dll_free(list);
         })

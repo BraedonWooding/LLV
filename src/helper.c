@@ -23,8 +23,6 @@
 
 #include "env_var.h"
 
-extern bool disable_unicode;
-
 void write_str_center_of_buf(wchar_t **buf, size_t offset, size_t len,
                              wchar_t *str, size_t str_len) {
     write_str_to_buf(buf, offset, len, len / 2, str, str_len);
@@ -104,8 +102,6 @@ bool supports_unicode() {
     #ifdef UNIX_COMPATIBILITY
     // @OS BUG: for some reason we need to set the locale on unix systems
     // (not all just high sierra and ubuntu so far) otherwise nothing is printed.
-    // on mac the reason is that high sierra set LANG wrong (default is "" which is
-    // nonsensical)
     setlocale(LC_ALL, "");
     #endif
 

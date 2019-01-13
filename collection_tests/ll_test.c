@@ -93,11 +93,11 @@ int main(void) {
         })
     });
 
-    OBS_TEST_GROUP("LL_clear_list", {
+    OBS_TEST_GROUP("LL_clear", {
         OBS_TEST("Clearing empty list", {
             LL list = ll_new("1");
             test_empty_list(list, ll);
-            ll_clear_list(list);
+            ll_clear(list);
             test_empty_list(list, ll);
             ll_free(list);
         })
@@ -107,7 +107,7 @@ int main(void) {
             long long *elements = ((long long[]){1, 2, 3, 4, 5});
             map_items(list, 5, elements, ll, ll_append);
             test_list(list, elements, ll);
-            ll_clear_list(list);
+            ll_clear(list);
             test_empty_list(list, ll);
             ll_free(list);
         })
@@ -117,12 +117,12 @@ int main(void) {
             double *elements = ((double[]){5.0, 3.2, 100.5, 421.222, 1.022, 2.22, 0.2});
             map_items(list, 7, elements, ll, ll_append);
             test_list(list, elements, ll);
-            ll_clear_list(list);
+            ll_clear(list);
             test_empty_list(list, ll);
             char **new_elements = ((char*[]){"Hello", "World", "Wow"});
             map_items(list, 3, new_elements, ll, ll_append);
             test_strcmp_fakenode(list, new_elements);
-            ll_clear_list(list);
+            ll_clear(list);
             test_empty_list(list, ll);
             ll_free(list);
         })

@@ -6,10 +6,6 @@
 #include "../include/types/shared_types.h"
 #include <string.h>
 
-/*
-    Practically identical tests to LL though I'm sure I'll expand it later.
-*/
-
 int main(void) {
     OBS_SETUP("Stack")
 
@@ -128,5 +124,26 @@ int main(void) {
             obs_test_true(stack_is_empty(stack));
         })
     })
+
+    OBS_TEST_GROUP("Stack clear", {
+        OBS_TEST("Clear empty", {
+            Stack stack = stack_new("1");
+            test_empty_list(stack, stack);
+            stack_clear(stack);
+            test_empty_list(stack, stack);
+        })
+
+        OBS_TEST("Clear with elements", {
+            Stack stack = stack_new("1");
+            test_empty_list(stack, stack);
+            for (int i = 0; i < 100; i++) {
+                stack_push(stack, NEW_NODE(stack, i));
+            }
+            obs_test(stack_length(stack), ==, (size_t)100);
+            stack_clear(stack);
+            test_empty_list(stack, stack);
+        })
+    })
+
     OBS_REPORT
 }

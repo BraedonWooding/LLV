@@ -42,7 +42,8 @@ Also note that all collections aren't singularly typed so you could mix int/floa
 - Just run `wget https://raw.githubusercontent.com/BraedonWooding/LLV/master/install.sh && sh install.sh` on any posix system (i.e. cse, MacOS, Linux/BSD variants)
   - or if you are on windows just copy + paste `include.zip` contents into your include path and `libLLV.a` into your lib path from the latest release [here](https://github.com/BraedonWooding/LLV/releases)
 - Then just have `#include <LLV/llv.h>` and any collections you want like `#include <LLV/collections/ll.h>`
-  - `ll.h` (Linked List), `dll.h` (Doubly Linked list), `array.h` (Static Array), `vector.h` (Dynamic Array), `queue.h` (Queue LILO/FIFO), `stack.h` (Stack FILO/LIFO) are the currently supported collections.
+  - `ll.h` (Linked List), `dll.h` (Doubly Linked list), `array.h` (Static Array), `list.h` (Dynamic Array), `queue.h` (Queue LILO/FIFO), `stack.h` (Stack FILO/LIFO) are the currently supported collections.
+- Note: if you are having issues with anything check out the [FAQ](https://github.com/BraedonWooding/LLV/wiki/FAQ) first before opening an issue
 
 ## For those wanting to build a new collection
 

@@ -32,13 +32,13 @@ void list_free(List list) {
 
 size_t linear_grow_function(size_t old_len, size_t min_new_len, double factor) {
     obs_assert(factor, >=, 0.0);
-    if (factor == 0) return min_new_len;
-    return (min_new_len + factor) / factor * factor;
+    if (factor == 0 || old_len == 0) return min_new_len;
+    return (min_new_len + factor) * factor / factor;
 }
 
 size_t poly_grow_function(size_t old_len, size_t min_new_len, double factor) {
     obs_assert(factor, >=, 0.0);
-    if (factor == 0) return min_new_len;
+    if (factor == 0 || old_len == 0) return min_new_len;
     size_t new_len = old_len;
     while (new_len <= min_new_len) new_len *= factor;
     return new_len;
@@ -46,7 +46,7 @@ size_t poly_grow_function(size_t old_len, size_t min_new_len, double factor) {
 
 size_t exponential_grow_function(size_t old_len, size_t min_new_len, double factor) {
     obs_assert(factor, >=, 0.0);
-    if (factor == 0) return min_new_len;
+    if (factor == 0 || old_len == 0) return min_new_len;
     size_t new_len = old_len;
     while (new_len <= min_new_len) new_len = pow(new_len, factor);
     return new_len;
@@ -65,7 +65,7 @@ struct _list_data_t list_new_node(Data data, TypeTag type) {
     };
 }
 
-void list_clear_list(List list, bool release_memory) {
+void list_clear(List list, bool release_memory) {
     list->cur_len = 0;
     if (release_memory) {
         list->max_len = 0;
@@ -139,7 +139,7 @@ void list_reserve(List list, size_t len) {
     if (list->max_len >= len) return;
     size_t new_len = list->grow_function(list->max_len, len, list->factor);
     list->max_len = new_len;
-    list->data = realloc(list->data, list->max_len);
+    list->data = realloc(list->data, sizeof(struct _list_t) * list->max_len);
 }
 
 void list_print(Collection c) {

@@ -80,7 +80,7 @@ void list_reserve(List list, size_t len);
 /*
     Clears list.  Will release memory if release_memory is true.
 */
-void list_clear_list(List list, bool release_memory);
+void list_clear(List list, bool release_memory);
 
 /*
     Pushes node to back of list, growing if needed.

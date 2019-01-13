@@ -19,7 +19,7 @@
 
 // Look at examples.incl for the code
 
-#define ARRAY_LEN(a) (sizeof(a) / sizeof(*a))
+#define ARRAY_LEN(a) (sizeof(a) / sizeof(a[0]))
 
 void usage_exit(void) {
     printf("Use like; ./program <X> where X is a number and from the following list\n"

@@ -25,6 +25,9 @@ size_t queue_length(Queue queue);
 /* Returns true if there are no items in queue */
 bool queue_is_empty(Queue queue);
 
+/* Free all nodes in queue. */
+void queue_clear(Queue queue);
+
 /*
    Create a new node
    Could use NEW_NODE(queue, data)

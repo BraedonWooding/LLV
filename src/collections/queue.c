@@ -22,6 +22,10 @@ void queue_free_node(QueueNode n) {
     ll_free_node(n);
 }
 
+void queue_clear(Queue queue) {
+    ll_clear(queue);
+}
+
 size_t queue_length(Queue queue) {
     return ll_length(queue);
 }

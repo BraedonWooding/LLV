@@ -25,6 +25,9 @@ size_t stack_length(Stack stack);
 /* Returns true if there are no items on the stack */
 bool stack_is_empty(Stack stack);
 
+/* Free all nodes in stack. */
+void stack_clear(Stack stack);
+
 /* 
    Create a new node in the stack 
    Could use NEW_NODE(stack, data);

@@ -37,7 +37,7 @@ LL ll_new(char *name) {
 }
 
 void ll_free(LL list) {
-    ll_clear_list(list);
+    ll_clear(list);
     free(list);
 }
 
@@ -68,7 +68,7 @@ void ll_append(LL list, LL_Node n) {
     ll_insert_after(list, n, list->tail);
 }
 
-void ll_clear_list(LL list) {
+void ll_clear(LL list) {
     for (LL_Node cur = list->head; cur != NULL;) {
         LL_Node temp = cur;
         cur = cur->next;

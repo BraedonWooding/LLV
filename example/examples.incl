@@ -37,7 +37,8 @@ EXAMPLE_X(reverse_standard, 0, "Reverse standard", {
 })
 
 EXAMPLE_X(bubble_sort, 1, "Sort List", {
-    int *values = ((int[]){1, 1000, 9, 90, 110, 54, 10});
+    int values[] = ((int[]){1, 1000, 9, 90, 110, 54, 10});
+
     Array array = array_new("Sorting List", ARRAY_LEN(values));
     for (int i = 0; i < ARRAY_LEN(values); i++) {
         array_set(array, i, NEW_NODE(array, values[i]));
