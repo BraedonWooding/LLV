@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <math.h>
 #include <assert.h>
 #include <string.h>
 #include <stdbool.h>
@@ -10,19 +9,19 @@
 #include "../../include/helper.h"
 #include "../list_helper.h"
 
-#define AFTER_NODE (select_str_unicode(L" ⟺   ", L" <-> "))
-#define AFTER_NODE_LEN (wcslen(AFTER_NODE))
-#define START_OF_LIST (select_str_unicode(NULL_NODE L" ⟺  ", NULL_NODE L" <-> "))
-#define START_OF_LIST_LEN (wcslen(START_OF_LIST))
-#define END_OF_LIST (select_str_unicode(L" ⟺   " NULL_NODE, L" <-> " NULL_NODE))
-#define END_OF_LIST_LEN (wcslen(END_OF_LIST))
-#define ELLIPSES (select_str_unicode(L"... ⟺   ", L"... <-> "))
-#define ELLIPSES_LEN (wcslen(ELLIPSES))
+#define DLL_AFTER_NODE (select_str_unicode(L" ⟺   ", L" <-> "))
+#define DLL_AFTER_NODE_LEN (wcslen(DLL_AFTER_NODE))
+#define DLL_START_OF_LIST (select_str_unicode(NULL_NODE L" ⟺  ", NULL_NODE L" <-> "))
+#define DLL_START_OF_LIST_LEN (wcslen(DLL_START_OF_LIST))
+#define DLL_END_OF_LIST (select_str_unicode(L" ⟺   " NULL_NODE, L" <-> " NULL_NODE))
+#define DLL_END_OF_LIST_LEN (wcslen(DLL_END_OF_LIST))
+#define DLL_ELLIPSES (select_str_unicode(L"... ⟺   ", L"... <-> "))
+#define DLL_ELLIPSES_LEN (wcslen(DLL_ELLIPSES))
 
 void dll_print_list(Collection collection);
 
 DLL dll_new(char *name) {
-    DLL dll = malloc_with_oom(sizeof(struct _doubly_linked_list_t), "DLL");
+    DLL dll = (DLL)malloc_with_oom(sizeof(struct _doubly_linked_list_t), "DLL");
     dll->parent.name = name;
     dll->head = dll->tail = NULL;
     dll->parent.list_printer = dll_print_list;
@@ -44,7 +43,7 @@ void dll_free_node(DLL_Node n) {
 }
 
 DLL_Node dll_new_node(Data data, TypeTag type) {
-    DLL_Node new_node = malloc_with_oom(sizeof(struct _dll_node_t), "DLL_Node");
+    DLL_Node new_node = (DLL_Node)malloc_with_oom(sizeof(struct _dll_node_t), "DLL_Node");
     new_node->next = new_node->prev = NULL;
     new_node->data = data;
     new_node->data_tag = type;
@@ -105,7 +104,9 @@ void dll_insert_before(DLL list, DLL_Node node, DLL_Node at) {
 DLL_Node dll_remove_node(DLL list, DLL_Node node) {
     if (node == NULL) return NULL;
     bool found = false;
-    for (DLL_Node c = list->head; c != NULL && !found; c = c->next) found = c == node;
+    for (DLL_Node c = list->head; c != NULL && !found; c = c->next) {
+        found = (c == node);
+    }
     if (!found) return NULL;
 
     if (list->head == node) {
@@ -125,7 +126,7 @@ DLL_Node dll_remove_node(DLL list, DLL_Node node) {
     return node;
 }
 
-bool dll_is_empty(DLL list) {
+int dll_is_empty(DLL list) {
     return list->head == NULL;
 }
 
@@ -139,15 +140,15 @@ DLL_Node dll_find_next(DLL_Node n) {
     return n->next;
 }
 
-size_t dll_length(DLL list) {
+int dll_length(DLL list) {
     int count = 0;
     for (DLL_Node n = list->head; n != NULL; n = n->next) count++;
     return count;
 }
 
-size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_count,
+int *dll_attempt_fit(DLL list, int len, terminalSize size, int *out_count,
                     DLL_Node *out_forwards, DLL_Node *out_backwards, int *out_stop) {
-    size_t *node_sizes = malloc_with_oom(sizeof(size_t) * len, "node_sizes");
+    int *node_sizes = (int*)malloc_with_oom(sizeof(int) * len, "node_sizes");
 
     if (dll_is_empty(list)) {
         *out_stop = 0;
@@ -155,7 +156,7 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
         return node_sizes;
     }
 
-    *out_count = START_OF_LIST_LEN + NULL_NODE_LEN + ELLIPSES_LEN;
+    *out_count = DLL_START_OF_LIST_LEN + NULL_NODE_LEN + DLL_ELLIPSES_LEN;
     *out_stop = 0;
     *out_forwards = list->head;
     *out_backwards = list->tail;
@@ -164,7 +165,7 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
     bool broke_due_to_size = false;
     for (; *out_stop < (len + 1) / 2; (*out_stop)++) {
         node_sizes[*out_stop] = list->parent.get_sizeof(*out_forwards);
-        size_t forward_size = node_sizes[*out_stop] + AFTER_NODE_LEN;
+        int forward_size = node_sizes[*out_stop] + DLL_AFTER_NODE_LEN;
         if (*out_count + forward_size > size.width) {
             broke_due_to_size = true;
             break;
@@ -176,7 +177,7 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
         if (*out_stop == len / 2) break;
 
         node_sizes[len - 1 - *out_stop] = list->parent.get_sizeof(*out_backwards);
-        size_t backward_size = node_sizes[len - 1 - *out_stop] + AFTER_NODE_LEN;
+        int backward_size = node_sizes[len - 1 - *out_stop] + DLL_AFTER_NODE_LEN;
         if (*out_count + backward_size > size.width) {
             broke_due_to_size = true;
             break;
@@ -187,7 +188,9 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
     }
 
     if (*out_stop == 0 && broke_due_to_size) {
-        printf("Error: No valid sizing constraint matches terminal size; i.e. increase your terminal size since on current size can't even fit the bare minimum\n");
+        printf("Error: No valid sizing constraint matches terminal size; i.e. "
+               "increase your terminal size since on current size can't even "
+               "fit the bare minimum\n");
         exit(1);
     }
 
@@ -195,9 +198,7 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
         // go through entire list
         *out_forwards = NULL;
         *out_backwards = NULL;
-        *out_count -= ELLIPSES_LEN;
-    } else {
-    
+        *out_count -= DLL_ELLIPSES_LEN;
     }
 
     return node_sizes;
@@ -205,13 +206,16 @@ size_t *dll_attempt_fit(DLL list, size_t len, terminalSize size, size_t *out_cou
 
 void dll_print_list(Collection list) {
     DLL dll = (DLL)list;
-    size_t len = dll_length(dll);
-    size_t count;
+    int len = dll_length(dll);
+    int count;
     int stop;
     DLL_Node forwards = dll->head;
     DLL_Node backwards = dll->tail;
     terminalSize size = get_terminal_size();
-    size_t *node_sizes = dll_attempt_fit(dll, len, size, &count, &forwards, &backwards, &stop);
-    list_print_general(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes, AFTER_NODE,
-               START_OF_LIST, END_OF_LIST, ELLIPSES, (FakeNode)dll->head, "Doubly Linked List");
+    int *node_sizes = dll_attempt_fit(dll, len, size, &count, &forwards,
+                                      &backwards, &stop);
+    list_print_general(list, len, count, (FakeNode)forwards,
+                       (FakeNode)backwards, stop, node_sizes, DLL_AFTER_NODE,
+                       DLL_START_OF_LIST, DLL_END_OF_LIST, DLL_ELLIPSES,
+                       (FakeNode)dll->head, "Doubly Linked List");
 }

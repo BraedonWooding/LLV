@@ -1,14 +1,6 @@
-dist: trusty
+dist: xenial
 language: c
 os:
   - linux
 compiler: clang
-before_install:
-  - if [ "$CC" = "clang" ]; then export CC="clang-3.9"; fi
-addons:
-  apt:
-    sources:
-      - llvm-toolchain-trusty-3.9
-    packages:
-      - clang-3.9
 script: cmake . && make run_tests

@@ -333,14 +333,14 @@ int main(void) {
     OBS_TEST_GROUP("ll_length", {
         OBS_TEST("Empty list", {
             LL list = ll_new("1");
-            obs_test(ll_length(list), ==, (size_t)0);
+            obs_test(ll_length(list), ==, (int)0);
             ll_free(list);
         })
 
         OBS_TEST("Single element list", {
             LL list = ll_new("2");
             ll_push(list, NEW_NODE(ll, 2));
-            obs_test(ll_length(list), ==, (size_t)1);
+            obs_test(ll_length(list), ==, (int)1);
             ll_free(list);
         })
 
@@ -349,7 +349,7 @@ int main(void) {
             long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             map_items(list, 10, items, ll, ll_append);
             test_list(list, items, ll);
-            obs_test(ll_length(list), ==, (size_t)10);
+            obs_test(ll_length(list), ==, (int)10);
             ll_free(list);
         })
     })
@@ -358,12 +358,12 @@ int main(void) {
         OBS_TEST("Push onto empty list, then pop it", {
             LL list = ll_new("1");
             ll_push(list, NEW_NODE(ll, 4));
-            obs_test(ll_length(list), ==, (size_t)1);
+            obs_test(ll_length(list), ==, (int)1);
             obs_test(list->head->data.int_data, ==, (long long)4);
             LL_Node n = ll_pop(list);
             obs_test(n->data.int_data, ==, (long long)4);
             ll_free_node(n);
-            obs_test(ll_length(list), ==, (size_t)0);
+            obs_test(ll_length(list), ==, (int)0);
             ll_free(list);
         })
 
@@ -386,7 +386,7 @@ int main(void) {
                 obs_test(n->data.int_data, ==, result[i]);
                 ll_free_node(n);
             }
-            obs_test(ll_length(list), ==, (size_t)0);
+            obs_test(ll_length(list), ==, (int)0);
             ll_free(list);
         })
     })
@@ -395,7 +395,7 @@ int main(void) {
         OBS_TEST("Append to empty list", {
             LL list = ll_new("1");
             ll_append(list, NEW_NODE(ll, 10));
-            obs_test(ll_length(list), ==, (size_t)1);
+            obs_test(ll_length(list), ==, (int)1);
             obs_test(list->head->data.int_data, ==, (long long)10);
             ll_free(list);
         })
@@ -406,7 +406,7 @@ int main(void) {
             map_items(list, 7, elements, ll, ll_append);
             test_list(list, elements, ll);
             ll_append(list, NEW_NODE(ll, 10));
-            obs_test(ll_length(list), ==, (size_t)8);
+            obs_test(ll_length(list), ==, (int)8);
             obs_test(list->tail->data.int_data, ==, (long long)10);
             ll_free(list);
         })

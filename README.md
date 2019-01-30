@@ -2,11 +2,13 @@
 
 [![Build Status](https://travis-ci.com/BraedonWooding/LLV.svg?branch=master)](https://travis-ci.com/BraedonWooding/LLV)
 
-> A generic collection visualisation tool
+> A generic collection visualisation tool (supporting linked lists, arrays, dynamic arrays and more)
 
 > All collections, examples, and the program itself are thoroughly tested.
 
 > Originally made for teaching purposes for UNSW CSE
+
+> Single header file that is compatible with C11 and C99 (recommended C11)
 
 > Made by Braedon Wooding
 
@@ -21,7 +23,7 @@ Check out [Quick Start Guide](https://github.com/BraedonWooding/LLV/wiki/Quick-S
 Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we support;
 
 - Singularly and Doubly Linked Lists
-- Dynamic and static arrays (arraylist/vector/list and arrays)
+- Dynamic and arrays (arraylist/vector/list and arrays)
   - We call our dynamic arrays just `List` since `Vector` is too opaque and `ArrayList` is too long and we don't have to worry about conflictions with linked lists since they are `LL` and `DLL` respectively.
 - Queues and Stacks
 
@@ -41,15 +43,28 @@ Also note that all collections aren't singularly typed so you could mix int/floa
 
 ## How to install
 
-- Just run `wget https://raw.githubusercontent.com/BraedonWooding/LLV/master/install.sh && sh install.sh` on any posix system (i.e. cse, MacOS, Linux/BSD variants)
-  - or if you are on windows just copy + paste `include.zip` contents into your include path and `libLLV.a` into your lib path from the latest release [here](https://github.com/BraedonWooding/LLV/releases)
-- Then just have `#include <LLV/llv.h>` and any collections you want like `#include <LLV/collections/ll.h>`
-  - `ll.h` (Linked List), `dll.h` (Doubly Linked list), `array.h` (Static Array), `list.h` (Dynamic Array), `queue.h` (Queue LILO/FIFO), `stack.h` (Stack FILO/LIFO) are the currently supported collections.
-- Note: if you are having issues with anything check out the [FAQ](https://github.com/BraedonWooding/LLV/wiki/FAQ) first before opening an issue
+- Either download the single source header file from releases `llv.h`
+  - The following oneliner command will do this for cse/mac
+
+```bash
+curl -s https://api.github.com/repos/BraedonWooding/LLV/releases/latest \
+    | grep "browser_download_url.*llv.h" \
+    | cut -d '"' -f 4 \
+    | wget -qi -
+```
+
+- You can also install our static library (or object file archive rather) if you have bin and lib access (i.e. on your own machines that aren't cse) by just running `wget https://raw.githubusercontent.com/BraedonWooding/LLV/master/install.sh && sh install.sh` you may want to remove `install.sh` afterwards (or keep it to easily get new updates).
+
+## How to use
+
+- If you downloaded the `llv.h` single source header then you just have to write `#include "llv.h"` at the top of your file no need to pass anything extra doing compilation
+  - This will also include all the collections for you
+- If you went the static library route then you just have to write `#include <LLV/llv.h>` and link with `-lLLV`
+  - You will also have to include all the collections you want like `#include <LLV/collections/ll.h>`
 
 ## For those wanting to build a new collection
 
-You just build it like you normally would however make sure the alignment of the first few types match the alignment of `Collection`, this is just so we can have effective generics behind the scenes for our printer, just makes it easier (since we need to access some of the fields).
+You probably can just piggy back off the already written code for collections (the generic list and the generic array printers) and I'll make a tree printer soon (vert and horiz).  Just make sure your collection has the `struct _collection_t parent` as it's first member for the sake of casting to the base class.
 
 Furthermore if it is similar to one of the current collections there is a pretty good chance I've already made the core printing logic under collection_helper, as long as your nodes match up with the `FakeNode` alignment then they will work, they take the barebones implementation required to print them out.  For example DLL and LL both use the same logic to print out their nodes.
 

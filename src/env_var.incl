@@ -1,8 +1,7 @@
 new_env_var(get_print_height, LLV_PRINT_HEIGHT, int, 5, atoi);
 new_env_var(get_ptr_height, LLV_PTR_HEIGHT, int, 2, atoi);
 new_env_var(unicode_in_lang, LANG, bool, false, contains_utf)
-// @TODO: come up with a better conversion functino
-new_env_var(get_sleep_time, LLV_SLEEP_TIME, size_t, 0, atoi);
+new_env_var(get_sleep_time, LLV_SLEEP_TIME, int, 0, atoi);
 new_env_var(clear_on_update, LLV_CLEAR_ON_UPDATE, bool, true, atob);
 new_env_var(unicode_disabled, LLV_DISABLE_UNICODE, bool, false, atob);
 new_env_var(include_ptrs_on_single, LLV_INCLUDE_PTRS_ON_SINGLE_BOX, bool, false, atob);

@@ -2,7 +2,6 @@
 #define LLV_COLLECTION_HELPER
 
 #include <string.h>
-#include <math.h>
 
 #include "../include/types/collection_skeleton.h"
 #include "../include/types/shared_types.h"
@@ -29,13 +28,13 @@ typedef struct _fake_node_t {
     struct _fake_node_t *next;
 } *FakeNode;
 
-size_t list_sizeof(void *n);
+int list_sizeof(void *n);
 
-void list_print_node(void *n, wchar_t **buf, size_t size, size_t len, size_t offset);
+void list_print_node(void *n, wchar_t **buf, int size, int len, int offset);
 
-void list_print_general(Collection list, size_t len, size_t count, FakeNode forwards,
-                FakeNode backwards, int stop, size_t *node_sizes, wchar_t *after_node,
+void list_print_general(Collection list, int len, int count, FakeNode forwards,
+                FakeNode backwards, int stop, int *node_sizes, wchar_t *after_node,
                 wchar_t *start_of_list, wchar_t *end_of_list, wchar_t *ellipses, FakeNode head,
                 char *collection_name);
 
-#endif
+#endif /* LLV_COLLECTION_HELPER */

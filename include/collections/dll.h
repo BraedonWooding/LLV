@@ -1,8 +1,6 @@
 #ifndef LLV_DOUBLY_LINKED_LIST_H
 #define LLV_DOUBLY_LINKED_LIST_H
 
-#include <stdlib.h>
-#include <stdbool.h>
 #include "../types/shared_types.h"
 #include "../types/collection_skeleton.h"
 
@@ -70,7 +68,7 @@ DLL_Node dll_remove_node(DLL list, DLL_Node node);
 /*
     Returns true if the list is empty.
 */
-bool dll_is_empty(DLL list);
+int dll_is_empty(DLL list);
 
 /*
     List can be null in some cases.  Will find the previous node to the given one.
@@ -85,7 +83,7 @@ DLL_Node dll_find_next(DLL_Node n);
 /*
     Returns length of list.
 */
-size_t dll_length(DLL list);
+int dll_length(DLL list);
 
 /*
     Pushes node to top of list.
@@ -102,4 +100,4 @@ DLL_Node dll_pop(DLL list);
 */
 void dll_append(DLL list, DLL_Node n);
 
-#endif
+#endif /* LLV_DOUBLY_LINKED_LIST_H */

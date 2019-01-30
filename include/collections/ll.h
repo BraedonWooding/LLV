@@ -3,23 +3,10 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../types/shared_types.h"
-#include "../types/collection_skeleton.h"
+
+#include "ll_structs.h"
 
 typedef struct _LL_node_t *LL_Node;
-
-struct _LL_node_t {
-    char *ptr;          // for display
-    Data data;          // the data of this node
-    TypeTag data_tag;   // the corresponding tag for the data ^^
-    LL_Node next;       // the next one in the list
-};
-
-typedef struct _singly_linked_list_t {
-    struct _collection_t parent;   // inherited members
-    LL_Node head;       // the front of the list
-    LL_Node tail;       // the back of the list
-} *LL;
 
 /*
     Create a new list with a given name and a default type.
@@ -84,7 +71,7 @@ LL_Node ll_find_next(LL_Node n);
 /*
     Returns the length of the list.
 */
-size_t ll_length(LL list);
+int ll_length(LL list);
 
 /*
     Pushes node to top of list.
@@ -101,4 +88,4 @@ LL_Node ll_pop(LL list);
 */
 void ll_append(LL list, LL_Node n);
 
-#endif
+#endif /* LLV_LINKED_LIST_H */

@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <math.h>
 #include <assert.h>
 #include <string.h>
 #include <stdbool.h>
@@ -26,11 +25,11 @@ void stack_clear(Stack stack) {
     ll_clear(stack);
 }
 
-size_t stack_length(Stack stack) {
+int stack_length(Stack stack) {
     return ll_length(stack);
 }
 
-bool stack_is_empty(Stack stack) {
+int stack_is_empty(Stack stack) {
     return ll_is_empty(stack);
 }
 

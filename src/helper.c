@@ -5,6 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <locale.h>
+#include <stdarg.h>
 
 #ifdef WINDOWS_COMPATIBILITY
     #include <windows.h>
@@ -23,13 +24,13 @@
 
 #include "env_var.h"
 
-void write_str_center_of_buf(wchar_t **buf, size_t offset, size_t len,
-                             wchar_t *str, size_t str_len) {
+void write_str_center_of_buf(wchar_t **buf, int offset, int len,
+                             wchar_t *str, int str_len) {
     write_str_to_buf(buf, offset, len, len / 2, str, str_len);
 }
 
-void write_str_to_buf(wchar_t **buf, size_t offset, size_t len, size_t index,
-                      wchar_t *str, size_t str_len) {
+void write_str_to_buf(wchar_t **buf, int offset, int len, int index,
+                      wchar_t *str, int str_len) {
     memcpy(buf[index] + offset, str, str_len * sizeof(wchar_t));
 }
 
@@ -56,7 +57,7 @@ terminalSize get_terminal_size(void) {
     return (terminalSize){.width = cols, .height = rows};
 }
 
-void sleep_ms(size_t ms) {
+void sleep_ms(int ms) {
     #ifdef WINDOWS_COMPATIBILITY
         Sleep(ms);
     #elif defined(POSIX_LEGACY)
@@ -76,21 +77,21 @@ void sleep_ms(size_t ms) {
 void *malloc_with_oom(size_t size, char *obj_name) {
     void *obj = malloc(size);
     if (obj == NULL) {
-        printf("Error: OOM; can't allocate %lu bytes for %s\n", size, obj_name);
+        printf("Error: OOM; can't allocate %zu bytes for %s\n", size, obj_name);
         exit(1);
     }
     return obj;
 }
 
-void write_str_repeat_char(wchar_t *buf, size_t offset, wchar_t c, int count) {
+void write_str_repeat_char(wchar_t *buf, int offset, wchar_t c, int count) {
     for (int i = 0; i < count; i++) buf[i + offset] = c;
 }
 
-void write_str_repeat_char_vert(wchar_t **buf, size_t offset, wchar_t c, int count, int index) {
+void write_str_repeat_char_vert(wchar_t **buf, int offset, wchar_t c, int count, int index) {
     for (int i = 0; i < count; i++) buf[i][index + offset] = c;
 }
 
-void write_str_repeat_char_grid(wchar_t **buf, size_t offset, wchar_t c, int vert_count,
+void write_str_repeat_char_grid(wchar_t **buf, int offset, wchar_t c, int vert_count,
                                 int horiz_count, int index) {
     for (int i = 0; i < horiz_count; i++) {
         write_str_repeat_char_vert(buf, offset, ' ', vert_count, i + index);
@@ -147,4 +148,16 @@ bool atob(char *str) {
     int res = atoi(str);
     if (res == 1 || res == 0) return res;
     return false;
+}
+
+void assert_msg(bool expr, char *fmt, ...) {
+#ifndef NDEBUG
+    if (!expr) {
+        printf("Assert Failed!\n");
+        va_list(args);
+        va_start(args, fmt);
+        vprintf(fmt, args);
+        va_end(args);
+    }
+#endif
 }

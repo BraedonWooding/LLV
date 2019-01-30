@@ -1,9 +1,10 @@
-[H[2J========================================
+========================================
 Linked List: Example List
  
 X
  
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -11,6 +12,7 @@ Linked List: Example List
 | 29492 | -> X
 =========     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -18,6 +20,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> X
 =========    ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -25,6 +28,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> | 3 | -> X
 =========    ======    =====     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -32,6 +36,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2424 | -> X
 =========           ========     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -39,6 +44,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 55 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -46,6 +52,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 52 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -53,6 +60,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2.3119e+06 | -> X
 =========           ==============     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -60,6 +68,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 133 | -> X
 =========           =======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -67,6 +76,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 13 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -74,6 +84,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 99910 | -> X
 =========           =========     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -81,6 +92,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 41 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -88,6 +100,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -95,6 +108,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -102,6 +116,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 34 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -109,6 +124,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 29492 | -> X
 =========           =========     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -116,6 +132,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 24 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -123,6 +140,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 24 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -130,6 +148,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2424 | -> X
 =========           ========     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -137,6 +156,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 55 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -144,6 +164,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 52 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -151,6 +172,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2.3119e+06 | -> X
 =========           ==============     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -158,6 +180,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 133 | -> X
 =========           =======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -165,6 +188,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 13 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -172,6 +196,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 9.991e+06 | -> X
 =========           =============     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -179,6 +204,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -186,6 +212,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -193,6 +220,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 34 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -200,6 +228,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 29492 | -> X
 =========           =========     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -207,6 +236,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 24 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -214,6 +244,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 24 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -221,6 +252,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2424 | -> X
 =========           ========     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -228,6 +260,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 55 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -235,6 +268,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 52 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -242,6 +276,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2.3119e+06 | -> X
 =========           ==============     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -249,6 +284,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 133 | -> X
 =========           =======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -256,6 +292,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 13 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -263,6 +300,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 9.991e+06 | -> X
 =========           =============     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -270,6 +308,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -277,6 +316,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -284,6 +324,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 34 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -291,6 +332,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 29492 | -> X
 =========           =========     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -298,6 +340,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 24 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -305,6 +348,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 24 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -312,6 +356,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2424 | -> X
 =========           ========     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -319,6 +364,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 55 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -326,6 +372,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 52 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -333,6 +380,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2.3119e+06 | -> X
 =========           ==============     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -340,6 +388,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 3 | -> X
 =========    ======           =====     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -347,6 +396,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 13 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -354,6 +404,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 999 | -> X
 =========           =======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -361,6 +412,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 111 | -> X
 =========           =======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -368,6 +420,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -375,6 +428,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List
@@ -382,6 +436,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 34 | -> X
 =========           ======     
 
+Ctrl+D when finished
 ========================================
 Enter a floating pointer number: ========================================
 Linked List: Example List

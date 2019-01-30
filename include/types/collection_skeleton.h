@@ -5,8 +5,8 @@
 
 typedef struct _collection_t *Collection;
 
-typedef void(*fn_print_node)(void *n, wchar_t **buf, size_t size, size_t len, size_t offset);
-typedef size_t(*fn_sizeof_node)(void *n);
+typedef void(*fn_print_node)(void *n, wchar_t **buf, int size, int len, int offset);
+typedef int(*fn_sizeof_node)(void *n);
 typedef void(*fn_print_list)(Collection collection);
 
 // Currently we expect everyone to fit in the COLLECTION_NODE struct properly
@@ -21,4 +21,4 @@ struct _collection_t {
     fn_print_list list_printer;
 };
 
-#endif
+#endif /* LLV_COLLECTION_SKELETON_H */

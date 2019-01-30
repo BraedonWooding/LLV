@@ -1,9 +1,10 @@
-[H[2J========================================
+========================================
 Linked List: Example List
  
 X
  
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -11,6 +12,7 @@ Linked List: Example List
 | 29492 | -> X
 =========     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -18,6 +20,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> X
 =========    ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -25,6 +28,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> | 24 | -> X
 =========    ======    ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -32,6 +36,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2424 | -> X
 =========           ========     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -39,6 +44,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 55 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -46,6 +52,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 52 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -53,6 +60,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2311939 | -> X
 =========           ===========     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -60,6 +68,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 133 | -> X
 =========           =======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -67,6 +76,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 13 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -74,6 +84,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 999 | -> X
 =========           =======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -81,6 +92,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 0 | -> X
 =========    ======           =====     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -88,6 +100,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 0 | -> X
 =========    ======           =====     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -95,6 +108,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 0 | -> X
 =========    ======           =====     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -102,6 +116,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -109,6 +124,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -116,6 +132,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 34 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -123,6 +140,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 29492 | -> X
 =========           =========     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -130,6 +148,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 24 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -137,6 +156,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 24 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -144,6 +164,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2424 | -> X
 =========           ========     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -151,6 +172,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 55 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -158,6 +180,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 52 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -165,6 +188,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2311939 | -> X
 =========           ===========     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -172,6 +196,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 133 | -> X
 =========           =======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -179,6 +204,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 13 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -186,6 +212,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 999 | -> X
 =========           =======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -193,6 +220,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 0 | -> X
 =========    ======           =====     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -200,6 +228,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 0 | -> X
 =========    ======           =====     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -207,6 +236,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 0 | -> X
 =========    ======           =====     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -214,6 +244,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -221,6 +252,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -228,6 +260,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 34 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -235,6 +268,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 29492 | -> X
 =========           =========     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -242,6 +276,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 24 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -249,6 +284,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 24 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -256,6 +292,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2424 | -> X
 =========           ========     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -263,6 +300,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 55 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -270,6 +308,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 52 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -277,6 +316,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2311939 | -> X
 =========           ===========     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -284,6 +324,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 133 | -> X
 =========           =======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -291,6 +332,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 13 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -298,6 +340,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 999 | -> X
 =========           =======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -305,6 +348,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 0 | -> X
 =========    ======           =====     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -312,6 +356,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 0 | -> X
 =========    ======           =====     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -319,6 +364,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 0 | -> X
 =========    ======           =====     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -326,6 +372,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -333,6 +380,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -340,6 +388,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 34 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -347,6 +396,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 29492 | -> X
 =========           =========     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -354,6 +404,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 24 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -361,6 +412,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 24 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -368,6 +420,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2424 | -> X
 =========           ========     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -375,6 +428,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 55 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -382,6 +436,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 52 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -389,6 +444,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 2311939 | -> X
 =========           ===========     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -396,6 +452,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 133 | -> X
 =========           =======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -403,6 +460,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 13 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -410,6 +468,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 999 | -> X
 =========           =======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -417,6 +476,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 0 | -> X
 =========    ======           =====     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -424,6 +484,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 0 | -> X
 =========    ======           =====     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -431,6 +492,7 @@ Linked List: Example List
 | 29492 | -> | 24 | -> ... -> | 0 | -> X
 =========    ======           =====     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -438,6 +500,7 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
@@ -445,18 +508,12 @@ Linked List: Example List
 | 29492 | -> ... -> | 12 | -> X
 =========           ======     
 
+Ctrl+D to stop entering in nodes
 ========================================
 Enter an integer: ========================================
 Linked List: Example List
 =========           ======     
-| 29492 | -> ... -> | 34 | -> X
-=========           ======     
-
-========================================
-Enter an integer: ========================================
-Linked List: Example List
-=========           ======     
-| 29492 | -> ... -> | 34 | -> X
+| 29492 | -> ... -> | 12 | -> X
 =========           ======     
 ^cur                           
 
@@ -464,7 +521,7 @@ Linked List: Example List
 ========================================
 Linked List: Example List
 ======    ======           ======     
-| 24 | -> | 24 | -> ... -> | 34 | -> X
+| 24 | -> | 24 | -> ... -> | 12 | -> X
 ======    ======           ======     
 ^cur                                  
 
@@ -476,7 +533,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======    ========           ======     
-| 24 | -> | 2424 | -> ... -> | 34 | -> X
+| 24 | -> | 2424 | -> ... -> | 12 | -> X
 ======    ========           ======     
 ^cur                                    
 
@@ -488,7 +545,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ========    ======           ======     
-| 2424 | -> | 55 | -> ... -> | 34 | -> X
+| 2424 | -> | 55 | -> ... -> | 12 | -> X
 ========    ======           ======     
 ^cur                                    
 
@@ -500,7 +557,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======    ======           ======     
-| 55 | -> | 52 | -> ... -> | 34 | -> X
+| 55 | -> | 52 | -> ... -> | 12 | -> X
 ======    ======           ======     
 ^cur                                  
 
@@ -512,7 +569,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -523,7 +580,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -534,7 +591,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -545,7 +602,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -556,7 +613,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -567,7 +624,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -578,7 +635,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -589,7 +646,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -600,7 +657,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -611,7 +668,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -622,7 +679,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -633,7 +690,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -644,7 +701,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -655,7 +712,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -666,7 +723,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -677,7 +734,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -688,7 +745,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -699,7 +756,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -710,7 +767,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -721,7 +778,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -732,7 +789,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -743,7 +800,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -754,7 +811,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -765,7 +822,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -776,7 +833,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -787,7 +844,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -798,7 +855,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -809,7 +866,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -820,7 +877,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -831,7 +888,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -842,7 +899,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -853,7 +910,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -864,7 +921,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -875,7 +932,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -886,7 +943,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -897,7 +954,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -908,7 +965,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
 
 Removed Node:
@@ -919,18 +976,7 @@ Removed Node:
 ========================================
 Linked List: Example List
 ======           ======     
-| 55 | -> ... -> | 34 | -> X
-======           ======     
-
-Removed Node:
-======
-| 12 |
-======
-========================================
-========================================
-Linked List: Example List
-======           ======     
-| 55 | -> ... -> | 34 | -> X
+| 55 | -> ... -> | 12 | -> X
 ======           ======     
                  ^cur       
 
@@ -947,7 +993,7 @@ Linked List: Example List
 
 Removed Node:
 ======
-| 34 |
+| 12 |
 ======
 ========================================
 ========================================
