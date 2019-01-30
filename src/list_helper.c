@@ -8,16 +8,15 @@
 
 #include "../include/helper.h"
 #include "general_collection_helper.h"
-#include "../lib/obsidian.h"
 #include "env_var.h"
 
 #define PTR_SYMBOL select_char_unicode(L'⌃', L'^')
 
-void print_bounding_box(wchar_t **buf, size_t offset, size_t len, size_t width);
-void print_out_nodes(Collection list, FakeNode begin, FakeNode end, wchar_t **buf, size_t *node_sizes,
-                         size_t *offset, wchar_t *after_node, int starting_size);
+void print_bounding_box(wchar_t **buf, int offset, int len, int width);
+void print_out_nodes(Collection list, FakeNode begin, FakeNode end, wchar_t **buf, int *node_sizes,
+                         int *offset, wchar_t *after_node, int starting_size);
 
-size_t list_sizeof(void *n) {
+int list_sizeof(void *n) {
     FakeNode node = (FakeNode)n;
     return sizeof_data(node->data, node->data_tag) + EXTRA_WIDTH;
 }
@@ -28,7 +27,7 @@ size_t list_sizeof(void *n) {
       to how to fit even more pointers by placing above/below as well this could show nicer pointers
       then having just below.
 */
-void print_ptr(wchar_t **buf, size_t len, size_t count, char *ptr_name, size_t ptr_len, size_t offset) {
+void print_ptr(wchar_t **buf, int len, int count, char *ptr_name, int ptr_len, int offset) {
     // @REFACTORING
     // this is just a very early version
     // I'm going to update this once I figure out visual ptrs a bit more
@@ -63,29 +62,29 @@ void print_ptr(wchar_t **buf, size_t len, size_t count, char *ptr_name, size_t p
     }
 }
 
-void list_print_node(void *n, wchar_t **buf, size_t size, size_t len, size_t offset) {
+void list_print_node(void *n, wchar_t **buf, int size, int len, int offset) {
     FakeNode node = (FakeNode)n;
     print_bounding_box(buf, offset, len, size);
     wchar_t *text_to_print;
     switch (node->data_tag) {
         case FLOAT: {
-            text_to_print = malloc_with_oom(sizeof(wchar_t) * (size - EXTRA_WIDTH / 2 + 1), "Text to print");
+            text_to_print = (wchar_t*)malloc_with_oom(sizeof(wchar_t) * (size - EXTRA_WIDTH / 2 + 1), "Text to print");
             swprintf(text_to_print, size - EXTRA_WIDTH / 2 + 1, L"%.5g", node->data.flt_data);
         } break;
         case STRING: {
-            size_t len = strlen(node->data.str_data);
-            text_to_print = malloc_with_oom(len * sizeof(wchar_t), "Text to print");
+            int len = strlen(node->data.str_data);
+            text_to_print = (wchar_t*)malloc_with_oom(len * sizeof(wchar_t), "Text to print");
             for (int i = 0; i < len; i++) text_to_print[i] = node->data.str_data[i];
         } break;
         case INTEGER: {
             // note: we are including the '\0' room just to make nothing weird happen
             // with snprintf, but we will completely ignore it below in memcpy.
-            text_to_print = malloc_with_oom(sizeof(wchar_t) * (size - EXTRA_WIDTH / 2 + 1), "Text to print");
+            text_to_print = (wchar_t*)malloc_with_oom(sizeof(wchar_t) * (size - EXTRA_WIDTH / 2 + 1), "Text to print");
             swprintf(text_to_print, size - EXTRA_WIDTH / 2, L"%lld", node->data.int_data);
         } break;
         case ANY: {
-            text_to_print = malloc_with_oom(sizeof(wchar_t) * (size - EXTRA_WIDTH / 2 + 1), "Text to print");
-            swprintf(text_to_print, size - EXTRA_WIDTH / 2, L"%zu", (size_t)node->data.any_data);
+            text_to_print = (wchar_t*)malloc_with_oom(sizeof(wchar_t) * (size - EXTRA_WIDTH / 2 + 1), "Text to print");
+            swprintf(text_to_print, size - EXTRA_WIDTH / 2, L"%p", node->data.any_data);
         } break;
     }
     if (node->ptr != NULL) print_ptr(buf, len, size, node->ptr, strlen(node->ptr), offset);
@@ -96,7 +95,7 @@ void list_print_node(void *n, wchar_t **buf, size_t size, size_t len, size_t off
     free(text_to_print);
 }
 
-void print_bounding_box(wchar_t **buf, size_t offset, size_t len, size_t width) {
+void print_bounding_box(wchar_t **buf, int offset, int len, int width) {
     write_str_repeat_char_vert(buf, offset, BOX_VERT, len, 0);
     write_str_repeat_char_vert(buf, offset, BOX_VERT, len, width - 1);
     write_str_repeat_char(buf[0], offset + 1, BOX_HORIZONTAL, width - 2);
@@ -107,8 +106,8 @@ void print_bounding_box(wchar_t **buf, size_t offset, size_t len, size_t width) 
     buf[len - 1][offset + width - 1] = BOX_BOTTOM_RIGHT;
 }
 
-void print_out_nodes(Collection list, FakeNode begin, FakeNode end, wchar_t **buf, size_t *node_sizes,
-                         size_t *offset, wchar_t *after_node, int starting_size) {
+void print_out_nodes(Collection list, FakeNode begin, FakeNode end, wchar_t **buf, int *node_sizes,
+                         int *offset, wchar_t *after_node, int starting_size) {
     int i = starting_size;
     FakeNode n;
     for (n = begin; n != end; n = n->next, i++) {
@@ -120,23 +119,23 @@ void print_out_nodes(Collection list, FakeNode begin, FakeNode end, wchar_t **bu
     }
 }
 
-void list_print_general(Collection list, size_t len, size_t count, FakeNode forwards,
-                FakeNode backwards, int stop, size_t *node_sizes, wchar_t *after_node,
+void list_print_general(Collection list, int len, int count, FakeNode forwards,
+                FakeNode backwards, int stop, int *node_sizes, wchar_t *after_node,
                 wchar_t *start_of_list, wchar_t *end_of_list, wchar_t *ellipses, FakeNode head,
                 char *collection_name) {
     terminalSize size = get_terminal_size();
-    obs_assert((size_t)size.width, >=, count);
+    assert_msg(size.width >= count, "list_helper:list_print_general, size.width (%d) must be >= count (%d)\n", size.width, count);
 
     // now we have sizes we can allocate buffer and prepare to print list
     // probably going to be a few characters bigger than we need but no harm no foul
-    wchar_t **buf = malloc_with_oom(sizeof(wchar_t*) * (get_print_height() + get_ptr_height()), "Buffer");
+    wchar_t **buf = (wchar_t**)malloc_with_oom(sizeof(wchar_t*) * (get_print_height() + get_ptr_height()), "Buffer");
     for (int i = 0; i < get_print_height() + get_ptr_height(); i++) {
-        buf[i] = malloc_with_oom((count + 1) * sizeof(wchar_t), "Buffer");
+        buf[i] = (wchar_t*)malloc_with_oom((count + 1) * sizeof(wchar_t), "Buffer");
         for (int j = 0; j < count; j++) buf[i][j] = ' ';
         buf[i][count] = '\0';
     }
 
-    size_t offset = 0;
+    int offset = 0;
     FakeNode forward_stop = forwards;
     // if everything in the list fits on page
     bool everything_fits = forward_stop == NULL;
@@ -150,7 +149,7 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
         if (!everything_fits) {
             write_str_center_incr(buf, &offset, get_print_height(), after_node, wcslen(after_node));
             write_str_center_incr(buf, &offset, get_print_height(), ellipses, wcslen(ellipses));
-            size_t backwards_start = len;
+            int backwards_start = len;
             backwards = backwards->next;
             for (FakeNode n = backwards; n != NULL; n = n->next) backwards_start--;
             print_out_nodes(list, backwards, NULL, buf, node_sizes, &offset, after_node, backwards_start);
@@ -177,7 +176,9 @@ void list_print_general(Collection list, size_t len, size_t count, FakeNode forw
         free(buf[i]);
     }
 
-    obs_assert(offset, ==, count);
+    assert_msg(offset == count, "list_helper:list_print_general, "
+                                "we promised to print out %d characters and "
+                                "printed out just %d\n", count, offset);
     printf("\n");
 
     free(buf);

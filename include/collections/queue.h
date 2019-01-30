@@ -1,11 +1,9 @@
 #ifndef LLV_QUEUE_H
 #define LLV_QUEUE_H
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include "ll.h"
 #include "../types/shared_types.h"
 #include "../types/collection_skeleton.h"
+#include "ll_structs.h"
 
 typedef struct _singly_linked_list_t *Queue;
 typedef struct _LL_node_t *QueueNode;
@@ -20,10 +18,10 @@ void queue_free(Queue queue);
 void queue_free_node(QueueNode n);
 
 /* Returns how many items are currently in queue */
-size_t queue_length(Queue queue);
+int queue_length(Queue queue);
 
 /* Returns true if there are no items in queue */
-bool queue_is_empty(Queue queue);
+int queue_is_empty(Queue queue);
 
 /* Free all nodes in queue. */
 void queue_clear(Queue queue);
@@ -44,4 +42,4 @@ void queue_enqueue(Queue queue, QueueNode node);
 */
 QueueNode queue_dequeue(Queue queue);
 
-#endif
+#endif /* LLV_QUEUE_H */

@@ -98,11 +98,11 @@ int main(void) {
             Queue queue = queue_new("1");
             test_empty_list(queue, queue);
             queue_enqueue(queue, NEW_NODE(queue, 1));
-            obs_test(queue_length(queue), ==, (size_t)1);
+            obs_test(queue_length(queue), ==, (int)1);
             obs_test_false(queue_is_empty(queue));
 
             queue_free_node(queue_dequeue(queue));
-            obs_test(queue_length(queue), ==, (size_t)0);
+            obs_test(queue_length(queue), ==, (int)0);
             obs_test_true(queue_is_empty(queue));
             queue_free(queue);
         })
@@ -112,14 +112,14 @@ int main(void) {
             test_empty_list(queue, queue);
             for (int i = 0; i < 50; i++) {
                 queue_enqueue(queue, NEW_NODE(queue, i));
-                obs_test(queue_length(queue), ==, (size_t)(i + 1));
+                obs_test(queue_length(queue), ==, (int)(i + 1));
                 obs_test_false(queue_is_empty(queue));
             }
 
             for (int i = 0; i < 50; i++) {
                 QueueNode n = queue_dequeue(queue);
                 obs_test(n->data.int_data, ==, (long long)i);
-                obs_test(queue_length(queue), ==, (size_t)(49 - i));
+                obs_test(queue_length(queue), ==, (int)(49 - i));
             }
             obs_test_true(queue_is_empty(queue));
         })
@@ -139,7 +139,7 @@ int main(void) {
             for (int i = 0; i < 100; i++) {
                 queue_enqueue(queue, NEW_NODE(queue, i));
             }
-            obs_test(queue_length(queue), ==, (size_t)100);
+            obs_test(queue_length(queue), ==, (int)100);
             queue_clear(queue);
             test_empty_list(queue, queue);
         })

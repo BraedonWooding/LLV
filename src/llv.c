@@ -16,7 +16,7 @@ typedef struct _ll_visual_t {
     struct _ll_visual_t *next;
 } *VisualNode;
 
-static VisualNode visual_ptrs = NULL;
+VisualNode visual_ptrs = NULL;
 
 void update_collection(Collection c);
 
@@ -27,11 +27,11 @@ void print_border(void) {
 }
 
 void attach_ptr(void *node, char *ptr) {
-    VisualNode new = malloc_with_oom(sizeof(struct _ll_visual_t), "FakeNode");
-    new->node = node;
-    new->ptr_name = ptr;
-    new->next = visual_ptrs;
-    visual_ptrs = new;
+    VisualNode visual_node = (VisualNode)malloc_with_oom(sizeof(struct _ll_visual_t), "FakeNode");
+    visual_node->node = node;
+    visual_node->ptr_name = ptr;
+    visual_node->next = visual_ptrs;
+    visual_ptrs = visual_node;
 }
 
 bool deattach_ptr(void *node, char *ptr) {
@@ -172,10 +172,10 @@ void update(int number, ...) {
 }
 
 void print_out_single_box(void *node, fn_print_node printer, fn_sizeof_node sizeof_n, int height) {
-    wchar_t **buf = malloc_with_oom(sizeof(wchar_t *) * (height + get_ptr_height()), "Single");
-    size_t count = sizeof_n(node);
+    wchar_t **buf = (wchar_t**)malloc_with_oom(sizeof(wchar_t *) * (height + get_ptr_height()), "Single");
+    int count = sizeof_n(node);
     for (int i = 0; i < height + get_ptr_height(); i++) {
-        buf[i] = malloc_with_oom(sizeof(wchar_t) * (count + 1), "Single");
+        buf[i] = (wchar_t*)malloc_with_oom(sizeof(wchar_t) * (count + 1), "Single");
         for (int j = 0; j < count; j++) buf[i][j] = ' ';
         buf[i][count] = '\0';
     }

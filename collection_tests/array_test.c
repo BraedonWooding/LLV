@@ -13,7 +13,7 @@ int main(void) {
         OBS_TEST("Create list and test properties", {
             Array array = array_new("1", 0);
             obs_test_strcmp(array->parent.name, "1");
-            obs_test(array_length(array), ==, (size_t)0);
+            obs_test(array_length(array), ==, (int)0);
             array_free(array);
         })
 

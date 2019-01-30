@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <math.h>
 #include <assert.h>
 #include <string.h>
 #include <stdbool.h>
@@ -26,11 +25,11 @@ void queue_clear(Queue queue) {
     ll_clear(queue);
 }
 
-size_t queue_length(Queue queue) {
+int queue_length(Queue queue) {
     return ll_length(queue);
 }
 
-bool queue_is_empty(Queue queue) {
+int queue_is_empty(Queue queue) {
     return ll_is_empty(queue);
 }
 

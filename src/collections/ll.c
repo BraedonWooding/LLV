@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <math.h>
 #include <assert.h>
 #include <string.h>
 #include <stdbool.h>
@@ -10,24 +9,24 @@
 #include "../../include/helper.h"
 #include "../list_helper.h"
 
-#define AFTER_NODE (select_str_unicode(L" ➢ ", L" -> "))
-#define AFTER_NODE_LEN (wcslen(AFTER_NODE))
+#define LL_AFTER_NODE (select_str_unicode(L" ➢ ", L" -> "))
+#define LL_AFTER_NODE_LEN (wcslen(LL_AFTER_NODE))
 
 // This used to be `NULL_NODE " <- "` but I've made it empty (but still a definition)
 // Since I felt that wasn't really what a linked list should look like as there is no
 // previous pointer on the first member.  However the code will still work if reverted
 // just incase it turns out we want this to look like it used to or some other way.
-#define START_OF_LIST (L"")
-#define START_OF_LIST_LEN (wcslen(START_OF_LIST))
-#define END_OF_LIST (select_str_unicode(L" ➢ " NULL_NODE, L" -> " NULL_NODE))
-#define END_OF_LIST_LEN (wcslen(END_OF_LIST))
-#define ELLIPSES (select_str_unicode(L"... ➢ ", L"... -> "))
-#define ELLIPSES_LEN (wcslen(ELLIPSES))
+#define LL_START_OF_LIST (L"")
+#define LL_START_OF_LIST_LEN (wcslen(LL_START_OF_LIST))
+#define LL_END_OF_LIST (select_str_unicode(L" ➢ " NULL_NODE, L" -> " NULL_NODE))
+#define LL_END_OF_LIST_LEN (wcslen(LL_END_OF_LIST))
+#define LL_ELLIPSES (select_str_unicode(L"... ➢ ", L"... -> "))
+#define LL_ELLIPSES_LEN (wcslen(LL_ELLIPSES))
 
 void ll_print_list(Collection list);
 
 LL ll_new(char *name) {
-    LL ll = malloc_with_oom(sizeof(struct _singly_linked_list_t), "LL");
+    LL ll = (LL)malloc_with_oom(sizeof(struct _singly_linked_list_t), "LL");
     ll->parent.name = name;
     ll->head = ll->tail = NULL;
     ll->parent.list_printer = ll_print_list;
@@ -48,7 +47,7 @@ void ll_free_node(LL_Node n) {
 }
 
 LL_Node ll_new_node(Data data, TypeTag type) {
-    LL_Node new_node = malloc_with_oom(sizeof(struct _LL_node_t), "LL LL_Node");
+    LL_Node new_node = (LL_Node)malloc_with_oom(sizeof(struct _LL_node_t), "LL LL_Node");
     new_node->next = NULL;
     new_node->data = data;
     new_node->data_tag = type;
@@ -146,9 +145,9 @@ LL_Node ll_find_next(LL_Node n) {
     return n->next;
 }
 
-size_t *ll_attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count,
+int *ll_attempt_fit(LL list, int len, terminalSize size, int *out_count,
                     LL_Node *out_forwards, LL_Node *out_backwards, int *out_stop) {
-    size_t *node_sizes = malloc_with_oom(sizeof(size_t) * len, "node_sizes");
+    int *node_sizes = (int*)malloc_with_oom(sizeof(int) * len, "node_sizes");
 
     if (ll_is_empty(list)) {
         *out_stop = 0;
@@ -156,11 +155,11 @@ size_t *ll_attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count
         return node_sizes;
     }
 
-    *out_count = START_OF_LIST_LEN + NULL_NODE_LEN;
+    *out_count = LL_START_OF_LIST_LEN + NULL_NODE_LEN;
     *out_stop = 0;
     for (; *out_forwards != NULL; *out_forwards = (*out_forwards)->next, (*out_stop)++) {
         node_sizes[*out_stop] = list->parent.get_sizeof(*out_forwards);
-        *out_count += node_sizes[*out_stop] + AFTER_NODE_LEN;
+        *out_count += node_sizes[*out_stop] + LL_AFTER_NODE_LEN;
     }
 
     // if we fit on screen then exit, we won't use out_backwards!
@@ -168,7 +167,7 @@ size_t *ll_attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count
         return node_sizes;
     }
 
-    *out_count = NULL_NODE_LEN + ELLIPSES_LEN + START_OF_LIST_LEN;
+    *out_count = NULL_NODE_LEN + LL_ELLIPSES_LEN + LL_START_OF_LIST_LEN;
     *out_stop = 0;
     *out_forwards = list->head;
 
@@ -177,7 +176,7 @@ size_t *ll_attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count
     bool broke_due_to_size = false;
     // Account for odd lists by including the extra element on the left side
     for (; *out_stop < (len + 1) / 2; (*out_stop)++) {
-        size_t forward_size = node_sizes[*out_stop] + AFTER_NODE_LEN;
+        int forward_size = node_sizes[*out_stop] + LL_AFTER_NODE_LEN;
         if (forward_size + *out_count > size.width) {
             broke_due_to_size = true;
             break;
@@ -187,7 +186,7 @@ size_t *ll_attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count
 
         if (*out_stop == len / 2) break;
 
-        size_t backward_size = node_sizes[len - 1 - *out_stop] + AFTER_NODE_LEN;
+        int backward_size = node_sizes[len - 1 - *out_stop] + LL_AFTER_NODE_LEN;
         if (backward_size + *out_count > size.width) {
             broke_due_to_size = true;
             break;
@@ -215,7 +214,7 @@ size_t *ll_attempt_fit(LL list, size_t len, terminalSize size, size_t *out_count
     return node_sizes;
 }
 
-size_t ll_length(LL list) {
+int ll_length(LL list) {
     int count = 0;
     for (LL_Node n = list->head; n != NULL; n = n->next) count++;
     return count;
@@ -223,13 +222,16 @@ size_t ll_length(LL list) {
 
 void ll_print_list(Collection list) {
     LL ll = (LL)list;
-    size_t len = ll_length(ll);
-    size_t count;
+    int len = ll_length(ll);
+    int count;
     int stop;
     LL_Node forwards = ll->head;
     LL_Node backwards = ll->tail;
     terminalSize size = get_terminal_size();
-    size_t *node_sizes = ll_attempt_fit(ll, len, size, &count, &forwards, &backwards, &stop);
-    list_print_general(list, len, count, (FakeNode)forwards, (FakeNode)backwards, stop, node_sizes,
-                       AFTER_NODE, START_OF_LIST, END_OF_LIST, ELLIPSES, (FakeNode)ll->head, "Linked List");
+    int *node_sizes = ll_attempt_fit(ll, len, size, &count, &forwards,
+                                     &backwards, &stop);
+    list_print_general(list, len, count, (FakeNode)forwards,
+                       (FakeNode)backwards, stop, node_sizes, LL_AFTER_NODE,
+                       LL_START_OF_LIST, LL_END_OF_LIST, LL_ELLIPSES,
+                       (FakeNode)ll->head, "Linked List");
 }

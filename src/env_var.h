@@ -13,6 +13,5 @@
     type name(void);
 
 #include "env_var.incl"
-#undef new_env_var
 
-#endif
+#endif /* LLV_ENV_VAR_H */

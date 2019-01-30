@@ -46,13 +46,13 @@ typedef struct _fake_node_t {
     for (FakeNode n = (FakeNode)list->head; n != NULL; n = n->next, i++) { \
         obs_test(get_data(n->data, exp), ==, exp[i]) \
     } \
-    obs_test(type##_length(list), ==, (size_t)i); \
+    obs_test(type##_length(list), ==, (int)i); \
 }
 
 #define test_empty_list(list, type) \
     obs_test(list->head, ==, NULL); \
     obs_test(list->tail, ==, NULL); \
-    obs_test(type##_length(list), ==, (size_t)0); \
+    obs_test(type##_length(list), ==, (int)0); \
     obs_test_true(type##_is_empty(list)); \
 
-#endif
+#endif /* LLV_COLLECTION_TEST_HELPER_H */

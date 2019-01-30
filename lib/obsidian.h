@@ -219,4 +219,4 @@
     return successes != num_tests; \
 }
 
-#endif
+#endif /* OBSIDIAN_H */

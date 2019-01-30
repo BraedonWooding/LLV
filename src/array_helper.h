@@ -2,7 +2,6 @@
 #define LLV_ARRAY_HELPER
 
 #include <string.h>
-#include <math.h>
 
 #include "../include/types/collection_skeleton.h"
 #include "../include/types/shared_types.h"
@@ -26,6 +25,6 @@ struct _fake_array_data_t {
 
 typedef struct _fake_array_data_t *FakeArrayNode;
 
-void print_array_like(Collection c, char *collection_type, FakeArrayNode data, size_t len);
+void print_array_like(Collection c, char *collection_type, FakeArrayNode data, int len);
 
-#endif
+#endif /* LLV_ARRAY_HELPER */
