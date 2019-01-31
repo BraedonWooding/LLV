@@ -16,14 +16,16 @@
 
 > The tick rate is set to be extremely fast (otherwise it wouldn't fit within the gif limits) so normally you would either set it to be much higher (higher is slower) or you would set it to 0 which would mean you press enter to step manually between each animation frame.
 
-## NOTE
+## How to install/use
 
 Check out [Quick Start Guide](https://github.com/BraedonWooding/LLV/wiki/Quick-Start)
+
+## NOTE
 
 Originally this project just supported linked lists, now it supports (hypothetically) any collection at all!  Currently we support;
 
 - Singularly and Doubly Linked Lists
-- Dynamic and arrays (arraylist/vector/list and arrays)
+- Dynamic and static arrays (arraylist/vector/list and arrays)
   - We call our dynamic arrays just `List` since `Vector` is too opaque and `ArrayList` is too long and we don't have to worry about conflictions with linked lists since they are `LL` and `DLL` respectively.
 - Queues and Stacks
 
@@ -40,27 +42,6 @@ Also note that all collections aren't singularly typed so you could mix int/floa
 - We support unicode and 'ascii' (all tests run on both) unicode just makes the boxes look nicer and the arrows are less ascii like.
 - We support changing variables without requiring re-compiles (especially important since the core library is meant to not have to be ever recompiled) these include; disabling unicode, changing default dimensions, changing step time...  Look at [Changing Variables](https://github.com/BraedonWooding/LLV/wiki/Reference-Sheet#variables) for more.
 - You can take input during it and we do all the type conversions for you!
-
-## How to install
-
-- Either download the single source header file from releases `llv.h`
-  - The following oneliner command will do this for cse/mac
-
-```bash
-curl -s https://api.github.com/repos/BraedonWooding/LLV/releases/latest \
-    | grep "browser_download_url.*llv.h" \
-    | cut -d '"' -f 4 \
-    | wget -qi -
-```
-
-- You can also install our static library (or object file archive rather) if you have bin and lib access (i.e. on your own machines that aren't cse) by just running `wget https://raw.githubusercontent.com/BraedonWooding/LLV/master/install.sh && sh install.sh` you may want to remove `install.sh` afterwards (or keep it to easily get new updates).
-
-## How to use
-
-- If you downloaded the `llv.h` single source header then you just have to write `#include "llv.h"` at the top of your file no need to pass anything extra doing compilation
-  - This will also include all the collections for you
-- If you went the static library route then you just have to write `#include <LLV/llv.h>` and link with `-lLLV`
-  - You will also have to include all the collections you want like `#include <LLV/collections/ll.h>`
 
 ## For those wanting to build a new collection
 
