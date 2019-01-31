@@ -25,11 +25,19 @@ void stack_clear(Stack stack) {
     ll_clear(stack);
 }
 
+<<<<<<< HEAD
 int stack_length(Stack stack) {
     return ll_length(stack);
 }
 
 int stack_is_empty(Stack stack) {
+=======
+size_t stack_length(Stack stack) {
+    return ll_length(stack);
+}
+
+bool stack_is_empty(Stack stack) {
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
     return ll_is_empty(stack);
 }
 

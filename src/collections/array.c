@@ -1,5 +1,11 @@
 #include "../../include/collections/array.h"
+<<<<<<< HEAD
 #include "../list_helper.h"
+=======
+#include "../../include/helper.h"
+#include "../list_helper.h"
+#include "../../lib/obsidian.h"
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
 #include "../array_helper.h"
 
 void array_print(Collection c);

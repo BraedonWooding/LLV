@@ -68,7 +68,11 @@ void list_print_node(void *n, wchar_t **buf, int size, int len, int offset) {
     wchar_t *text_to_print;
     switch (node->data_tag) {
         case FLOAT: {
+<<<<<<< HEAD
             text_to_print = (wchar_t*)malloc_with_oom(sizeof(wchar_t) * (size - EXTRA_WIDTH / 2 + 1), "Text to print");
+=======
+            text_to_print = malloc_with_oom(sizeof(wchar_t) * (size - EXTRA_WIDTH / 2 + 1), "Text to print");
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
             swprintf(text_to_print, size - EXTRA_WIDTH / 2 + 1, L"%.5g", node->data.flt_data);
         } break;
         case STRING: {
@@ -176,9 +180,13 @@ void list_print_general(Collection list, int len, int count, FakeNode forwards,
         free(buf[i]);
     }
 
+<<<<<<< HEAD
     assert_msg(offset == count, "list_helper:list_print_general, "
                                 "we promised to print out %d characters and "
                                 "printed out just %d\n", count, offset);
+=======
+    obs_assert(offset, ==, count);
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
     printf("\n");
 
     free(buf);

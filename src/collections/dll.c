@@ -21,7 +21,11 @@
 void dll_print_list(Collection collection);
 
 DLL dll_new(char *name) {
+<<<<<<< HEAD
     DLL dll = (DLL)malloc_with_oom(sizeof(struct _doubly_linked_list_t), "DLL");
+=======
+    DLL dll = malloc_with_oom(sizeof(struct _doubly_linked_list_t), "DLL");
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
     dll->parent.name = name;
     dll->head = dll->tail = NULL;
     dll->parent.list_printer = dll_print_list;
@@ -165,7 +169,11 @@ int *dll_attempt_fit(DLL list, int len, terminalSize size, int *out_count,
     bool broke_due_to_size = false;
     for (; *out_stop < (len + 1) / 2; (*out_stop)++) {
         node_sizes[*out_stop] = list->parent.get_sizeof(*out_forwards);
+<<<<<<< HEAD
         int forward_size = node_sizes[*out_stop] + DLL_AFTER_NODE_LEN;
+=======
+        size_t forward_size = node_sizes[*out_stop] + AFTER_NODE_LEN;
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
         if (*out_count + forward_size > size.width) {
             broke_due_to_size = true;
             break;
@@ -177,7 +185,11 @@ int *dll_attempt_fit(DLL list, int len, terminalSize size, int *out_count,
         if (*out_stop == len / 2) break;
 
         node_sizes[len - 1 - *out_stop] = list->parent.get_sizeof(*out_backwards);
+<<<<<<< HEAD
         int backward_size = node_sizes[len - 1 - *out_stop] + DLL_AFTER_NODE_LEN;
+=======
+        size_t backward_size = node_sizes[len - 1 - *out_stop] + AFTER_NODE_LEN;
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
         if (*out_count + backward_size > size.width) {
             broke_due_to_size = true;
             break;
@@ -188,9 +200,13 @@ int *dll_attempt_fit(DLL list, int len, terminalSize size, int *out_count,
     }
 
     if (*out_stop == 0 && broke_due_to_size) {
+<<<<<<< HEAD
         printf("Error: No valid sizing constraint matches terminal size; i.e. "
                "increase your terminal size since on current size can't even "
                "fit the bare minimum\n");
+=======
+        printf("Error: No valid sizing constraint matches terminal size; i.e. increase your terminal size since on current size can't even fit the bare minimum\n");
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
         exit(1);
     }
 
@@ -198,7 +214,13 @@ int *dll_attempt_fit(DLL list, int len, terminalSize size, int *out_count,
         // go through entire list
         *out_forwards = NULL;
         *out_backwards = NULL;
+<<<<<<< HEAD
         *out_count -= DLL_ELLIPSES_LEN;
+=======
+        *out_count -= ELLIPSES_LEN;
+    } else {
+    
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
     }
 
     return node_sizes;

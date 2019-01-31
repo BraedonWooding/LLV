@@ -26,7 +26,11 @@
 void ll_print_list(Collection list);
 
 LL ll_new(char *name) {
+<<<<<<< HEAD
     LL ll = (LL)malloc_with_oom(sizeof(struct _singly_linked_list_t), "LL");
+=======
+    LL ll = malloc_with_oom(sizeof(struct _singly_linked_list_t), "LL");
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
     ll->parent.name = name;
     ll->head = ll->tail = NULL;
     ll->parent.list_printer = ll_print_list;
@@ -159,7 +163,11 @@ int *ll_attempt_fit(LL list, int len, terminalSize size, int *out_count,
     *out_stop = 0;
     for (; *out_forwards != NULL; *out_forwards = (*out_forwards)->next, (*out_stop)++) {
         node_sizes[*out_stop] = list->parent.get_sizeof(*out_forwards);
+<<<<<<< HEAD
         *out_count += node_sizes[*out_stop] + LL_AFTER_NODE_LEN;
+=======
+        *out_count += node_sizes[*out_stop] + AFTER_NODE_LEN;
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
     }
 
     // if we fit on screen then exit, we won't use out_backwards!
@@ -176,7 +184,11 @@ int *ll_attempt_fit(LL list, int len, terminalSize size, int *out_count,
     bool broke_due_to_size = false;
     // Account for odd lists by including the extra element on the left side
     for (; *out_stop < (len + 1) / 2; (*out_stop)++) {
+<<<<<<< HEAD
         int forward_size = node_sizes[*out_stop] + LL_AFTER_NODE_LEN;
+=======
+        size_t forward_size = node_sizes[*out_stop] + AFTER_NODE_LEN;
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
         if (forward_size + *out_count > size.width) {
             broke_due_to_size = true;
             break;
@@ -186,7 +198,11 @@ int *ll_attempt_fit(LL list, int len, terminalSize size, int *out_count,
 
         if (*out_stop == len / 2) break;
 
+<<<<<<< HEAD
         int backward_size = node_sizes[len - 1 - *out_stop] + LL_AFTER_NODE_LEN;
+=======
+        size_t backward_size = node_sizes[len - 1 - *out_stop] + AFTER_NODE_LEN;
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
         if (backward_size + *out_count > size.width) {
             broke_due_to_size = true;
             break;

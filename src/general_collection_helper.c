@@ -27,14 +27,22 @@ int sizeof_int(long long int n) {
     }
 }
 
+<<<<<<< HEAD
 int sizeof_flt(double flt) {
+=======
+size_t sizeof_flt(double flt) {
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
     wchar_t buf[MAX_SIZE_FLT];
     int res = swprintf(buf, MAX_SIZE_FLT, L"%.5g", flt);
     if (res < 0) {
         fprintf(stderr, "BUG IN FLT PRINTER\n");
         abort();
     }
+<<<<<<< HEAD
     return (int)res;
+=======
+    return (size_t)res;
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
 }
 
 int sizeof_data(Data data, TypeTag tag) {

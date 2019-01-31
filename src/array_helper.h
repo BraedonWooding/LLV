@@ -2,6 +2,10 @@
 #define LLV_ARRAY_HELPER
 
 #include <string.h>
+<<<<<<< HEAD
+=======
+#include <math.h>
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
 
 #include "../include/types/collection_skeleton.h"
 #include "../include/types/shared_types.h"
@@ -25,6 +29,12 @@ struct _fake_array_data_t {
 
 typedef struct _fake_array_data_t *FakeArrayNode;
 
+<<<<<<< HEAD
 void print_array_like(Collection c, char *collection_type, FakeArrayNode data, int len);
 
 #endif /* LLV_ARRAY_HELPER */
+=======
+void print_array_like(Collection c, char *collection_type, FakeArrayNode data, size_t len);
+
+#endif
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca

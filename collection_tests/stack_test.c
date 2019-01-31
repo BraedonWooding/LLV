@@ -98,11 +98,19 @@ int main(void) {
             Stack stack = stack_new("1");
             test_empty_list(stack, stack);
             stack_push(stack, NEW_NODE(stack, 1));
+<<<<<<< HEAD
             obs_test(stack_length(stack), ==, (int)1);
             obs_test_false(stack_is_empty(stack));
 
             stack_free_node(stack_pop(stack));
             obs_test(stack_length(stack), ==, (int)0);
+=======
+            obs_test(stack_length(stack), ==, (size_t)1);
+            obs_test_false(stack_is_empty(stack));
+
+            stack_free_node(stack_pop(stack));
+            obs_test(stack_length(stack), ==, (size_t)0);
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
             obs_test_true(stack_is_empty(stack));
             stack_free(stack);
         })
@@ -112,14 +120,22 @@ int main(void) {
             test_empty_list(stack, stack);
             for (int i = 0; i < 50; i++) {
                 stack_push(stack, NEW_NODE(stack, i));
+<<<<<<< HEAD
                 obs_test(stack_length(stack), ==, (int)(i + 1));
+=======
+                obs_test(stack_length(stack), ==, (size_t)(i + 1));
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
                 obs_test_false(stack_is_empty(stack));
             }
 
             for (int i = 49; i >= 0; i--) {
                 StackNode n = stack_pop(stack);
                 obs_test(n->data.int_data, ==, (long long)i);
+<<<<<<< HEAD
                 obs_test(stack_length(stack), ==, (int)i);
+=======
+                obs_test(stack_length(stack), ==, (size_t)i);
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
             }
             obs_test_true(stack_is_empty(stack));
         })
@@ -139,7 +155,11 @@ int main(void) {
             for (int i = 0; i < 100; i++) {
                 stack_push(stack, NEW_NODE(stack, i));
             }
+<<<<<<< HEAD
             obs_test(stack_length(stack), ==, (int)100);
+=======
+            obs_test(stack_length(stack), ==, (size_t)100);
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
             stack_clear(stack);
             test_empty_list(stack, stack);
         })

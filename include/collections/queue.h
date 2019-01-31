@@ -1,6 +1,12 @@
 #ifndef LLV_QUEUE_H
 #define LLV_QUEUE_H
 
+<<<<<<< HEAD
+=======
+#include <stdlib.h>
+#include <stdbool.h>
+#include "ll.h"
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
 #include "../types/shared_types.h"
 #include "../types/collection_skeleton.h"
 #include "ll_structs.h"

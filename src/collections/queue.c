@@ -25,11 +25,19 @@ void queue_clear(Queue queue) {
     ll_clear(queue);
 }
 
+<<<<<<< HEAD
 int queue_length(Queue queue) {
     return ll_length(queue);
 }
 
 int queue_is_empty(Queue queue) {
+=======
+size_t queue_length(Queue queue) {
+    return ll_length(queue);
+}
+
+bool queue_is_empty(Queue queue) {
+>>>>>>> 8d307e6463580fea58edac8c55a5ae155aa5c6ca
     return ll_is_empty(queue);
 }
 

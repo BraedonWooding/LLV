@@ -22,19 +22,6 @@ int stack_length(Stack stack);
 
 /* Returns true if there are no items on the stack */
 int stack_is_empty(Stack stack);
-
-/* Free all nodes in stack. */
-void stack_clear(Stack stack);
-
-/* 
-   Create a new node in the stack 
-   Could use NEW_NODE(stack, data);
-*/
-StackNode stack_new_node(Data data, TypeTag type);
-
-/* Pushes a new node onto the top of the stack */
-void stack_push(Stack stack, StackNode node);
-
 /* Pops a node form the top of the stack */
 StackNode stack_pop(Stack stack);
 
