@@ -6,7 +6,7 @@
 #include "../include/types/shared_types.h"
 #include <string.h>
 
-int main(void) {
+int main(int argc, char *argv[]) {
     OBS_SETUP("Doubly Linked List")
 
     OBS_TEST_GROUP("DLL_new && dll_new_node", {
@@ -25,70 +25,70 @@ int main(void) {
 
             // int node
             DLL_Node node = dll_new_node((Data){.int_data = 4}, INTEGER);
-            obs_test(node->data_tag, ==, INTEGER);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test(node->data.int_data, ==, (long long)4);
+            obs_test_eq(node->data_tag, INTEGER);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq(node->data.int_data, (long long)4);
             dll_free_node(node);
 
             // flt node
             node = dll_new_node((Data){.flt_data = 5.9}, FLOAT);
-            obs_test(node->data_tag, ==, FLOAT);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test(node->data.flt_data, ==, 5.9);
+            obs_test_eq(node->data_tag, FLOAT);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq(node->data.flt_data, 5.9);
             dll_free_node(node);
 
             // str node
             node = dll_new_node((Data){.str_data = "Hello"}, STRING);
-            obs_test(node->data_tag, ==, STRING);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
+            obs_test_eq(node->data_tag, STRING);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
             obs_test_strcmp(node->data.str_data, "Hello");
             dll_free_node(node);
 
             // any node
             int x = 9;
             node = dll_new_node((Data){.any_data = &x}, ANY);
-            obs_test(node->data_tag, ==, ANY);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test((int*)node->data.any_data, ==, &x);
+            obs_test_eq(node->data_tag, ANY);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq((int*)node->data.any_data, &x);
             dll_free_node(node);
         })
 
         OBS_TEST("Create node using generic macros", {
             // int node
             DLL_Node node = NEW_NODE(dll, 4);
-            obs_test(node->data_tag, ==, INTEGER);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test(node->data.int_data, ==, (long long)4);
+            obs_test_eq(node->data_tag, INTEGER);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq(node->data.int_data, (long long)4);
             dll_free_node(node);
 
             // flt node
             node = NEW_NODE(dll, 5.9);
-            obs_test(node->data_tag, ==, FLOAT);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test(node->data.flt_data, ==, 5.9);
+            obs_test_eq(node->data_tag, FLOAT);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq(node->data.flt_data, 5.9);
             dll_free_node(node);
 
             // str node
             node = NEW_NODE(dll, "Hello");
-            obs_test(node->data_tag, ==, STRING);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
+            obs_test_eq(node->data_tag, STRING);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
             obs_test_strcmp(node->data.str_data, "Hello");
             dll_free_node(node);
 
             // any node
             int x = 9;
             node = NEW_NODE(dll, &x);
-            obs_test(node->data_tag, ==, ANY);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test((int*)node->data.any_data, ==, &x);
+            obs_test_eq(node->data_tag, ANY);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq((int*)node->data.any_data, &x);
             dll_free_node(node);
         })
     });
@@ -211,14 +211,14 @@ int main(void) {
     OBS_TEST_GROUP("dll_remove_node", {
         OBS_TEST("Remove a NUDLL node from an empty list", {
             DLL list = dll_new("1");
-            obs_assert(dll_remove_node(list, NULL), ==, NULL);
+            obs_test_eq(dll_remove_node(list, NULL), NULL);
             dll_free(list);
         })
 
         OBS_TEST("Remove a non null node from an empty list", {
             DLL list = dll_new("1");
             DLL_Node n = NEW_NODE(dll, 5);
-            obs_assert(dll_remove_node(list, n), ==, NULL);
+            obs_test_eq(dll_remove_node(list, n), NULL);
             dll_free_node(n);
             dll_free(list);
         })
@@ -240,7 +240,7 @@ int main(void) {
             dll_insert_after(list, original, list->head);
             DLL_Node n = dll_remove_node(list, list->head);
             test_empty_list(list, dll);
-            obs_test(original, ==, n);
+            obs_test_eq(original, n);
             dll_free(list);
             dll_free_node(n);
         })
@@ -297,8 +297,8 @@ int main(void) {
             long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             map_items(list, 10, items, dll, dll_append);
             test_list(list, items, dll);
-            obs_test(dll_find_prev(list->head), ==, NULL);
-            obs_test(dll_find_next(list->head)->data.int_data, ==, (long long)2);
+            obs_test_eq(dll_find_prev(list->head), NULL);
+            obs_test_eq(dll_find_next(list->head)->data.int_data, (long long)2);
             dll_free(list);
         })
 
@@ -307,15 +307,15 @@ int main(void) {
             long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             map_items(list, 10, items, dll, dll_append);
             test_list(list, items, dll);
-            obs_test(dll_find_prev(list->tail)->data.int_data, ==, (long long)9);
-            obs_test(dll_find_next(list->tail), ==, NULL);
+            obs_test_eq(dll_find_prev(list->tail)->data.int_data, (long long)9);
+            obs_test_eq(dll_find_next(list->tail), NULL);
             dll_free(list);
         })
 
         OBS_TEST("Previous/Next of null element", {
             DLL list = dll_new("3");
-            obs_test(dll_find_prev(NULL), ==, NULL);
-            obs_test(dll_find_next(NULL), ==, NULL);
+            obs_test_eq(dll_find_prev(NULL), NULL);
+            obs_test_eq(dll_find_next(NULL), NULL);
             dll_free(list);
         })
 
@@ -324,8 +324,8 @@ int main(void) {
             long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             map_items(list, 10, items, dll, dll_append);
             test_list(list, items, dll);
-            obs_test(dll_find_prev(list->head->next->next), ==, list->head->next);
-            obs_test(dll_find_next(list->head->next->next->next), ==, list->head->next->next->next->next);
+            obs_test_eq(dll_find_prev(list->head->next->next), list->head->next);
+            obs_test_eq(dll_find_next(list->head->next->next->next), list->head->next->next->next->next);
             dll_free(list);
         })
     })
@@ -333,14 +333,14 @@ int main(void) {
     OBS_TEST_GROUP("dll_length", {
         OBS_TEST("Empty list", {
             DLL list = dll_new("1");
-            obs_test(dll_length(list), ==, (int)0);
+            obs_test_eq(dll_length(list), (int)0);
             dll_free(list);
         })
 
         OBS_TEST("Single element list", {
             DLL list = dll_new("2");
             dll_push(list, NEW_NODE(dll, 2));
-            obs_test(dll_length(list), ==, (int)1);
+            obs_test_eq(dll_length(list), (int)1);
             dll_free(list);
         })
 
@@ -349,7 +349,7 @@ int main(void) {
             long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             map_items(list, 10, items, dll, dll_append);
             test_list(list, items, dll);
-            obs_test(dll_length(list), ==, (int)10);
+            obs_test_eq(dll_length(list), (int)10);
             dll_free(list);
         })
     })
@@ -358,18 +358,18 @@ int main(void) {
         OBS_TEST("Push onto empty list, then pop it", {
             DLL list = dll_new("1");
             dll_push(list, NEW_NODE(dll, 4));
-            obs_test(dll_length(list), ==, (int)1);
-            obs_test(list->head->data.int_data, ==, (long long)4);
+            obs_test_eq(dll_length(list), (int)1);
+            obs_test_eq(list->head->data.int_data, (long long)4);
             DLL_Node n = dll_pop(list);
-            obs_test(n->data.int_data, ==, (long long)4);
+            obs_test_eq(n->data.int_data, (long long)4);
             dll_free_node(n);
-            obs_test(dll_length(list), ==, (int)0);
+            obs_test_eq(dll_length(list), (int)0);
             dll_free(list);
         })
 
         OBS_TEST("Pop empty list", {
             DLL list = dll_new("2");
-            obs_test(dll_pop(list), ==, NULL);
+            obs_test_eq(dll_pop(list), NULL);
             dll_free(list);
         })
 
@@ -383,10 +383,10 @@ int main(void) {
             test_list(list, result, dll);
             for (int i = 0; i < 7; i++) {
                 DLL_Node n = dll_pop(list);
-                obs_test(n->data.int_data, ==, result[i]);
+                obs_test_eq(n->data.int_data, result[i]);
                 dll_free_node(n);
             }
-            obs_test(dll_length(list), ==, (int)0);
+            obs_test_eq(dll_length(list), (int)0);
             dll_free(list);
         })
     })
@@ -395,8 +395,8 @@ int main(void) {
         OBS_TEST("Append to empty list", {
             DLL list = dll_new("1");
             dll_append(list, NEW_NODE(dll, 10));
-            obs_test(dll_length(list), ==, (int)1);
-            obs_test(list->head->data.int_data, ==, (long long)10);
+            obs_test_eq(dll_length(list), (int)1);
+            obs_test_eq(list->head->data.int_data, (long long)10);
             dll_free(list);
         })
 
@@ -406,8 +406,8 @@ int main(void) {
             map_items(list, 7, elements, dll, dll_append);
             test_list(list, elements, dll);
             dll_append(list, NEW_NODE(dll, 10));
-            obs_test(dll_length(list), ==, (int)8);
-            obs_test(list->tail->data.int_data, ==, (long long)10);
+            obs_test_eq(dll_length(list), (int)8);
+            obs_test_eq(list->tail->data.int_data, (long long)10);
             dll_free(list);
         })
     })

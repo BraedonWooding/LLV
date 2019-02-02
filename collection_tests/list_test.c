@@ -8,17 +8,17 @@
 
 #define dynlist_test(arr, list) \
     for (int i = 0; i < list_length(list); i++) { \
-        obs_test(get_data(list->data[i].data, arr), ==, arr[i]) \
+        obs_test_eq(get_data(list->data[i].data, arr), arr[i]) \
     } \
 
-int main(void) {
+int main(int argc, char *argv[]) {
     OBS_SETUP("Growable List")
 
     OBS_TEST_GROUP("List_new && list_new_node", {
         OBS_TEST("Create list and test properties", {
             List list = list_new("1");
             obs_test_strcmp(list->parent.name, "1");
-            obs_test(list_length(list), ==, (int)0);
+            obs_test_eq(list_length(list), (int)0);
             obs_test_true(list_is_empty(list));
             list_free(list);
         })
@@ -31,57 +31,57 @@ int main(void) {
 
             // int node
             struct _list_data_t node = list_new_node((Data){.int_data = 4}, INTEGER);
-            obs_test(node.data_tag, ==, INTEGER);
-            obs_test(node.data.int_data, ==, (long long)4);
+            obs_test_eq(node.data_tag, INTEGER);
+            obs_test_eq(node.data.int_data, (long long)4);
 
             // flt node
             node = list_new_node((Data){.flt_data = 5.9}, FLOAT);
-            obs_test(node.data_tag, ==, FLOAT);
-            obs_test(node.data.flt_data, ==, 5.9);
+            obs_test_eq(node.data_tag, FLOAT);
+            obs_test_eq(node.data.flt_data, 5.9);
 
             // str node
             node = list_new_node((Data){.str_data = "Hello"}, STRING);
-            obs_test(node.data_tag, ==, STRING);
+            obs_test_eq(node.data_tag, STRING);
             obs_test_strcmp(node.data.str_data, "Hello");
 
             // any node
             int x = 9;
             node = list_new_node((Data){.any_data = &x}, ANY);
-            obs_test(node.data_tag, ==, ANY);
-            obs_test((int*)node.data.any_data, ==, &x);
+            obs_test_eq(node.data_tag, ANY);
+            obs_test_eq((int*)node.data.any_data, &x);
         })
 
         OBS_TEST("Create node using generic macros", {
             // int node
             struct _list_data_t node = NEW_NODE(list, 4);
-            obs_test(node.data_tag, ==, INTEGER);
-            obs_test(node.data.int_data, ==, (long long)4);
+            obs_test_eq(node.data_tag, INTEGER);
+            obs_test_eq(node.data.int_data, (long long)4);
 
             // flt node
             node = NEW_NODE(list, 5.9);
-            obs_test(node.data_tag, ==, FLOAT);
-            obs_test(node.data.flt_data, ==, 5.9);
+            obs_test_eq(node.data_tag, FLOAT);
+            obs_test_eq(node.data.flt_data, 5.9);
 
             // str node
             node = NEW_NODE(list, "Hello");
-            obs_test(node.data_tag, ==, STRING);
+            obs_test_eq(node.data_tag, STRING);
             obs_test_strcmp(node.data.str_data, "Hello");
 
             // any node
             int x = 9;
             node = NEW_NODE(list, &x);
-            obs_test(node.data_tag, ==, ANY);
-            obs_test((int*)node.data.any_data, ==, &x);
+            obs_test_eq(node.data_tag, ANY);
+            obs_test_eq((int*)node.data.any_data, &x);
         })
     });
 
     OBS_TEST_GROUP("List_clear", {
         OBS_TEST("Clearing empty list", {
             List list = list_new("1");
-            obs_test(list_length(list), ==, (int)0);
+            obs_test_eq(list_length(list), (int)0);
             obs_test_true(list_is_empty(list));
             list_clear(list, false);
-            obs_test(list_length(list), ==, (int)0);
+            obs_test_eq(list_length(list), (int)0);
             obs_test_true(list_is_empty(list));
             list_free(list);
         })
@@ -92,7 +92,7 @@ int main(void) {
             map_items(list, 5, elements, list, list_push_back);
             dynlist_test(elements, list);
             list_clear(list, false);
-            obs_test(list_length(list), ==, (int)0);
+            obs_test_eq(list_length(list), (int)0);
             obs_test_true(list_is_empty(list));
             list_free(list);
         })
@@ -106,14 +106,14 @@ int main(void) {
     OBS_TEST_GROUP("List_insert_after/before", {
         OBS_TEST("Inserting after on empty list", {
             List list = list_new("1");
-            obs_test(list_length(list), ==, (int)0);
+            obs_test_eq(list_length(list), (int)0);
             obs_test_true(list_is_empty(list));
             list_free(list);
         })
 
         OBS_TEST("Inserting before on empty list", {
             List list = list_new("2");
-            obs_test(list_length(list), ==, (int)0);
+            obs_test_eq(list_length(list), (int)0);
             obs_test_true(list_is_empty(list));
             list_free(list);
         })
@@ -150,6 +150,32 @@ int main(void) {
     })
 
     OBS_TEST_GROUP("list_remove", {
+        OBS_TEST("Easy Remove", {
+            List list = list_new("3");
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            map_items(list, 10, items, list, list_push_back);
+            dynlist_test(items, list);
+            obs_test_false(list_is_empty(list));
+            for (int i = 9; i >= 0; i--) {
+                list_remove(list, i);
+                obs_test_eq(list_length(list), i);
+                dynlist_test(items, list);
+            }
+            list_free(list);
+        })
+
+        OBS_TEST("Shuffle Remove", {
+            List list = list_new("3");
+            long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
+            map_items(list, 10, items, list, list_push_back);
+            dynlist_test(items, list);
+            obs_test_false(list_is_empty(list));
+            for (int i = 0; i < 10; i++) {
+                list_remove(list, list_length(list) / 2);
+                obs_test_eq(list_length(list), 9 - i);
+            }
+            list_free(list);
+        })
     })
 
     OBS_TEST_GROUP("list_is_empty", {
@@ -179,14 +205,14 @@ int main(void) {
     OBS_TEST_GROUP("list_length", {
         OBS_TEST("Empty list", {
             List list = list_new("1");
-            obs_test(list_length(list), ==, (int)0);
+            obs_test_eq(list_length(list), (int)0);
             list_free(list);
         })
 
         OBS_TEST("Single element list", {
             List list = list_new("2");
             list_push_back(list, NEW_NODE(list, 2));
-            obs_test(list_length(list), ==, (int)1);
+            obs_test_eq(list_length(list), (int)1);
             list_free(list);
         })
 
@@ -195,7 +221,7 @@ int main(void) {
             long long *items = ((long long[]){1, 2, 3, 4, 5, 6, 7, 8, 9, 10});
             map_items(list, 10, items, list, list_push_back);
             dynlist_test(items, list);
-            obs_test(list_length(list), ==, (int)10);
+            obs_test_eq(list_length(list), (int)10);
             list_free(list);
         })
     })
@@ -204,8 +230,8 @@ int main(void) {
         OBS_TEST("Append to empty list", {
             List list = list_new("1");
             list_push_back(list, NEW_NODE(list, 10));
-            obs_test(list_length(list), ==, (int)1);
-            obs_test(list->data[0].data.int_data, ==, (long long)10);
+            obs_test_eq(list_length(list), (int)1);
+            obs_test_eq(list->data[0].data.int_data, (long long)10);
             list_free(list);
         })
 
@@ -215,8 +241,8 @@ int main(void) {
             map_items(list, 7, elements, list, list_push_back);
             dynlist_test(elements, list);
             list_push_back(list, NEW_NODE(list, 10));
-            obs_test(list_length(list), ==, (int)8);
-            obs_test(list->data[list->cur_len - 1].data.int_data, ==, (long long)10);
+            obs_test_eq(list_length(list), (int)8);
+            obs_test_eq(list->data[list->cur_len - 1].data.int_data, (long long)10);
             list_free(list);
         })
     })

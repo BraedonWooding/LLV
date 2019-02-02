@@ -6,7 +6,7 @@
 #include "../include/types/shared_types.h"
 #include <string.h>
 
-int main(void) {
+int main(int argc, char *argv[]) {
     OBS_SETUP("Stack")
 
     OBS_TEST_GROUP("Stack_new && stack_new_node", {
@@ -25,70 +25,70 @@ int main(void) {
 
             // int node
             StackNode node = stack_new_node((Data){.int_data = 4}, INTEGER);
-            obs_test(node->data_tag, ==, INTEGER);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test(node->data.int_data, ==, (long long)4);
+            obs_test_eq(node->data_tag, INTEGER);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq(node->data.int_data, (long long)4);
             stack_free_node(node);
 
             // flt node
             node = stack_new_node((Data){.flt_data = 5.9}, FLOAT);
-            obs_test(node->data_tag, ==, FLOAT);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test(node->data.flt_data, ==, 5.9);
+            obs_test_eq(node->data_tag, FLOAT);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq(node->data.flt_data, 5.9);
             stack_free_node(node);
 
             // str node
             node = stack_new_node((Data){.str_data = "Hello"}, STRING);
-            obs_test(node->data_tag, ==, STRING);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
+            obs_test_eq(node->data_tag, STRING);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
             obs_test_strcmp(node->data.str_data, "Hello");
             stack_free_node(node);
 
             // any node
             int x = 9;
             node = stack_new_node((Data){.any_data = &x}, ANY);
-            obs_test(node->data_tag, ==, ANY);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test((int*)node->data.any_data, ==, &x);
+            obs_test_eq(node->data_tag, ANY);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq((int*)node->data.any_data, &x);
             stack_free_node(node);
         })
 
         OBS_TEST("Create node using generic macros", {
             // int node
             StackNode node = NEW_NODE(stack, 4);
-            obs_test(node->data_tag, ==, INTEGER);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test(node->data.int_data, ==, (long long)4);
+            obs_test_eq(node->data_tag, INTEGER);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq(node->data.int_data, (long long)4);
             stack_free_node(node);
 
             // flt node
             node = NEW_NODE(stack, 5.9);
-            obs_test(node->data_tag, ==, FLOAT);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test(node->data.flt_data, ==, 5.9);
+            obs_test_eq(node->data_tag, FLOAT);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq(node->data.flt_data, 5.9);
             stack_free_node(node);
 
             // str node
             node = NEW_NODE(stack, "Hello");
-            obs_test(node->data_tag, ==, STRING);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
+            obs_test_eq(node->data_tag, STRING);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
             obs_test_strcmp(node->data.str_data, "Hello");
             stack_free_node(node);
 
             // any node
             int x = 9;
             node = NEW_NODE(stack, &x);
-            obs_test(node->data_tag, ==, ANY);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test((int*)node->data.any_data, ==, &x);
+            obs_test_eq(node->data_tag, ANY);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq((int*)node->data.any_data, &x);
             stack_free_node(node);
         })
     });
@@ -98,11 +98,11 @@ int main(void) {
             Stack stack = stack_new("1");
             test_empty_list(stack, stack);
             stack_push(stack, NEW_NODE(stack, 1));
-            obs_test(stack_length(stack), ==, (int)1);
+            obs_test_eq(stack_length(stack), (int)1);
             obs_test_false(stack_is_empty(stack));
 
             stack_free_node(stack_pop(stack));
-            obs_test(stack_length(stack), ==, (int)0);
+            obs_test_eq(stack_length(stack), (int)0);
             obs_test_true(stack_is_empty(stack));
             stack_free(stack);
         })
@@ -112,14 +112,14 @@ int main(void) {
             test_empty_list(stack, stack);
             for (int i = 0; i < 50; i++) {
                 stack_push(stack, NEW_NODE(stack, i));
-                obs_test(stack_length(stack), ==, (int)(i + 1));
+                obs_test_eq(stack_length(stack), (int)(i + 1));
                 obs_test_false(stack_is_empty(stack));
             }
 
             for (int i = 49; i >= 0; i--) {
                 StackNode n = stack_pop(stack);
-                obs_test(n->data.int_data, ==, (long long)i);
-                obs_test(stack_length(stack), ==, (int)i);
+                obs_test_eq(n->data.int_data, (long long)i);
+                obs_test_eq(stack_length(stack), (int)i);
             }
             obs_test_true(stack_is_empty(stack));
         })
@@ -139,7 +139,7 @@ int main(void) {
             for (int i = 0; i < 100; i++) {
                 stack_push(stack, NEW_NODE(stack, i));
             }
-            obs_test(stack_length(stack), ==, (int)100);
+            obs_test_eq(stack_length(stack), (int)100);
             stack_clear(stack);
             test_empty_list(stack, stack);
         })

@@ -27,11 +27,26 @@ typedef struct _fake_node_t {
         double: data.flt_data, \
         long double: data.flt_data, \
         char: data.int_data, \
-        short: data.int_data, \
-        unsigned short: data.int_data, \
         char *: data.str_data, \
         bool: data.int_data, \
         default: data.any_data \
+    )
+
+#define get_fmt_helper(list) \
+    _Generic((list[0]), \
+        long: "%lld %ld", \
+        long long: "%lld %lld", \
+        unsigned int: "%lld %ud", \
+        unsigned long: "%lld %ul", \
+        unsigned long long: "%lld %ull", \
+        int: "%lld %d", \
+        float: "%lf %f", \
+        double: "%lf %lf", \
+        long double: "%lf %llf", \
+        char: "%c %c", \
+        char *: "%s %s", \
+        bool: "%d %d", \
+        default: "%p %p" \
     )
 
 #define test_strcmp_fakenode(list, exp) { \
@@ -44,15 +59,15 @@ typedef struct _fake_node_t {
 #define test_list(list, exp, type) { \
     int i = 0; \
     for (FakeNode n = (FakeNode)list->head; n != NULL; n = n->next, i++) { \
-        obs_test(get_data(n->data, exp), ==, exp[i]) \
+        obs_test_eq(get_data(n->data, exp), exp[i]); \
     } \
-    obs_test(type##_length(list), ==, (int)i); \
+    obs_test_eq(type##_length(list), i); \
 }
 
 #define test_empty_list(list, type) \
-    obs_test(list->head, ==, NULL); \
-    obs_test(list->tail, ==, NULL); \
-    obs_test(type##_length(list), ==, (int)0); \
+    obs_test_eq(type##_length(list), 0); \
     obs_test_true(type##_is_empty(list)); \
+    obs_test_null(list->head); \
+    obs_test_null(list->tail);
 
 #endif /* LLV_COLLECTION_TEST_HELPER_H */

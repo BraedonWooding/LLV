@@ -25,14 +25,6 @@
 #ifndef BWW_OBSIDIAN_H
 #define BWW_OBSIDIAN_H
 
-#ifndef OBSIDIAN_LOG_SIZE
-#define OBSIDIAN_LOG_SIZE 1024
-#endif
-
-#ifndef OBSIDIAN_CAT_BUF_SIZE
-#define OBSIDIAN_CAT_BUF_SIZE 1024
-#endif
-
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -66,9 +58,10 @@
     int failures_in_group = 0; \
     int num_of_asserts = 0; \
     int old_num_of_asserts = 0; \
-    char log[OBSIDIAN_LOG_SIZE] = {0}; \
-    char cat_buf[OBSIDIAN_CAT_BUF_SIZE] = {0}; \
-    printf("Beginning Tests for " #name "\n\n");
+    char *cur_group = ""; \
+    char *log_file_name = argc < 2 ? name ".log" : argv[1]; \
+    FILE *log = fopen(log_file_name, "w"); \
+    if (log == NULL) perror(log_file_name);
 
 #define OBS_TEST_GROUP(group_name, group) \
     num_groups++; \
@@ -76,146 +69,83 @@
     old_failures = failures; \
     old_tests = num_tests; \
     old_num_of_asserts = num_of_asserts; \
-    printf("== " #group_name " ==\n\n"); \
+    cur_group = group_name; \
+    printf(BLU "Running" RESET " " group_name " "); \
     group \
     tests_in_group = num_tests - old_tests; \
     successes_in_group = successes - old_successes; \
     failures_in_group = failures - old_failures; \
     if (failures_in_group == 0) { \
         groups_passed++; \
-        printf(GRN "Passed" RESET " %d/%d tests\n\n", successes_in_group, tests_in_group); \
+        printf(GRN " successful" RESET " (%d tests passed running %d asserts) \n", tests_in_group, num_of_asserts - old_num_of_asserts); \
     } else { \
-        printf(RED "Failed" RESET " %d/%d tests\n\n", failures_in_group, tests_in_group); \
-    } \
-    printf(BLU "Ran" RESET " a total of %d checks in this group\n", num_of_asserts - old_num_of_asserts);
+        printf(RED " failed" RESET " (%d/%d tests passed) \n", failures_in_group, tests_in_group); \
+    }
 
 #define OBS_TEST(name, group) \
-    num_tests++; \
-    success = true; \
-    memset(log, 0, sizeof(log)); \
-    group \
-    if (success) { \
-        successes++; \
-        printf(#name GRN " succeeded\n" RESET); \
-    } else { \
-        failures++; \
-        printf(#name RED " failed" RESET "...\n"); \
-        printf("\n== Log ==\n\n%s\n", log); \
-        memset(log, 0, sizeof(log)); \
-    } \
+    do { \
+        __label__ end; \
+        num_tests++; \
+        success = true; \
+        group \
+        end: \
+        if (success) { \
+            successes++; \
+            printf(GRN "." RESET); \
+        } else { \
+            failures++; \
+            printf(RED "." RESET); \
+        } \
+    } while(0);
 
-#define GET_FORMAT(val) \
-    _Generic((val), \
-            long: "%ld", \
-            unsigned int: "%u", \
-            unsigned long: "%lu", \
-            int: "%d", \
-            float: "%f", \
-            double: "%lf", \
-            char: "%c", \
-            short: "%hd", \
-            unsigned short: "%hu", \
-            char *: "%s", \
-            bool: "%d", \
-            default: "%p" \
+#define obs_get_fmt(x, y) \
+    _Generic((x), \
+        long: #x ": %ld, " #y ": %ld", \
+        long long: #x ": %lld, " #y ": %lld", \
+        unsigned int: #x ": %u, " #y ": %u", \
+        unsigned long: #x ": %ul, " #y ": %ul", \
+        unsigned long long: #x ": %ull, " #y ": %ull", \
+        int: #x ": %d, " #y ": %d", \
+        float: #x ": %f, " #y ": %f", \
+        double: #x ": %lf, " #y ": %lf", \
+        long double: "%llf, " #y ": %llf", \
+        char: #x ": %c, " #y ": %c", \
+        char *: #x ": %s, " #y ": %s", \
+        bool: #x ": %d, " #y ": %d", \
+        default: #x ": %p, " #y ": %p" \
     )
 
-#define GET_PRINTF(file_str, op, lhs, rhs, reason) \
-    snprintf(cat_buf, OBSIDIAN_CAT_BUF_SIZE, "%s %s %s %s %s", file_str, GET_FORMAT(lhs), #op, GET_FORMAT(rhs), reason)
-
-#define obs_test(lhs, op, rhs) \
-    { \
-    num_of_asserts++; \
-    if (success && !(((lhs) op (rhs)))) { \
-        success = false; \
-        GET_PRINTF(__FILE__ ":%d failed because " #lhs " =>", op, lhs, rhs, "is false"); \
-        sprintf(log, cat_buf, __LINE__, lhs, rhs); \
-    } \
-    }
-
-#define obs_test_true(val) \
-    { \
-    num_of_asserts++; \
-    if (success && !(val)) { \
-        success = false; \
-        sprintf(log,  __FILE__ ":%d failed because " #val " is false", __LINE__); \
-    } \
-    }
-
-#define obs_test_false(val) \
-    { \
-    num_of_asserts++; \
-    if (success && (val)) { \
-        success = false; \
-        sprintf(log,  __FILE__ ":%d failed because " #val " is true", __LINE__); \
-    } \
-    }
-
-#define obs_test_eql(val, cond) obs_test(val, ==, cond)
-#define obs_test_neql(val, cond) obs_test(val, !=, cond)
-#define obs_test_lt(val, cond) obs_test(val, <, cond)
-#define obs_test_gt(val, cond) obs_test(val, >, cond)
-#define obs_test_lte(val, cond) obs_test(val, <=, cond)
-#define obs_test_gte(val, cond) obs_test(val, >=, cond)
-
-#define obs_test_strcmp(a, b) \
-    { \
-    if (success && strcmp(a, b)) { \
-        success = false; \
-        sprintf(log,  __FILE__ ":%d failed because %s != %s", __LINE__, a, b); \
-    } \
-    }
-
-#ifndef NDEBUG
-#define obs_assert(val, op, cond) \
-    { \
-        if (!((val) op (cond))) { \
-            char cat_buf[] = __FILE__":%d failed because "#val" => %l "#op" %l <= " #cond " is false"; \
-            char *first = strstr(cat_buf, "%l"); \
-            char *second = strstr(first + 1, "%l"); \
-            char *first_format = GET_FORMAT(val); \
-            char *second_format = GET_FORMAT(cond); \
-            strncpy(first, first_format, strlen(first_format)); \
-            strncpy(second, second_format, strlen(second_format)); \
-            fprintf(stderr, cat_buf, __LINE__, val, cond); \
-            abort(); \
+#define obs_test(cond, fmt, args...) \
+    do { \
+        num_of_asserts++; \
+        if (!(cond)) { \
+            success = false; \
+            fprintf(log, GRN __FILE__":%d" RESET RED " TEST FAILED: " RESET "%s""\n", __LINE__, cur_group); \
+            fprintf(log, "Assert is " #cond "\n"); \
+            fprintf(log, "Args are: "); \
+            fprintf(log, fmt, args); \
+            fprintf(log, "\n\n"); \
+            goto end; \
         } \
-    }
-#define obs_assert_strcmp(a, b) \
-    { \
-        if (strcmp(a, b)) { \
-            fprintf(stderr, __FILE__ ":%d failed because %s != %s", __LINE__, a, b); \
-            abort(); \
-        } \
-    }
-#else
-#define obs_assert(val, op, cond) 
-#define obs_assert_strcmp(a, b) 
-#endif
+    } while(0);
 
-#define obs_assert_eql(val, cond) obs_assert(val, ==, cond)
-#define obs_assert_neql(val, cond) obs_assert(val, !=, cond)
-#define obs_assert_lt(val, cond) obs_assert(val, <, cond)
-#define obs_assert_gt(val, cond) obs_assert(val, >, cond)
-#define obs_assert_lte(val, cond) obs_assert(val, <=, cond)
-#define obs_assert_gte(val, cond) obs_assert(val, >=, cond)
+#define obs_test_binop(x, op, y) obs_test((x op y), obs_get_fmt(x, y), x, (typeof(x))(y));
+#define obs_test_eq(x, y) obs_test_binop(x, ==, y);
+#define obs_test_neq(x, y) obs_test_binop(x, !=, y);
+#define obs_test_lt(x, y) obs_test_binop(x, <, y);
+#define obs_test_gt(x, y) obs_test_binop(x, >, y);
+#define obs_test_lte(x, y) obs_test_binop(x, <=, y);
+#define obs_test_gte(x, y) obs_test_binop(x, >=, y);
+#define obs_test_strcmp(x, y) obs_test(strcmp(x, y) == 0, #x ": %s, " #y ": %s", x, y);
+#define obs_test_not_null(x) obs_test(x != NULL, #x ": %p", x);
+#define obs_test_null(x) obs_test(x == NULL, #x ": %p", x);
+#define obs_test_true(x) obs_test_eq(x, true);
+#define obs_test_false(x) obs_test_eq(x, false);
 
 // Present results and exits
 #define OBS_REPORT \
-    printf("--------\n"); \
-    printf("\nTests have finished\n"); \
-    printf(BLU "Ran" RESET " a total of %d checks\n", num_of_asserts); \
-    if (groups_passed == num_groups) { \
-        printf(GRN "Passed" RESET " %d/%d groups\n", groups_passed, num_groups); \
-    } else { \
-        printf(RED "Failed" RESET " %d/%d groups\n", num_groups - groups_passed, num_groups); \
-    } \
-    if (successes == num_tests) { \
-        printf(GRN "Passed" RESET " %d/%d tests\n", successes, num_tests); \
-        printf("OK\n"); \
-    } else { \
-        printf(RED "Failed" RESET " %d/%d tests\n", failures, num_tests); \
-    } \
+    fclose(log); \
+    if (successes == num_tests) remove(log_file_name); \
     return successes != num_tests; \
 }
 

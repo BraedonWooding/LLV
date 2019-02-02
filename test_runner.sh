@@ -16,21 +16,24 @@ RED="\e[31m"
 CYAN="\e[36m"
 YELLOW="\e[33m"
 
-printf "== ${CYAN}Testing Collections${RESET} ==\n"
+printf "\n== ${CYAN}Testing Collections${RESET} ==\n\n"
 for test in $1/collection_tests/*.out; do
-    echo "Running $test"
     # We can't just include it like `clang libLLV.a my_file.c` like in clang
     # we have to do it this way because GCC is ancient in some regards and this
     # is one of them.
-    $test
+    test_basename="$(basename $test).log"
+    log_filename="${test_basename%%.*}.log"
+    $test $log_filename
     if [ $? -ne 0 ]; then
-        printf "${CYAN}Testing Collections${CYAN} ${RED}Failed${RESET}\n"
+        printf "\n== ${CYAN}Testing Collections${CYAN} ${RED}Failed${RESET} ==\n"
         printf "${RED}ERROR${RESET}: Test $test ${RED}failed${RESET}\n"
+        printf "Log File $(pwd)/$log_filename:\n\n"
+        cat $log_filename
         exit 1
     fi
 done
 
-printf "== ${CYAN}Testing Collections ${GREEN}Passed${RESET} ==\n"
+printf "\n== ${CYAN}Testing Collections ${GREEN}Passed${RESET} ==\n"
 printf "== ${CYAN}Testing Output${RESET} ==\n\n"
 
 for test in $1/output_tests/*.out; do
@@ -47,7 +50,7 @@ for test in $1/output_tests/*.out; do
         fi
         diff $filename.result output_tests/expected/$filename.expected."${test_case_name%%.*}"
         if [ $? -ne 0 ]; then
-            printf "\n${CYAN}Testing Output${CYAN} ${RED}Failed${RESET}\n"
+            printf "\n== ${CYAN}Testing Output${CYAN} ${RED}Failed${RESET} ==\n"
             printf "${RED}ERROR${RESET}: Test $test:$test_case ${RED}failed${RESET} difference shown above exiting\n"
             exit 1
         fi
@@ -75,7 +78,7 @@ for test in example/example_tests/*.in; do
         fi
         diff $filename.result example/example_tests/expected/$filename.expected."${test_case_name%%.*}"
         if [ $? -ne 0 ]; then
-            printf "\n${CYAN}Testing Example${CYAN} ${RED}Failed${RESET}\n"
+            printf "\n== ${CYAN}Testing Example${CYAN} ${RED}Failed${RESET} ==\n"
             printf "${RED}ERROR${RESET}: Test $test:$test_case ${RED}failed${RESET} difference shown above exiting\n"
             exit 1
         fi

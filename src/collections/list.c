@@ -127,11 +127,11 @@ void list_remove(List list, int index) {
     // easy remove
     if (index == list->cur_len - 1) {
         list->cur_len--;
-        return;
     } else {
         // shuffle back one post index
         memmove(list->data + index, list->data + index + 1,
             sizeof(struct _list_data_t) * (list->cur_len - 1 - index));
+        list->cur_len--;
     }
 }
 

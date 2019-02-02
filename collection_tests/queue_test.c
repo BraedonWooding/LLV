@@ -6,7 +6,7 @@
 #include "../include/types/shared_types.h"
 #include <string.h>
 
-int main(void) {
+int main(int argc, char *argv[]) {
     OBS_SETUP("Queue")
 
     OBS_TEST_GROUP("Queue_new && queue_new_node", {
@@ -25,70 +25,70 @@ int main(void) {
 
             // int node
             QueueNode node = queue_new_node((Data){.int_data = 4}, INTEGER);
-            obs_test(node->data_tag, ==, INTEGER);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test(node->data.int_data, ==, (long long)4);
+            obs_test_eq(node->data_tag, INTEGER);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq(node->data.int_data, (long long)4);
             queue_free_node(node);
 
             // flt node
             node = queue_new_node((Data){.flt_data = 5.9}, FLOAT);
-            obs_test(node->data_tag, ==, FLOAT);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test(node->data.flt_data, ==, 5.9);
+            obs_test_eq(node->data_tag, FLOAT);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq(node->data.flt_data, 5.9);
             queue_free_node(node);
 
             // str node
             node = queue_new_node((Data){.str_data = "Hello"}, STRING);
-            obs_test(node->data_tag, ==, STRING);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
+            obs_test_eq(node->data_tag, STRING);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
             obs_test_strcmp(node->data.str_data, "Hello");
             queue_free_node(node);
 
             // any node
             int x = 9;
             node = queue_new_node((Data){.any_data = &x}, ANY);
-            obs_test(node->data_tag, ==, ANY);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test((int*)node->data.any_data, ==, &x);
+            obs_test_eq(node->data_tag, ANY);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq((int*)node->data.any_data, &x);
             queue_free_node(node);
         })
 
         OBS_TEST("Create node using generic macros", {
             // int node
             QueueNode node = NEW_NODE(queue, 4);
-            obs_test(node->data_tag, ==, INTEGER);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test(node->data.int_data, ==, (long long)4);
+            obs_test_eq(node->data_tag, INTEGER);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq(node->data.int_data, (long long)4);
             queue_free_node(node);
 
             // flt node
             node = NEW_NODE(queue, 5.9);
-            obs_test(node->data_tag, ==, FLOAT);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test(node->data.flt_data, ==, 5.9);
+            obs_test_eq(node->data_tag, FLOAT);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq(node->data.flt_data, 5.9);
             queue_free_node(node);
 
             // str node
             node = NEW_NODE(queue, "Hello");
-            obs_test(node->data_tag, ==, STRING);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
+            obs_test_eq(node->data_tag, STRING);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
             obs_test_strcmp(node->data.str_data, "Hello");
             queue_free_node(node);
 
             // any node
             int x = 9;
             node = NEW_NODE(queue, &x);
-            obs_test(node->data_tag, ==, ANY);
-            obs_test((void*)node->next, ==, NULL);
-            obs_test((void*)node->ptr, ==, NULL);
-            obs_test((int*)node->data.any_data, ==, &x);
+            obs_test_eq(node->data_tag, ANY);
+            obs_test_eq((void*)node->next, NULL);
+            obs_test_eq((void*)node->ptr, NULL);
+            obs_test_eq((int*)node->data.any_data, &x);
             queue_free_node(node);
         })
     });
@@ -98,11 +98,11 @@ int main(void) {
             Queue queue = queue_new("1");
             test_empty_list(queue, queue);
             queue_enqueue(queue, NEW_NODE(queue, 1));
-            obs_test(queue_length(queue), ==, (int)1);
+            obs_test_eq(queue_length(queue), (int)1);
             obs_test_false(queue_is_empty(queue));
 
             queue_free_node(queue_dequeue(queue));
-            obs_test(queue_length(queue), ==, (int)0);
+            obs_test_eq(queue_length(queue), (int)0);
             obs_test_true(queue_is_empty(queue));
             queue_free(queue);
         })
@@ -112,14 +112,14 @@ int main(void) {
             test_empty_list(queue, queue);
             for (int i = 0; i < 50; i++) {
                 queue_enqueue(queue, NEW_NODE(queue, i));
-                obs_test(queue_length(queue), ==, (int)(i + 1));
+                obs_test_eq(queue_length(queue), (int)(i + 1));
                 obs_test_false(queue_is_empty(queue));
             }
 
             for (int i = 0; i < 50; i++) {
                 QueueNode n = queue_dequeue(queue);
-                obs_test(n->data.int_data, ==, (long long)i);
-                obs_test(queue_length(queue), ==, (int)(49 - i));
+                obs_test_eq(n->data.int_data, (long long)i);
+                obs_test_eq(queue_length(queue), (int)(49 - i));
             }
             obs_test_true(queue_is_empty(queue));
         })
@@ -139,7 +139,7 @@ int main(void) {
             for (int i = 0; i < 100; i++) {
                 queue_enqueue(queue, NEW_NODE(queue, i));
             }
-            obs_test(queue_length(queue), ==, (int)100);
+            obs_test_eq(queue_length(queue), (int)100);
             queue_clear(queue);
             test_empty_list(queue, queue);
         })
