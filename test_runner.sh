@@ -17,13 +17,22 @@ CYAN="\e[36m"
 YELLOW="\e[33m"
 
 printf "\n== ${CYAN}Testing Collections${RESET} ==\n\n"
+total_tests=0
+total_asserts=0
+
 for test in $1/collection_tests/*.out; do
     # We can't just include it like `clang libLLV.a my_file.c` like in clang
     # we have to do it this way because GCC is ancient in some regards and this
     # is one of them.
     test_basename="$(basename $test).log"
     log_filename="${test_basename%%.*}.log"
-    $test $log_filename
+    exec 5>&1
+    log_out=$($test $log_filename|tee >(cat - >&5))
+    array=(`echo "$log_out" | awk -F '[()]' '{print $2}' | awk 'BEGIN {sum_tests=0;sum_asserts=0}; {sum_tests+=$1;sum_asserts+=$5}; END {printf "%d %d\n", sum_tests, sum_asserts}'`)
+    num_tests=${array[0]}
+    let total_tests+=num_tests
+    let total_asserts+=${array[1]}
+
     if [ $? -ne 0 ]; then
         printf "\n== ${CYAN}Testing Collections${CYAN} ${RED}Failed${RESET} ==\n"
         printf "${RED}ERROR${RESET}: Test $test ${RED}failed${RESET}\n"
@@ -32,6 +41,8 @@ for test in $1/collection_tests/*.out; do
         exit 1
     fi
 done
+
+printf "\nA total of ${CYAN}$total_tests tests${RESET} were run for a grand total of ${CYAN}$total_asserts asserts${RESET} being done\n"
 
 printf "\n== ${CYAN}Testing Collections ${GREEN}Passed${RESET} ==\n"
 printf "== ${CYAN}Testing Output${RESET} ==\n\n"
